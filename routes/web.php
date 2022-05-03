@@ -23,7 +23,10 @@ require __DIR__ . '/auth.php';
 
 Route::get('/', function () {
     return view('dashboard');
-})->name('dashboard');
+})->middleware(['auth'])->name('dashboard');
+
+
+require __DIR__ . '/auth.php';
 
 Route::resource('appointment', AppointmentController::class);
 Route::resource('client', ClientController::class);

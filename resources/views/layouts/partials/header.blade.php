@@ -8,13 +8,13 @@
     <title>- Wellness Centre</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="shortcut icon" href="{{ asset('theme/assets/media/logos/favicon.png')}}" />
+    <link rel="shortcut icon" href="{{ asset('theme/assets/media/logos/favicon.png') }}" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" />
-    <link href="{{ asset('theme/assets/plugins/custom/fullcalendar/fullcalendar.bundle.css')}}" rel="stylesheet" type="text/css" />
-    <link href="{{ asset('theme/assets/plugins/custom/datatables/datatables.bundle.css')}}" rel="stylesheet" type="text/css" />
-    <link href="{{ asset('theme/assets/plugins/global/plugins.bundle.css')}}" rel="stylesheet" type="text/css" />
-    <link href="{{ asset('theme/assets/css/style.bundle.css')}}" rel="stylesheet" type="text/css" />
-    <link href="{{ asset('theme/assets/plugins/custom/prismjs/prismjs.bundle.css')}}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('theme/assets/plugins/custom/fullcalendar/fullcalendar.bundle.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('theme/assets/plugins/custom/datatables/datatables.bundle.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('theme/assets/plugins/global/plugins.bundle.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('theme/assets/css/style.bundle.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('theme/assets/plugins/custom/prismjs/prismjs.bundle.css') }}" rel="stylesheet" type="text/css" />
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet">
@@ -55,7 +55,7 @@
                         <!--begin::Mobile logo-->
                         <div class="d-flex align-items-center flex-grow-1 flex-lg-grow-0">
                             <a href="index.php" class="d-lg-none">
-                                <img alt="Logo" src="{{ asset('theme/assets/media/logos/logo.png')}}" class="h-40px" />
+                                <img alt="Logo" src="{{ asset('theme/assets/media/logos/logo.png') }}" class="h-40px" />
                             </a>
                         </div>
                         <!--end::Mobile logo-->
@@ -66,13 +66,27 @@
                                 <div data-kt-swapper="true" class="page-title d-flex align-items-center flex-wrap me-3 mb-5 mb-lg-0">
                                     <!--begin::Page Title-->
                                     <h1 class="d-flex align-items-center text-dark fw-bolder fs-3 my-1">
-                                        @if (request()->segment(1) == '') Dashboard @endif
-                                        @if (request()->segment(1) == 'appointment') Appointment @endif
-                                        @if (request()->segment(1) == 'client') Client @endif
-                                        @if (request()->segment(1) == 'machine') Machines @endif
-                                        @if (request()->segment(1) == 'service') Services @endif
-                                        @if (request()->segment(1) == 'room') Rooms @endif
-                                        @if (request()->segment(1) == 'practitioner') Practitioners @endif
+                                        @if (request()->segment(1) == '')
+                                        Dashboard
+                                        @endif
+                                        @if (request()->segment(1) == 'appointment')
+                                        Appointment
+                                        @endif
+                                        @if (request()->segment(1) == 'client')
+                                        Client
+                                        @endif
+                                        @if (request()->segment(1) == 'machine')
+                                        Machines
+                                        @endif
+                                        @if (request()->segment(1) == 'service')
+                                        Services
+                                        @endif
+                                        @if (request()->segment(1) == 'room')
+                                        Rooms
+                                        @endif
+                                        @if (request()->segment(1) == 'practitioner')
+                                        Practitioners
+                                        @endif
 
                                     </h1>
                                     <!--end::Page Title-->
@@ -85,7 +99,7 @@
                                 <div class="d-flex align-items-center ms-1 ms-lg-3" id="kt_header_user_menu_toggle">
                                     <!--begin::Menu wrapper-->
                                     <div class="cursor-pointer symbol symbol-30px symbol-md-40px" data-kt-menu-trigger="click" data-kt-menu-attach="parent" data-kt-menu-placement="bottom-end">
-                                        <img src="{{ asset('theme/assets/media/avatars/300-3.jpg')}}" alt="user" />
+                                        <img src="{{ asset('theme/assets/media/avatars/300-3.jpg') }}" alt="user" />
                                     </div>
                                     <!--begin::User account menu-->
                                     <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg menu-state-primary fw-bold py-4 fs-6 w-275px" data-kt-menu="true">
@@ -94,7 +108,7 @@
                                             <div class="menu-content d-flex align-items-center px-3">
                                                 <!--begin::Avatar-->
                                                 <div class="symbol symbol-50px me-5">
-                                                    <img alt="Logo" src="{{ asset('theme/assets/media/avatars/300-3.jpg')}}" />
+                                                    <img alt="Logo" src="{{ asset('theme/assets/media/avatars/300-3.jpg') }}" />
                                                 </div>
                                                 <!--end::Avatar-->
                                                 <!--begin::Username-->
@@ -113,7 +127,8 @@
                                         <!--end::Menu separator-->
                                         <!--begin::Menu item-->
                                         <div class="menu-item px-5 my-1">
-                                            <a href="{{ asset('theme/settings')}}" class="menu-link px-5">Account Settings</a>
+                                            <a href="{{ asset('theme/settings') }}" class="menu-link px-5">Account
+                                                Settings</a>
                                         </div>
                                         <!--end::Menu item-->
                                         <!--begin::Menu item-->
@@ -135,6 +150,6 @@
                 </div>
                 <!--end::Header-->
                 <!--begin::Content-->
-                @yield('content')
+                {{-- @yield('content')
                 <!--end::Content-->
-                @include('layouts.partials.footer')
+                @include('layouts.partials.footer') --}}

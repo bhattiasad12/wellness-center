@@ -47,7 +47,7 @@ class SettingsController extends Controller
         // echo '<pre>';
 
         // die();
-        return view('settings', $data);
+        return view('user.settings', $data);
     }
 
     /**
