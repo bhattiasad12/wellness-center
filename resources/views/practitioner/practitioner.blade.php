@@ -1,4 +1,4 @@
-@extends('layouts.partials.header')
+@extends('layouts.main')
 
 @section('content')
 <style>
