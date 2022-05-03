@@ -117,9 +117,10 @@
                                     <label class="col-lg-4 col-form-label fw-bold fs-6">Avatar</label>
                                     <div class="col-lg-8">
                                         <div class="image-input image-input-outline" data-kt-image-input="true"
-                                            style="background-image: url('assets/media/svg/avatars/blank.svg')">
+                                            style="background-image: url({{ asset('/storage/profile/blank.png') }})">
                                             <div class="image-input-wrapper w-125px h-125px"
-                                                style="background-image: url(assets/media/avatars/300-3.jpg)"></div>
+                                                style="background-image: url({{ asset('/storage/profile/blank.png') }})">
+                                            </div>
                                             <label
                                                 class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow"
                                                 data-kt-image-input-action="change" data-bs-toggle="tooltip"

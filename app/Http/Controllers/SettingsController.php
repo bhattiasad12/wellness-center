@@ -32,7 +32,6 @@ class SettingsController extends Controller
     {
         $userId = Auth::user()->id;
         $user = User::find($userId);
-
         $data['id'] = ucwords($user->id);
         $data['first_name'] = ucwords($user->first_name);
         $data['last_name'] = ucwords($user->last_name);
@@ -42,11 +41,6 @@ class SettingsController extends Controller
         $data['profile_picture'] = $user->profile_picture;
         $data['user_type'] = $user->user_type;
 
-        // echo '<pre>';
-        // print_r($data);
-        // echo '<pre>';
-
-        // die();
         return view('user.settings', $data);
     }
 
@@ -58,11 +52,6 @@ class SettingsController extends Controller
      */
     public function store(Request $request)
     {
-        // echo '<pre>';
-        // print_r($request);
-        // echo '<pre>';
-        // die();
-
         $fullName = $request->full_name;
         $fullName = explode(' ', $fullName);
         $userId = Auth::user()->id;
