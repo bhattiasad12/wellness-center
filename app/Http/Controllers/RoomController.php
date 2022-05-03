@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Room;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class RoomController extends Controller
 {
@@ -14,7 +15,8 @@ class RoomController extends Controller
      */
     public function index()
     {
-        return view('room/room');
+        $room = Room::get();
+        return view('room/room', compact('room'));
     }
 
     /**
@@ -35,7 +37,22 @@ class RoomController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        $request->validate([
+            'room' => ['required'],
+            'color' => ['required'],
+        ]);
+
+        $user = Room::create([
+            'name' => $request->room,
+            'color' => $request->color,
+            'user_id' => '1',
+            'created_at' => date("Y-m-d"),
+            'created_by' => '1',
+        ]);
+        //Log::info('Showing the user profile for user: ' . $user);
+
+        return redirect()->route('room.index');
     }
 
     /**
@@ -67,9 +84,25 @@ class RoomController extends Controller
      * @param  \App\Models\Room  $room
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Room $room)
+    public function update(Request $request, int $id)
     {
-        //
+        $request->validate([
+            'room' => ['required'],
+            'color' => ['required'],
+        ]);
+
+        $room = Room::find($id);
+
+        $room->name = $request->room;
+        $room->color = $request->color;
+        $room->user_id = '1';
+        $room->updated_at =  date("Y-m-d");
+        $room->updated_by =   '1';
+
+        $room->save();
+        return redirect()->route('room.index');
+        //Log::info('Showing the user profile for user: ' . $user);
+
     }
 
     /**

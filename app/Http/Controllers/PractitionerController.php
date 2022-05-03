@@ -14,7 +14,9 @@ class PractitionerController extends Controller
      */
     public function index()
     {
-        return view('practitioner/practitioner');
+        // $practitioner = Practitioner::get();
+        $practitioner = '';
+        return view('practitioner/practitioner', compact('practitioner'));
     }
 
     /**
@@ -35,7 +37,19 @@ class PractitionerController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // $request->validate([
+        //     'room' => ['required'],
+        //     'color' => ['required'],
+        // ]);
+
+        // $user = Practitioner::create([
+        //     'name' => $request->room,
+        //     'color' => $request->color,
+        //     'user_id' => '1',
+        //     'created_at' => date("Y-m-d"),
+        //     'created_by' => '1',
+        // ]);
+        // return redirect()->route('practitioner.index');
     }
 
     /**

@@ -1,17 +1,12 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-<<<<<<< Updated upstream
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\MachineController;
 use App\Http\Controllers\PractitionerController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\AppointmentController;
-=======
-use Illuminate\Support\Facades\Redirect;
-
->>>>>>> Stashed changes
 
 /*
 |--------------------------------------------------------------------------
@@ -30,7 +25,6 @@ Route::get('/', function () {
     return view('dashboard');
 })->name('dashboard');
 
-<<<<<<< Updated upstream
 Route::resource('appointment', AppointmentController::class);
 Route::resource('client', ClientController::class);
 Route::resource('machine', MachineController::class);
@@ -40,11 +34,6 @@ Route::resource('practitioner', PractitionerController::class);
 
 // ->middleware(['auth'])
 require __DIR__ . '/auth.php';
-=======
-// Route::get('/dashboard', function () {
-//     return view('dashboard');
-// })->middleware(['auth'])->name('dashboard');
->>>>>>> Stashed changes
 
 // Route::get('/photos/popular', [SettingsController::class, 'upload']);
 // Route::post('/settings/{email}/updateEmail', 'SettingsController@updateEmail');

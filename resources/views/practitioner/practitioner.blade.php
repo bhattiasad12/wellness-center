@@ -239,7 +239,7 @@
                                 <input type="number" name="phone_number" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="Please Enter the Practitioner Phone Number" />
                             </div>
                         </div>
-                        <div class="row mb-7">
+                        <div class="row mb-7" id='details'>
                             <div class="col-lg-3">
                                 <label class="required fw-bold fs-6 mb-2">Week Day</label>
                                 <select name="appointment_status" class="form-control form-control-solid mb-3 mb-lg-0">
@@ -262,20 +262,22 @@
                                 <input class="form-control form-control-solid kt_datepicker_8" name="monday_checkout" value="" />
                             </div>
                             <div class="col-lg-3" style="text-align: center;align-self: center;">
-                                <a href="#" class="btn btn-icon btn-light-facebook me-5">
+                                <button type="button" class="btn btn-icon btn-light-facebook me-5" onclick="addMore(this)">
                                     <i class="fas fa-plus fs-4"></i>
-                                </a>
-                                <a href="#" class="btn btn-icon btn-light-google me-5">
+                                </button>
+                                <button type="button" class="btn btn-icon btn-light-google me-5" style="display: none;">
                                     <i class="fas fa-minus fs-4"></i>
-                                </a>
+                                </button>
                             </div>
+                        </div>
+                        <div class="row mb-7" id='more'>
                         </div>
                     </div>
                     <!--end::Scroll-->
                     <!--begin::Actions-->
                     <div class="text-center pt-15">
                         <button type="reset" class="btn btn-light me-3" data-bs-dismiss="modal" aria-label="Close">Discard</button>
-                        <button type="submit" class="btn btn-primary">Update</button>
+                        <button type="submit" class="btn btn-primary">Add</button>
                     </div>
                     <!--end::Actions-->
                 </form>
@@ -363,12 +365,12 @@
                                 <input class="form-control form-control-solid kt_datepicker_8" name="monday_checkout" value="" />
                             </div>
                             <div class="col-lg-3" style="text-align: center;align-self: center;">
-                                <a href="#" class="btn btn-icon btn-light-facebook me-5">
+                                <button type="button" class="btn btn-icon btn-light-facebook me-5">
                                     <i class="fas fa-plus fs-4"></i>
-                                </a>
-                                <a href="#" class="btn btn-icon btn-light-google me-5">
+                                </button>
+                                <button type="button" class="btn btn-icon btn-light-google me-5" style="display: none;">
                                     <i class="fas fa-minus fs-4"></i>
-                                </a>
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -389,4 +391,54 @@
     <!--end::Modal dialog-->
 </div>
 <!--end::Modal - Edit Practitioner -->
+<script>
+    function addMore(obj) {
+        let id = obj.parentElement.parentElement.id;
+        aa = document.getElementById(id);
+        a = aa.cloneNode(true);
+        document.getElementById('more').appendChild(a);
+        debugger;
+    }
+
+    function deleteProduct(obj) {
+        $(obj).closest('.aaaaaaaaa').remove()
+    }
+
+    function add_product(ida) {
+
+        ida = document.getElementById(ida);
+
+        a1 = ida.parentNode.parentNode.id;
+        aa = document.getElementById(a1);
+        // if (aa.children[0].children[1].value == "") {
+        //     alert("Please Select product name")
+        //     return false;
+        // } else if (aa.children[1].children[1].children[0].value == "") {
+        //     alert("Please enter quantity")
+        //     return false;
+        // }
+        // debugger;
+        a = aa.cloneNode(true);
+        a.firstElementChild.children[1].value = '';
+        a.children[2].children[1].value = '';
+        a.children[1].children[1].children[0].readonly = true
+        a.children[3].children[1].removeAttribute('hidden');
+        aaa = ida.parentNode.parentNode.nextElementSibling.id;
+        document.getElementById(aaa).appendChild(a);
+
+
+        // debugger;
+        // alert(id);
+        // console.log(count);
+        // for (let i = 0; i <= count; i++) {
+        //     var name = `part_name_${id}_${count}`;
+        //     var quantity = `part_quantity_${id}_${count}`;
+        //     var name = document.getElementById(name).value;
+        //     var quantity = document.getElementById(quantity).value;
+        // }
+        //   alert(titleId);
+
+
+    }
+</script>
 @endsection
