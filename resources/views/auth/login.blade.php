@@ -18,7 +18,12 @@
 <!--begin::Body-->
 
 <body id="kt_body" class="bg-body">
-    <!--begin::Main-->
+
+    <!-- Session Status -->
+    <x-auth-session-status class="mb-4" :status="session('status')" />
+
+    <!-- Validation Errors -->
+    <x-auth-validation-errors class="mb-4" :errors="$errors" />
     <!--begin::Root-->
     <div class="d-flex flex-column flex-root">
         <!--begin::Authentication - Sign-in -->

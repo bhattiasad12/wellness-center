@@ -1,6 +1,8 @@
 @extends('layouts.main')
 
 @section('content')
+    <x-auth-validation-errors class="mb-4" :errors="$errors" />
+
     <!--begin::Content-->
     <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
         <!--begin::Post-->
@@ -15,7 +17,8 @@
                             <!--begin: Pic-->
                             <div class="me-7 mb-4">
                                 <div class="symbol symbol-100px symbol-lg-160px symbol-fixed position-relative">
-                                    <img src="{{ asset('theme/assets/media/avatars/300-3.jpg') }}" alt="image" />
+                                    <img src="{{ asset('/storage/profile/' . $profile_picture) }}"
+                                        alt="{{ asset('/storage/profile/blank.png') }}">
                                     <div
                                         class="position-absolute translate-middle bottom-0 start-100 mb-6 bg-success rounded-circle border border-4 border-white h-20px w-20px">
                                     </div>
@@ -30,8 +33,8 @@
                                     <div class="d-flex flex-column">
                                         <!--begin::Name-->
                                         <div class="d-flex align-items-center mb-2">
-                                            <a href="#" class="text-gray-900 text-hover-primary fs-2 fw-bolder me-1">Asad
-                                                Bhatti</a>
+                                            <a href="#"
+                                                class="text-gray-900 text-hover-primary fs-2 fw-bolder me-1">{{ $full_name }}</a>
                                             <a href="#">
                                                 <!--begin::Svg Icon | path: icons/duotune/general/gen026.svg-->
                                                 <span class="svg-icon svg-icon-1 svg-icon-primary">
@@ -81,7 +84,7 @@
                                                             fill="black" />
                                                     </svg>
                                                 </span>
-                                                <!--end::Svg Icon-->asad@gmail.com
+                                                <!--end::Svg Icon-->{{ $email }}
                                             </a>
                                         </div>
                                         <!--end::Info-->
@@ -96,49 +99,34 @@
                     </div>
                 </div>
                 <!--end::Navbar-->
-                <!--begin::Basic info-->
                 <div class="card mb-5 mb-xl-10">
-                    <!--begin::Card header-->
                     <div class="card-header border-0 cursor-pointer" role="button" data-bs-toggle="collapse"
                         data-bs-target="#kt_account_profile_details" aria-expanded="true"
                         aria-controls="kt_account_profile_details">
-                        <!--begin::Card title-->
                         <div class="card-title m-0">
                             <h3 class="fw-bolder m-0">Profile Details</h3>
                         </div>
-                        <!--end::Card title-->
                     </div>
-                    <!--begin::Card header-->
-                    <!--begin::Content-->
                     <div id="kt_account_settings_profile_details" class="collapse show">
                         <!--begin::Form-->
-                        <form id="kt_account_profile_details_form" class="form">
-                            <!--begin::Card body-->
+                        <form action="{{ route('settings.store') }}" method="POST" enctype="multipart/form-data"
+                            id="kt_account_profile_details_form" class="form">
+                            @csrf
                             <div class="card-body border-top p-9">
-                                <!--begin::Input group-->
                                 <div class="row mb-6">
-                                    <!--begin::Label-->
                                     <label class="col-lg-4 col-form-label fw-bold fs-6">Avatar</label>
-                                    <!--end::Label-->
-                                    <!--begin::Col-->
                                     <div class="col-lg-8">
-                                        <!--begin::Image input-->
                                         <div class="image-input image-input-outline" data-kt-image-input="true"
                                             style="background-image: url('assets/media/svg/avatars/blank.svg')">
-                                            <!--begin::Preview existing avatar-->
                                             <div class="image-input-wrapper w-125px h-125px"
                                                 style="background-image: url(assets/media/avatars/300-3.jpg)"></div>
-                                            <!--end::Preview existing avatar-->
-                                            <!--begin::Label-->
                                             <label
                                                 class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow"
                                                 data-kt-image-input-action="change" data-bs-toggle="tooltip"
                                                 title="Change avatar">
                                                 <i class="bi bi-pencil-fill fs-7"></i>
-                                                <!--begin::Inputs-->
-                                                <input type="file" name="avatar" accept=".png, .jpg, .jpeg" />
+                                                <input type="file" name="profile_picture" accept=".png, .jpg, .jpeg" />
                                                 <input type="hidden" name="avatar_remove" />
-                                                <!--end::Inputs-->
                                             </label>
                                             <!--end::Label-->
                                             <!--begin::Cancel-->
@@ -156,36 +144,21 @@
                                                 title="Remove avatar">
                                                 <i class="bi bi-x fs-2"></i>
                                             </span>
-                                            <!--end::Remove-->
                                         </div>
-                                        <!--end::Image input-->
-                                        <!--begin::Hint-->
                                         <div class="form-text">Allowed file types: png, jpg, jpeg.</div>
-                                        <!--end::Hint-->
                                     </div>
-                                    <!--end::Col-->
                                 </div>
-                                <!--end::Input group-->
-                                <!--begin::Input group-->
                                 <div class="row mb-6">
-                                    <!--begin::Label-->
                                     <label class="col-lg-4 col-form-label required fw-bold fs-6">Full Name</label>
-                                    <!--end::Label-->
-                                    <!--begin::Col-->
                                     <div class="col-lg-8">
-                                        <!--begin::Row-->
                                         <div class="row">
-                                            <!--begin::Col-->
                                             <div class="col-lg-12 fv-row">
-                                                <input type="text" name="fname"
+                                                <input type="text" name="full_name"
                                                     class="form-control form-control-lg form-control-solid mb-3 mb-lg-0"
-                                                    placeholder="First name" value="Muhammad Abillouch" />
+                                                    placeholder="First name" value="{{ $full_name }}" />
                                             </div>
-                                            <!--end::Col-->
                                         </div>
-                                        <!--end::Row-->
                                     </div>
-                                    <!--end::Col-->
                                 </div>
                                 <!--end::Input group-->
                                 <!--begin::Input group-->
@@ -213,9 +186,9 @@
                                     <!--end::Label-->
                                     <!--begin::Col-->
                                     <div class="col-lg-8 fv-row">
-                                        <input type="tel" name="phone"
+                                        <input type="tel" name="contact_no"
                                             class="form-control form-control-lg form-control-solid"
-                                            placeholder="Phone number" value="03343394556" />
+                                            placeholder="Phone number" value="{{ $contact_no }}" />
                                     </div>
                                     <!--end::Col-->
                                 </div>
@@ -234,33 +207,27 @@
                     </div>
                     <!--end::Content-->
                 </div>
-                <!--end::Basic info-->
-                <!--begin::Sign-in Method-->
+
                 <div class="card mb-5 mb-xl-10">
-                    <!--begin::Card header-->
                     <div class="card-header border-0 cursor-pointer" role="button" data-bs-toggle="collapse"
                         data-bs-target="#kt_account_signin_method">
                         <div class="card-title m-0">
                             <h3 class="fw-bolder m-0">Sign-in Method</h3>
                         </div>
                     </div>
-                    <!--end::Card header-->
-                    <!--begin::Content-->
+
                     <div id="kt_account_settings_signin_method" class="collapse show">
-                        <!--begin::Card body-->
                         <div class="card-body border-top p-9">
-                            <!--begin::Email Address-->
                             <div class="d-flex flex-wrap align-items-center">
-                                <!--begin::Label-->
                                 <div id="kt_signin_email">
                                     <div class="fs-6 fw-bolder mb-1">Email Address</div>
-                                    <div class="fw-bold text-gray-600">admin@gmail.com</div>
+                                    <div class="fw-bold text-gray-600">{{ $email }}</div>
                                 </div>
-                                <!--end::Label-->
-                                <!--begin::Edit-->
+
                                 <div id="kt_signin_email_edit" class="flex-row-fluid d-none">
-                                    <!--begin::Form-->
-                                    <form id="kt_signin_change_email" class="form" novalidate="novalidate">
+                                    <form action="{{ route('updateEmail', ['id' => $id]) }}" method="POST"
+                                        id=" kt_signin_change_email" class="form" novalidate="novalidate">
+                                        @csrf
                                         <div class="row mb-6">
                                             <div class="col-lg-6 mb-4 mb-lg-0">
                                                 <div class="fv-row mb-0">
@@ -268,7 +235,7 @@
                                                         New Email Address</label>
                                                     <input type="email"
                                                         class="form-control form-control-lg form-control-solid"
-                                                        id="emailaddress" placeholder="Email Address" name="emailaddress"
+                                                        id="emailaddress" placeholder="Email Address" name="email"
                                                         value="admin@gmail.com" />
                                                 </div>
                                             </div>
@@ -283,16 +250,14 @@
                                             </div>
                                         </div>
                                         <div class="d-flex">
-                                            <button id="kt_signin_submit" type="button"
+                                            <button id="kt_signin_submit" type="submit"
                                                 class="btn btn-primary me-2 px-6">Update Email</button>
                                             <button id="kt_signin_cancel" type="button"
                                                 class="btn btn-color-gray-400 btn-active-light-primary px-6">Cancel</button>
                                         </div>
                                     </form>
-                                    <!--end::Form-->
                                 </div>
-                                <!--end::Edit-->
-                                <!--begin::Action-->
+
                                 <div id="kt_signin_email_button" class="ms-auto">
                                     <button class="btn btn-light btn-active-light-primary">Change Email</button>
                                 </div>
@@ -313,40 +278,44 @@
                                 <!--begin::Edit-->
                                 <div id="kt_signin_password_edit" class="flex-row-fluid d-none">
                                     <!--begin::Form-->
-                                    <form id="kt_signin_change_password" class="form" novalidate="novalidate">
+                                    <x-auth-validation-errors class="mb-4" :errors="$errors" />
+
+                                    <form method="POST" action="{{ route('updatePassword', ['id' => $id]) }}">
+                                        @csrf
                                         <div class="row mb-1">
                                             <div class="col-lg-4">
                                                 <div class="fv-row mb-0">
-                                                    <label for="currentpassword"
-                                                        class="form-label fs-6 fw-bolder mb-3">Current Password</label>
-                                                    <input type="password"
-                                                        class="form-control form-control-lg form-control-solid"
-                                                        name="currentpassword" id="currentpassword" />
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-4">
-                                                <div class="fv-row mb-0">
-                                                    <label for="newpassword" class="form-label fs-6 fw-bolder mb-3">New
+                                                    <label for="old_password" class="form-label fs-6 fw-bolder mb-3">Current
                                                         Password</label>
                                                     <input type="password"
                                                         class="form-control form-control-lg form-control-solid"
-                                                        name="newpassword" id="newpassword" />
+                                                        name="old_password" id="old_password" />
                                                 </div>
                                             </div>
                                             <div class="col-lg-4">
                                                 <div class="fv-row mb-0">
-                                                    <label for="confirmpassword"
-                                                        class="form-label fs-6 fw-bolder mb-3">Confirm New Password</label>
+                                                    <label for="password" class="form-label fs-6 fw-bolder mb-3">New
+                                                        Password</label>
                                                     <input type="password"
                                                         class="form-control form-control-lg form-control-solid"
-                                                        name="confirmpassword" id="confirmpassword" />
+                                                        name="password" id="password" />
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4">
+                                                <div class="fv-row mb-0">
+                                                    <label for="password_confirmation"
+                                                        class="form-label fs-6 fw-bolder mb-3">Confirm New
+                                                        Password</label>
+                                                    <input type="password"
+                                                        class="form-control form-control-lg form-control-solid"
+                                                        name="password_confirmation" id="password_confirmation" />
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="form-text mb-5">Password must be at least 8 character and contain
                                             symbols</div>
                                         <div class="d-flex">
-                                            <button id="kt_password_submit" type="button"
+                                            <button id="kt_password_submit" type="submit"
                                                 class="btn btn-primary me-2 px-6">Update Password</button>
                                             <button id="kt_password_cancel" type="button"
                                                 class="btn btn-color-gray-400 btn-active-light-primary px-6">Cancel</button>

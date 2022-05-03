@@ -27,6 +27,7 @@ class User extends Authenticatable
         'updated_by',
         'created_by',
         'password',
+        'profile_picture'
     ];
 
     /**

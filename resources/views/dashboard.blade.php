@@ -1,6 +1,7 @@
 @extends('layouts.partials.header')
 
 @section('content')
+<<<<<<< Updated upstream
 <!--begin::Content-->
 <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
     <!--begin::Post-->
@@ -23,6 +24,16 @@
                         <!--end::Body-->
                     </div>
                     <!--end::Statistics Widget 2-->
+=======
+    {{-- <div class="py-12">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6 bg-white border-b border-gray-200">
+                    <form action="{{ route('settings.store') }}" method="POST" enctype="multipart/form-data"
+                        id="kt_account_profile_details_form" class="form"> @csrf <input type="file"
+                            name="profile_picture" accept=".png, .jpg, .jpeg" /> <input type="hidden"
+                            name="avatar_remove" /> <input type="submit" value="Upload"> </form>
+>>>>>>> Stashed changes
                 </div>
             </div>
             <!--end::Row-->
@@ -294,7 +305,23 @@
         </div>
         <!--end::Container-->
     </div>
+<<<<<<< Updated upstream
     <!--end::Post-->
 </div>
 <!--end::Content-->
 @endsection
+=======
+
+    <div class="me-7 mb-4">
+        <div class="symbol symbol-100px symbol-lg-160px symbol-fixed position-relative">
+            @if (Auth::user()->profile_picture)
+                <img src="{{ asset('/storage/profile/' . Auth::user()->profile_picture) }}"
+                    alt="{{ asset('/storage/profile/blank.png') }}">
+            @endif
+            <div
+                class="position-absolute translate-middle bottom-0 start-100 mb-6 bg-success rounded-circle border border-4 border-white h-20px w-20px">
+            </div>
+        </div>
+    </div> --}}
+@endsection
+>>>>>>> Stashed changes
