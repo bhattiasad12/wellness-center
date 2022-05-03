@@ -62,6 +62,7 @@
             enableTime: true,
             noCalendar: true,
             dateFormat: "H:i",
+            time_24hr: true,
         });
         $(document).ready(function() {
             $('.js-example-basic-single').select2();

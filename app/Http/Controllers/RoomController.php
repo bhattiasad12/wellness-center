@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Room;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
 class RoomController extends Controller
@@ -46,9 +47,9 @@ class RoomController extends Controller
         $user = Room::create([
             'name' => $request->room,
             'color' => $request->color,
-            'user_id' => '1',
+            'user_id' => Auth::user()->id,
             'created_at' => date("Y-m-d"),
-            'created_by' => '1',
+            'created_by' => Auth::user()->id,
         ]);
         //Log::info('Showing the user profile for user: ' . $user);
 

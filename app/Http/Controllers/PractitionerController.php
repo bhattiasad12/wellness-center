@@ -3,7 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Practitioner;
+use App\Models\PractitionerDay;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class PractitionerController extends Controller
 {
@@ -14,9 +18,9 @@ class PractitionerController extends Controller
      */
     public function index()
     {
-        // $practitioner = Practitioner::get();
-        $practitioner = '';
-        return view('practitioner/practitioner', compact('practitioner'));
+        $practitioner = Practitioner::get();
+        $days = PractitionerDay::get();
+        return view('practitioner/practitioner', ['days' => $days]);
     }
 
     /**
@@ -37,19 +41,38 @@ class PractitionerController extends Controller
      */
     public function store(Request $request)
     {
-        // $request->validate([
-        //     'room' => ['required'],
-        //     'color' => ['required'],
-        // ]);
+        //dd($request);
+        $request->validate([
+            'first_name' => ['required'],
+            'last_name' => ['required'],
+            'email' => ['required'],
+            'phone_number' => ['required'],
+            'days' => ['required'],
+            'check_in' => ['required'],
+            'check_out' => ['required'],
+        ]);
+        // DB::enableQueryLog();
+        $data = Practitioner::create([
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'email' => $request->email,
+            'phone_number' => $request->phone_number,
+            'user_id' => Auth::user()->id,
+            'created_at' => date("Y-m-d"),
+            'created_by' => Auth::user()->id,
+        ]);
+        for ($i = 0; $i < count($request->days); $i++) {
 
-        // $user = Practitioner::create([
-        //     'name' => $request->room,
-        //     'color' => $request->color,
-        //     'user_id' => '1',
-        //     'created_at' => date("Y-m-d"),
-        //     'created_by' => '1',
-        // ]);
-        // return redirect()->route('practitioner.index');
+            $practitionerTime = array();
+            $practitionerTime['practitioner_id'] = $data['id'];
+            $practitionerTime['practitioner_day_id'] = $request->days[$i];
+            $practitionerTime['start_time'] = $request->check_in[$i];
+            $practitionerTime['end_time'] = $request->check_out[$i];
+            DB::table('practitioners_time')->insert($practitionerTime);
+        }
+        // dd(DB::getQueryLog());
+        //Log::info('Showing the user profile for user: ' . $data['id']);
+        return redirect()->route('practitioner.index');
     }
 
     /**

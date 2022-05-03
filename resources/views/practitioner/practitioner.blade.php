@@ -14,7 +14,6 @@
         }
     }
 </style>
-
 <!--begin::Content-->
 <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
     <!--begin::Post-->
@@ -216,7 +215,9 @@
             <!--begin::Modal body-->
             <div class="modal-body scroll-y mx-10 my-7">
                 <!--begin::Form-->
-                <form id="" class="form" action="#">
+                <x-auth-validation-errors class="mb-4" style="color:red" :errors="$errors" />
+                <form id="" class="form" method="POST" action="{{route('practitioner.store')}}">
+                    @csrf
                     <!--begin::Scroll-->
                     <div class="d-flex flex-column scroll-y me-n7 pe-7" id="" data-kt-scroll="true" data-kt-scroll-activate="{default: false, lg: true}" data-kt-scroll-max-height="auto" data-kt-scroll-dependencies="#kt_modal_add_user_header" data-kt-scroll-wrappers="#kt_modal_add_user_scroll" data-kt-scroll-offset="300px">
                         <div class="row mb-7">
@@ -242,35 +243,30 @@
                         <div class="row mb-7" id='details'>
                             <div class="col-lg-3">
                                 <label class="required fw-bold fs-6 mb-2">Week Day</label>
-                                <select name="appointment_status" class="form-control form-control-solid mb-3 mb-lg-0">
+                                <select name="days[]" class="form-control form-control-solid mb-3 mb-lg-0">
                                     <option>-- Select Week Day --</option>
-                                    <option value="Monday">Monday</option>
-                                    <option value="Tuesday">Tuesday</option>
-                                    <option value="Wednesday">Wednesday</option>
-                                    <option value="Thursday">Thursday</option>
-                                    <option value="Friday">Friday</option>
-                                    <option value="Saturday">Saturday</option>
-                                    <option value="Sunday">Sunday</option>
+                                    @for ($i = 0; $i< count($days); $i++) <option value=" {{$days[$i]->id}} "> {{ucwords($days[$i]->day)}} </option>
+                                        @endfor
                                 </select>
                             </div>
                             <div class="col-lg-3">
                                 <label class="required fw-bold fs-6 mb-2">Start Time(Check-In)</label>
-                                <input class="form-control form-control-solid kt_datepicker_8" name="monday_checkin" value="" />
+                                <input class="form-control form-control-solid kt_datepicker_8" name="check_in[]" value="" />
                             </div>
                             <div class="col-lg-3">
                                 <label class="required fw-bold fs-6 mb-2">Start Time(Check-Out)</label>
-                                <input class="form-control form-control-solid kt_datepicker_8" name="monday_checkout" value="" />
+                                <input class="form-control form-control-solid kt_datepicker_8" name="check_out[]" value="" />
                             </div>
                             <div class="col-lg-3" style="text-align: center;align-self: center;">
                                 <button type="button" class="btn btn-icon btn-light-facebook me-5" onclick="addMore(this)">
                                     <i class="fas fa-plus fs-4"></i>
                                 </button>
-                                <button type="button" class="btn btn-icon btn-light-google me-5" style="display: none;">
+                                <button type="button" class="btn btn-icon btn-light-google me-5" hidden onclick="deleteMore(this)">
                                     <i class="fas fa-minus fs-4"></i>
                                 </button>
                             </div>
                         </div>
-                        <div class="row mb-7" id='more'>
+                        <div id='more'>
                         </div>
                     </div>
                     <!--end::Scroll-->
@@ -325,44 +321,39 @@
                         <div class="row mb-7">
                             <div class="col-lg-6">
                                 <label class="required fw-bold fs-6 mb-2">Practitioner First Name</label>
-                                <input type="text" name="first_name" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="Please Enter the Practitioner First Name" />
+                                <input type="text" name="first_name" class="form-control form-control-solid mb-3 mb-lg-0" value="{{old('first_name')}}" placeholder="Please Enter the Practitioner First Name" required />
                             </div>
                             <div class="col-lg-6">
                                 <label class="required fw-bold fs-6 mb-2">Practitioner Last Name</label>
-                                <input type="text" name="last_name" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="Please Enter the Practitioner Last Name" />
+                                <input type="text" name="last_name" class="form-control form-control-solid mb-3 mb-lg-0" value="{{old('last_name')}}" placeholder="Please Enter the Practitioner Last Name" required />
                             </div>
                         </div>
                         <div class="row mb-7">
                             <div class="col-lg-6">
                                 <label class="required fw-bold fs-6 mb-2">Email</label>
-                                <input type="email" name="email" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="Please Enter the Email" />
+                                <input type="email" name="email" class="form-control form-control-solid mb-3 mb-lg-0" value="{{old('email')}}" placeholder="Please Enter the Email" required />
                             </div>
                             <div class="col-lg-6">
                                 <label class="required fw-bold fs-6 mb-2">Phone Number</label>
-                                <input type="number" name="phone_number" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="Please Enter the Practitioner Phone Number" />
+                                <input type="number" name="phone_number" class="form-control form-control-solid mb-3 mb-lg-0" value="{{old('phone_number')}}" placeholder="Please Enter the Practitioner Phone Number" required />
                             </div>
                         </div>
                         <div class="row mb-7">
                             <div class="col-lg-3">
                                 <label class="required fw-bold fs-6 mb-2">Week Day</label>
-                                <select name="appointment_status" class="form-control form-control-solid mb-3 mb-lg-0">
+                                <select name="appointment_status" class="form-control form-control-solid mb-3 mb-lg-0" required>
                                     <option>-- Select Week Day --</option>
-                                    <option value="Monday">Monday</option>
-                                    <option value="Tuesday">Tuesday</option>
-                                    <option value="Wednesday">Wednesday</option>
-                                    <option value="Thursday">Thursday</option>
-                                    <option value="Friday">Friday</option>
-                                    <option value="Saturday">Saturday</option>
-                                    <option value="Sunday">Sunday</option>
+                                    @for ($i = 0; $i< count($days); $i++) <option value="{{$days[$i]->id}}"> {{ucwords($days[$i]->day)}} </option>
+                                        @endfor
                                 </select>
                             </div>
                             <div class="col-lg-3">
                                 <label class="required fw-bold fs-6 mb-2">Start Time(Check-In)</label>
-                                <input class="form-control form-control-solid kt_datepicker_8" name="monday_checkin" value="" />
+                                <input class="form-control form-control-solid kt_datepicker_8" name="monday_checkin" value="" required />
                             </div>
                             <div class="col-lg-3">
                                 <label class="required fw-bold fs-6 mb-2">Start Time(Check-Out)</label>
-                                <input class="form-control form-control-solid kt_datepicker_8" name="monday_checkout" value="" />
+                                <input class="form-control form-control-solid kt_datepicker_8" name="monday_checkout" value="" required />
                             </div>
                             <div class="col-lg-3" style="text-align: center;align-self: center;">
                                 <button type="button" class="btn btn-icon btn-light-facebook me-5">
@@ -393,52 +384,37 @@
 <!--end::Modal - Edit Practitioner -->
 <script>
     function addMore(obj) {
+        $(document).ready(function() {
+            $('select').on('change', function() {
+                //restore previously selected value
+                var prevValue = $(this).data('previous');
+                $('select').not(this).find('option[value="' + prevValue + '"]').show();
+                //hide option selected                
+                var value = $(this).val();
+                //update previously selected data
+                $(this).data('previous', value);
+                $('select').not(this).find('option[value="' + value + '"]').hide();
+            });
+        });
+
         let id = obj.parentElement.parentElement.id;
         aa = document.getElementById(id);
         a = aa.cloneNode(true);
-        document.getElementById('more').appendChild(a);
-        debugger;
-    }
-
-    function deleteProduct(obj) {
-        $(obj).closest('.aaaaaaaaa').remove()
-    }
-
-    function add_product(ida) {
-
-        ida = document.getElementById(ida);
-
-        a1 = ida.parentNode.parentNode.id;
-        aa = document.getElementById(a1);
-        // if (aa.children[0].children[1].value == "") {
-        //     alert("Please Select product name")
-        //     return false;
-        // } else if (aa.children[1].children[1].children[0].value == "") {
-        //     alert("Please enter quantity")
-        //     return false;
-        // }
-        // debugger;
-        a = aa.cloneNode(true);
-        a.firstElementChild.children[1].value = '';
-        a.children[2].children[1].value = '';
-        a.children[1].children[1].children[0].readonly = true
         a.children[3].children[1].removeAttribute('hidden');
-        aaa = ida.parentNode.parentNode.nextElementSibling.id;
-        document.getElementById(aaa).appendChild(a);
+        document.getElementById('more').appendChild(a);
 
+        $(".kt_datepicker_8").flatpickr({
+            enableTime: true,
+            noCalendar: true,
+            dateFormat: "H:i",
+            time_24hr: true,
 
-        // debugger;
-        // alert(id);
-        // console.log(count);
-        // for (let i = 0; i <= count; i++) {
-        //     var name = `part_name_${id}_${count}`;
-        //     var quantity = `part_quantity_${id}_${count}`;
-        //     var name = document.getElementById(name).value;
-        //     var quantity = document.getElementById(quantity).value;
-        // }
-        //   alert(titleId);
+        });
 
+    }
 
+    function deleteMore(obj) {
+        obj.parentElement.parentElement.remove();
     }
 </script>
 @endsection
