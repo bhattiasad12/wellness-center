@@ -1,6 +1,12 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ClientController;
+use App\Http\Controllers\MachineController;
+use App\Http\Controllers\PractitionerController;
+use App\Http\Controllers\RoomController;
+use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\AppointmentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,8 +25,16 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
+})->name('dashboard');
 
+Route::resource('appointment', AppointmentController::class);
+Route::resource('client', ClientController::class);
+Route::resource('machine', MachineController::class);
+Route::resource('service', ServiceController::class);
+Route::resource('room', RoomController::class);
+Route::resource('practitioner', PractitionerController::class);
+
+// ->middleware(['auth'])
 require __DIR__ . '/auth.php';
 
 
