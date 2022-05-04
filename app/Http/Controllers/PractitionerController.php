@@ -19,8 +19,8 @@ class PractitionerController extends Controller
     public function index()
     {
         $practitioner = Practitioner::where('user_id', Auth::user()->id)->get();
-        $days = PractitionerDay::get();
-        return view('practitioner/practitioner', compact('days', 'practitioner'));
+
+        return view('practitioner/practitioner_index', compact('practitioner'));
     }
 
     /**
@@ -30,7 +30,8 @@ class PractitionerController extends Controller
      */
     public function create()
     {
-        //
+        $days = PractitionerDay::get();
+        return view('practitioner/practitioner_create', compact('days'));
     }
 
     /**
@@ -72,7 +73,7 @@ class PractitionerController extends Controller
         }
         // dd(DB::getQueryLog());
         //Log::info('Showing the user profile for user: ' . $data['id']);
-        return redirect()->route('practitioner.index');
+        return redirect()->back();
     }
 
     /**
@@ -98,7 +99,14 @@ class PractitionerController extends Controller
      */
     public function edit(Practitioner $practitioner)
     {
-        //
+        $id = $practitioner->id;
+        $days = PractitionerDay::get();
+        $userId = Auth::user()->id;
+        $practitioner = DB::select(DB::raw("SELECT *,pt.`id` AS practitioner_id FROM `practitioners` p INNER JOIN `practitioners_time`pt ON p.`id`=pt.`practitioner_id`
+        INNER JOIN `practitioners_days`pd ON pd.`id`=pt.`practitioner_day_id` WHERE p.`deleted_at` IS NULL
+        AND p.`id`='$id' AND p.`user_id`='$userId' ORDER BY pd.`day` ASC "));
+
+        return view('practitioner/practitioner_edit',  compact('days', 'practitioner', 'id'));
     }
 
     /**
@@ -123,6 +131,6 @@ class PractitionerController extends Controller
     {
         $data = Practitioner::find($id);
         $data->delete();
-        return redirect()->route('practitioner.index');
+        return redirect()->back();
     }
 }

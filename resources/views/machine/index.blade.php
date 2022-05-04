@@ -120,7 +120,7 @@
                                             <td>{{$a}}</td>
                                             <td><a href="{{ route('machine.show',$machine[$i]->id) }}" class="fw-bolder text-gray-800 text-hover-primary mb-1">{{ucwords($machine[$i]->name)}}</a></td>
                                             <td>
-                                                <a href="#kt_modal_edit_machine" class="btn btn-icon btn-sm btn-color-gray-400 btn-active-icon-primary me-2" data-bs-toggle="modal" data-bs-original-title="Edit Machine" onclick="editMachine()">
+                                                <a href="#kt_modal_edit_machine" class="btn btn-icon btn-sm btn-color-gray-400 btn-active-icon-primary me-2" data-bs-toggle="modal" data-bs-original-title="Edit Machine" onclick="editMachine('{{$machine[$i]->id}}')">
                                                     <!--begin::Svg Icon | path: icons/duotune/art/art005.svg-->
                                                     <span class="svg-icon svg-icon-2">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -182,7 +182,6 @@
     function editMachine(id) {
         $.ajax({
             type: 'GET',
-            // url: `{{ route('room.create', ['id' => `+ id +`]) }}`,
             url: `machine/` + id + `/edit `,
             success: function(result) {
                 $('#myModalLgHeading').html('Edit Machine');

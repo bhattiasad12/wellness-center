@@ -6,6 +6,8 @@ use App\Models\Hand;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
+use Illuminate\Support\Facades\Log;
+
 class HandController extends Controller
 {
     /**
@@ -25,7 +27,9 @@ class HandController extends Controller
      */
     public function create()
     {
-        //
+        $mechineId = $_REQUEST['mechineId'];
+
+        return view('machine/hand_create', compact('mechineId'));
     }
 
     /**
@@ -71,7 +75,7 @@ class HandController extends Controller
      */
     public function edit(Hand $hand)
     {
-        //
+        return view('machine/hand_edit', compact('hand'));
     }
 
     /**

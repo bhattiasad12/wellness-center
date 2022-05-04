@@ -60,8 +60,8 @@
                                 <!--end::User-->
                                 <!--begin::Actions-->
                                 <div class="d-flex my-4">
-                                    <a href="#" class="btn btn-sm btn-circle btn-light-primary me-2" data-bs-toggle="modal" data-bs-target="#kt_modal_add_hands">Add Hands</a>
-                                    <a href="#" class="btn btn-sm btn-circle btn-light-warning me-2" data-bs-toggle="modal" data-bs-target="#kt_modal_add_settings">Add Settings</a>
+                                    <button href="#" class="btn btn-sm btn-circle btn-light-primary me-2" onclick="addHand()">Add Hands</button>
+                                    <button href="#" class="btn btn-sm btn-circle btn-light-warning me-2" onclick="addSetting()">Add Settings</button>
                                 </div>
                                 <!--end::Actions-->
                             </div>
@@ -106,7 +106,7 @@
                                                     <td>{{ucwords($hand[$i]->machine_name)}}</td>
                                                     <td>{{ucwords($hand[$i]->hand_name)}}</td>
                                                     <td>
-                                                        <a href="#kt_modal_edit_hands" class="btn btn-icon btn-sm btn-color-gray-400 btn-active-icon-primary" data-bs-toggle="modal" data-bs-original-title="Edit Hand">
+                                                        <button class="btn btn-icon btn-sm btn-color-gray-400 btn-active-icon-primary" onclick="editHand(`{{$hand[$i]->hand_id }}`)">
                                                             <!--begin::Svg Icon | path: icons/duotune/art/art005.svg-->
                                                             <span class="svg-icon svg-icon-2">
                                                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -115,7 +115,7 @@
                                                                 </svg>
                                                             </span>
                                                             <!--end::Svg Icon-->
-                                                        </a>
+                                                        </button>
                                                         <form style="display: inline-block" method="POST" action="{{ route('hand.destroy',$hand[$i]->hand_id) }}">
                                                             @method('DELETE')
                                                             @csrf
@@ -180,7 +180,7 @@
                                                     <td>{{$handSetting[$i]->max}}</td>
                                                     <td>{{$handSetting[$i]->start}}</td>
                                                     <td>
-                                                        <a href="#kt_modal_edit_settings" class="btn btn-icon btn-sm btn-color-gray-400 btn-active-icon-primary" data-bs-toggle="modal" data-bs-original-title="Edit Setting">
+                                                        <button class="btn btn-icon btn-sm btn-color-gray-400 btn-active-icon-primary" onclick="editSetting('{{$handSetting[$i]->id}}')">
                                                             <!--begin::Svg Icon | path: icons/duotune/art/art005.svg-->
                                                             <span class="svg-icon svg-icon-2">
                                                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -189,7 +189,7 @@
                                                                 </svg>
                                                             </span>
                                                             <!--end::Svg Icon-->
-                                                        </a>
+                                                        </button>
                                                         <form style="display: inline-block" method="POST" action="{{ route('hand_setting.destroy',$handSetting[$i]->hand_setting_id) }}">
                                                             @method('DELETE')
                                                             @csrf
@@ -224,294 +224,69 @@
     </div>
     <!--end::Post-->
 </div>
-<!--end::Content-->
+<script>
+    function addHand() {
+        var value = {
+            mechineId: '{{$machineId}}',
+        };
+        $.ajax({
+            type: 'GET',
+            url: "{{ route('hand.create') }}",
+            data: value,
+            success: function(result) {
+                $('#myModalLgHeading').html('Add hand');
+                $('#modalBodyLarge').html(result);
+                $('#myModalLg').modal('show');
+            }
+        });
+    }
 
-<!--begin::Modal - Add Settings-->
-<div class="modal fade" id="kt_modal_add_settings" tabindex="-1" aria-hidden="true">
-    <!--begin::Modal dialog-->
-    <div class="modal-dialog modal-dialog-centered modal-lg">
-        <!--begin::Modal content-->
-        <div class="modal-content">
-            <!--begin::Modal header-->
-            <div class="modal-header" id="kt_modal_add_user_header">
-                <!--begin::Modal title-->
-                <h2 class="fw-bolder">Add Settings</h2>
-                <!--end::Modal title-->
-                <!--begin::Close-->
-                <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
-                    <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
-                    <span class="svg-icon svg-icon-2x">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                            <rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1" transform="rotate(-45 6 17.3137)" fill="black"></rect>
-                            <rect x="7.41422" y="6" width="16" height="2" rx="1" transform="rotate(45 7.41422 6)" fill="black"></rect>
-                        </svg>
-                    </span>
-                    <!--end::Svg Icon-->
-                </div>
-                <!--end::Close-->
-            </div>
-            <!--end::Modal header-->
-            <!--begin::Modal body-->
-            <!--begin::Modal body-->
-            <div class="modal-body scroll-y mx-10 my-7 mb-0 pb-0">
-                <!--begin::Form-->
-                <x-auth-validation-errors class="mb-4" style="color:red" :errors="$errors" />
+    function editHand(id) {
+        url = "{{route('hand.edit',':id')}}";
+        url = url.replace(':id', id);
+        $.ajax({
+            type: 'GET',
+            url: url,
+            success: function(result) {
+                $('#myModalLgHeading').html('Edit Hands');
+                $('#modalBodyLarge').html(result);
+                $('#myModalLg').modal('show');
+            }
+        });
+    }
 
-                <form id="" class="form" method="POST" action="{{route('hand_setting.store')}}">
-                    @csrf
-                    <!--begin::Scroll-->
-                    <input type="hidden" name='machine_id' value="{{$machineId}}" />
-                    <!--begin::Scroll-->
-                    <div class="d-flex flex-column scroll-y me-n7 pe-7" id="" data-kt-scroll="true" data-kt-scroll-activate="{default: false, lg: true}" data-kt-scroll-max-height="auto" data-kt-scroll-dependencies="#kt_modal_add_user_header" data-kt-scroll-wrappers="#kt_modal_add_user_scroll" data-kt-scroll-offset="300px">
-                        <div class="row mb-7">
-                            <div class="col-lg-6">
-                                <label class="required fw-bold fs-6 mb-2">Hand</label>
-                                <select name="hand" class="form-control form-control-solid mb-3 mb-lg-0" value="{{old('hand')}}">
-                                    <option>-- Select Hand --</option>
-                                    <option value="1">01 Epilation</option>
-                                    <option value="2">10 PHOTO</option>
-                                </select>
-                            </div>
-                            <div class="col-lg-6">
-                                <label class="required fw-bold fs-6 mb-2">Setting Name</label>
-                                <input type="text" class="form-control form-control-solid mb-3 mb-lg-0" value="{{old('setting_name')}}" name="setting_name" placeholder="Please Enter your Setting Name here.">
-                            </div>
-                        </div>
-                        <div class="row mb-7">
-                            <div class="col-lg-4">
-                                <label class="required fw-bold fs-6 mb-2">Min</label>
-                                <input type="text" class="form-control form-control-solid mb-3 mb-lg-0" value="{{old('min')}}" name="min" placeholder="Please Enter your Min here.">
-                            </div>
-                            <div class="col-lg-4">
-                                <label class="required fw-bold fs-6 mb-2">Max</label>
-                                <input type="text" class="form-control form-control-solid mb-3 mb-lg-0" value="{{old('max')}}" name="max" placeholder="Please Enter your Max here.">
-                            </div>
-                            <div class="col-lg-4">
-                                <label class="required fw-bold fs-6 mb-2">Start</label>
-                                <input type="text" class="form-control form-control-solid mb-3 mb-lg-0" value="{{old('start')}}" name="start" placeholder="Please Enter your Start here.">
-                            </div>
-                        </div>
-                    </div>
-                    <!--end::Scroll-->
-                    <div class="modal-footer flex-center">
-                        <button type="reset" data-bs-dismiss="modal" aria-label="Close" class="btn btn-light me-3">Discard</button>
-                        <button type="submit" id="kt_modal_add_customer_submit" class="btn btn-primary">Submit</button>
-                    </div>
-                </form>
-                <!--end::Form-->
-            </div>
-            <!--end::Modal body-->
+    function addSetting() {
+        var value = {
+            mechineId: '{{$machineId}}',
+        };
+        $.ajax({
+            type: 'GET',
+            url: "{{ route('hand_setting.create') }}",
+            data: value,
+            success: function(result) {
+                $('#myModalLgHeading').html('Add Setting');
+                $('#modalBodyLarge').html(result);
+                $('#myModalLg').modal('show');
+            }
+        });
+    }
 
-            <!--end::Modal body-->
-        </div>
-        <!--end::Modal content-->
-    </div>
-    <!--end::Modal dialog-->
-</div>
-<!--end::Modal - Add Settings-->
-
-<!--begin::Modal - Edit Settings-->
-<div class="modal fade" id="kt_modal_edit_settings" tabindex="-1" aria-hidden="true">
-    <!--begin::Modal dialog-->
-    <div class="modal-dialog modal-dialog-centered modal-lg">
-        <!--begin::Modal content-->
-        <div class="modal-content">
-            <!--begin::Modal header-->
-            <div class="modal-header" id="kt_modal_add_user_header">
-                <!--begin::Modal title-->
-                <h2 class="fw-bolder">Edit Settings</h2>
-                <!--end::Modal title-->
-                <!--begin::Close-->
-                <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
-                    <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
-                    <span class="svg-icon svg-icon-2x">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                            <rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1" transform="rotate(-45 6 17.3137)" fill="black"></rect>
-                            <rect x="7.41422" y="6" width="16" height="2" rx="1" transform="rotate(45 7.41422 6)" fill="black"></rect>
-                        </svg>
-                    </span>
-                    <!--end::Svg Icon-->
-                </div>
-                <!--end::Close-->
-            </div>
-            <!--end::Modal header-->
-            <!--begin::Modal body-->
-            <!--begin::Modal body-->
-            <div class="modal-body scroll-y mx-10 my-7 mb-0 pb-0">
-                <!--begin::Form-->
-                <x-auth-validation-errors class="mb-4" style="color:red" :errors="$errors" />
-
-                <form id="" class="form" method="POST" action="{{route('hand_setting.update','1')}}">
-                    @method("PUT")
-                    @csrf
-                    <!--begin::Scroll-->
-                    <div class="d-flex flex-column scroll-y me-n7 pe-7" id="" data-kt-scroll="true" data-kt-scroll-activate="{default: false, lg: true}" data-kt-scroll-max-height="auto" data-kt-scroll-dependencies="#kt_modal_add_user_header" data-kt-scroll-wrappers="#kt_modal_add_user_scroll" data-kt-scroll-offset="300px">
-                        <div class="row mb-7">
-                            <div class="col-lg-6">
-                                <label class="required fw-bold fs-6 mb-2">Hand</label>
-                                <select name="hand" class="form-control form-control-solid mb-3 mb-lg-0" value="{{old('hand')}}">
-                                    <option>-- Select Hand --</option>
-                                    <option value="1">01 Epilation</option>
-                                    <option value="2">10 PHOTO</option>
-                                </select>
-                            </div>
-                            <div class="col-lg-6">
-                                <label class="required fw-bold fs-6 mb-2">Setting Name</label>
-                                <input type="text" class="form-control form-control-solid mb-3 mb-lg-0" value="{{old('setting_name')}}" name="setting_name" placeholder="Please Enter your Setting Name here.">
-                            </div>
-                        </div>
-                        <div class="row mb-7">
-                            <div class="col-lg-4">
-                                <label class="required fw-bold fs-6 mb-2">Min</label>
-                                <input type="text" class="form-control form-control-solid mb-3 mb-lg-0" value="{{old('min')}}" name="min" placeholder="Please Enter your Min here.">
-                            </div>
-                            <div class="col-lg-4">
-                                <label class="required fw-bold fs-6 mb-2">Max</label>
-                                <input type="text" class="form-control form-control-solid mb-3 mb-lg-0" value="{{old('max')}}" name="max" placeholder="Please Enter your Max here.">
-                            </div>
-                            <div class="col-lg-4">
-                                <label class="required fw-bold fs-6 mb-2">Start</label>
-                                <input type="text" class="form-control form-control-solid mb-3 mb-lg-0" value="{{old('start')}}" name="start" placeholder="Please Enter your Start here.">
-                            </div>
-                        </div>
-                    </div>
-                    <!--end::Scroll-->
-                    <div class="modal-footer flex-center">
-                        <button type="reset" data-bs-dismiss="modal" aria-label="Close" class="btn btn-light me-3">Discard</button>
-                        <button type="submit" id="kt_modal_add_customer_submit" class="btn btn-primary">Update</button>
-                    </div>
-                </form>
-                <!--end::Form-->
-            </div>
-            <!--end::Modal body-->
-
-            <!--end::Modal body-->
-        </div>
-        <!--end::Modal content-->
-    </div>
-    <!--end::Modal dialog-->
-</div>
-<!--end::Modal - Edit Settings-->
-
-<!--begin::Modal - Add Hands-->
-<div class="modal fade" id="kt_modal_add_hands" tabindex="-1" aria-hidden="true">
-    <!--begin::Modal dialog-->
-    <div class="modal-dialog modal-dialog-centered modal-lg">
-        <!--begin::Modal content-->
-        <div class="modal-content">
-            <!--begin::Modal header-->
-            <div class="modal-header" id="kt_modal_add_user_header">
-                <!--begin::Modal title-->
-                <h2 class="fw-bolder">Add Hands</h2>
-                <!--end::Modal title-->
-                <!--begin::Close-->
-                <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
-                    <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
-                    <span class="svg-icon svg-icon-2x">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                            <rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1" transform="rotate(-45 6 17.3137)" fill="black"></rect>
-                            <rect x="7.41422" y="6" width="16" height="2" rx="1" transform="rotate(45 7.41422 6)" fill="black"></rect>
-                        </svg>
-                    </span>
-                    <!--end::Svg Icon-->
-                </div>
-                <!--end::Close-->
-            </div>
-            <!--end::Modal header-->
-            <!--begin::Modal body-->
-            <!--begin::Modal body-->
-
-            <div class="modal-body scroll-y mx-10 my-7 mb-0 pb-0">
-                <!--begin::Form-->
-                <x-auth-validation-errors class="mb-4" style="color:red" :errors="$errors" />
-                <form id="" class="form" method="POST" action="{{route('hand.store')}}">
-                    @csrf
-                    <!--begin::Scroll-->
-                    <input type="hidden" name='machine_id' value="{{$machineId}}" />
-                    <div class="d-flex flex-column scroll-y me-n7 pe-7" id="" data-kt-scroll="true" data-kt-scroll-activate="{default: false, lg: true}" data-kt-scroll-max-height="auto" data-kt-scroll-dependencies="#kt_modal_add_user_header" data-kt-scroll-wrappers="#kt_modal_add_user_scroll" data-kt-scroll-offset="300px">
-                        <div class="row mb-7">
-                            <div class="col">
-                                <label class="required fw-bold fs-6 mb-2">Hand Name</label>
-                                <input type="text" class="form-control form-control-solid mb-3 mb-lg-0" name="hand" value="{{old('hand')}}" placeholder="Please Enter your Hand Name here.">
-                            </div>
-                        </div>
-                    </div>
-                    <!--end::Scroll-->
-                    <div class="modal-footer flex-center">
-                        <button type="reset" data-bs-dismiss="modal" aria-label="Close" class="btn btn-light me-3">Discard</button>
-                        <button type="submit" id="kt_modal_add_customer_submit" class="btn btn-primary">Submit</button>
-                    </div>
-                </form>
-                <!--end::Form-->
-            </div>
-            <!--end::Modal body-->
-
-            <!--end::Modal body-->
-        </div>
-        <!--end::Modal content-->
-    </div>
-    <!--end::Modal dialog-->
-</div>
-<!--end::Modal - Add Hands-->
-
-<!--begin::Modal - Edit Hands-->
-<div class="modal fade" id="kt_modal_edit_hands" tabindex="-1" aria-hidden="true">
-    <!--begin::Modal dialog-->
-    <div class="modal-dialog modal-dialog-centered modal-lg">
-        <!--begin::Modal content-->
-        <div class="modal-content">
-            <!--begin::Modal header-->
-            <div class="modal-header" id="kt_modal_add_user_header">
-                <!--begin::Modal title-->
-                <h2 class="fw-bolder">Edit Hands</h2>
-                <!--end::Modal title-->
-                <!--begin::Close-->
-                <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
-                    <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
-                    <span class="svg-icon svg-icon-2x">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                            <rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1" transform="rotate(-45 6 17.3137)" fill="black"></rect>
-                            <rect x="7.41422" y="6" width="16" height="2" rx="1" transform="rotate(45 7.41422 6)" fill="black"></rect>
-                        </svg>
-                    </span>
-                    <!--end::Svg Icon-->
-                </div>
-                <!--end::Close-->
-            </div>
-            <!--end::Modal header-->
-            <!--begin::Modal body-->
-            <!--begin::Modal body-->
-            <div class="modal-body scroll-y mx-10 my-7 mb-0 pb-0">
-                <!--begin::Form-->
-                <x-auth-validation-errors class="mb-4" style="color:red" :errors="$errors" />
-
-                <form id="" class="form" method="POST" action="{{route('hand.update','1')}}">
-                    @method("PUT")
-                    @csrf
-                    <!--begin::Scroll-->
-                    <div class="d-flex flex-column scroll-y me-n7 pe-7" id="" data-kt-scroll="true" data-kt-scroll-activate="{default: false, lg: true}" data-kt-scroll-max-height="auto" data-kt-scroll-dependencies="#kt_modal_add_user_header" data-kt-scroll-wrappers="#kt_modal_add_user_scroll" data-kt-scroll-offset="300px">
-                        <div class="row mb-7">
-                            <div class="col">
-                                <label class="required fw-bold fs-6 mb-2">Hand Name</label>
-                                <input type="text" class="form-control form-control-solid mb-3 mb-lg-0" name="hand" placeholder="Please Enter your Hand Name here.">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer flex-center">
-                        <button type="reset" data-bs-dismiss="modal" aria-label="Close" class="btn btn-light me-3">Discard</button>
-                        <button type="submit" id="kt_modal_add_customer_submit" class="btn btn-primary">Update</button>
-                    </div>
-                    <!--end::Scroll-->
-                </form>
-                <!--end::Form-->
-            </div>
-            <!--end::Modal body-->
-
-            <!--end::Modal body-->
-        </div>
-        <!--end::Modal content-->
-    </div>
-    <!--end::Modal dialog-->
-</div>
-<!--end::Modal - Edit Hands-->
+    function editSetting(id) {
+        var value = {
+            mechineId: '{{$machineId}}',
+        };
+        url = "{{route('hand_setting.edit',':id')}}";
+        url = url.replace(':id', id);
+        $.ajax({
+            type: 'GET',
+            url: url,
+            data: value,
+            success: function(result) {
+                $('#myModalLgHeading').html('Edit Setting');
+                $('#modalBodyLarge').html(result);
+                $('#myModalLg').modal('show');
+            }
+        });
+    }
+</script>
 @endsection

@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\HandSetting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+
 
 class HandSettingController extends Controller
 {
@@ -25,7 +28,14 @@ class HandSettingController extends Controller
      */
     public function create()
     {
-        //
+        $userId = Auth::user()->id;
+        $mechineId = $_REQUEST['mechineId'];
+        // DB::enableQueryLog();
+        $handLov = DB::select(DB::raw("SELECT * FROM hands 
+        WHERE `deleted_at` IS NULL AND `machine_id`='$mechineId' AND `user_id`='$userId' "));
+
+        // Log::info('Showing the user profile for user: ' . $handLov);
+        return view('machine/setting_create', compact('handLov', 'mechineId'));
     }
 
     /**
@@ -79,7 +89,12 @@ class HandSettingController extends Controller
      */
     public function edit(HandSetting $handSetting)
     {
-        //
+        $userId = Auth::user()->id;
+        $mechineId = $_REQUEST['mechineId'];
+        $handLov = DB::select(DB::raw("SELECT * FROM hands 
+        WHERE `deleted_at` IS NULL AND `machine_id`='$mechineId' AND `user_id`='$userId' "));
+
+        return view('machine.setting_edit',  compact('handLov', 'handSetting'));
     }
 
     /**

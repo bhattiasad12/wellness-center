@@ -7,6 +7,7 @@ use App\Models\Hand;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class MachineController extends Controller
 {
@@ -28,6 +29,7 @@ class MachineController extends Controller
      */
     public function create()
     {
+
         return view('machine.create');
     }
 
@@ -80,18 +82,17 @@ class MachineController extends Controller
      */
     public function edit(Machine $machine)
     {
-        return view('machine.edit', $machine);
-    }
 
+        return view('machine.edit',  ['machine' => $machine]);
+    }
     /**
-     * Update the specified resource in storage.
-     *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\Machine  $machine
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, int $id)
     {
+
         $request->validate([
             'machine' => ['required'],
         ]);
