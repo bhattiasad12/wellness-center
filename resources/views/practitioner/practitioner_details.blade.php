@@ -1,6 +1,7 @@
 @extends('layouts.main')
 
 @section('content')
+
 <!--begin::Content-->
 <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
     <!--begin::Post-->
@@ -19,7 +20,7 @@
                                 <div class="d-flex flex-column">
                                     <!--begin::Name-->
                                     <div class="d-flex align-items-center mb-2">
-                                        <a href="#" class="text-gray-900 text-hover-primary fs-2 fw-bolder me-1">Practitioner: <span>Idrees Bhai</span></a>
+                                        <a href="#" class="text-gray-900 text-hover-primary fs-2 fw-bolder me-1">Practitioner: <span>{{ucwords($data[0]->first_name) }}</span></a>
                                         <a href="#">
                                             <!--begin::Svg Icon | path: icons/duotune/general/gen026.svg-->
                                             <span class="svg-icon svg-icon-1 svg-icon-primary">
@@ -68,7 +69,7 @@
                         <!--end::Label-->
                         <!--begin::Col-->
                         <div class="col-lg-8">
-                            <span class="fw-bolder fs-6 text-gray-800">Idrees Bhai</span>
+                            <span class="fw-bolder fs-6 text-gray-800">{{ucwords($data[0]->first_name) }} - {{ucwords($data[0]->last_name) }}</span>
                         </div>
                         <!--end::Col-->
                     </div>
@@ -80,7 +81,7 @@
                         <!--end::Label-->
                         <!--begin::Col-->
                         <div class="col-lg-8 fv-row">
-                            <span class="fw-bold text-gray-800 fs-6">abc@gmail.com</span>
+                            <span class="fw-bold text-gray-800 fs-6">{{$data[0]->email }}</span>
                         </div>
                         <!--end::Col-->
                     </div>
@@ -92,7 +93,7 @@
                         <!--end::Label-->
                         <!--begin::Col-->
                         <div class="col-lg-8 fv-row">
-                            <span class="fw-bold text-gray-800 fs-6">03343394556</span>
+                            <span class="fw-bold text-gray-800 fs-6">{{$data[0]->phone_number }}</span>
                         </div>
                         <!--end::Col-->
                     </div>
@@ -100,54 +101,29 @@
                     <a class="text-gray-900 text-hover-primary fs-2 fw-bolder me-1">Weekdays</a>
                     <div class="separator separator-dashed my-10 mt-2"></div>
                     <!--begin::Input group-->
-                    <div class="row mb-7">
+                    @for($i=0;$i < count($data); $i++) <div class="row mb-7">
                         <!--begin::Label-->
-                        <label class="col-lg-4 fw-bold text-muted">Monday</label>
+                        <label class="col-lg-4 fw-bold text-muted">{{ucwords($data[$i]->day)}}</label>
                         <!--end::Label-->
                         <!--begin::Col-->
                         <div class="col-lg-3 fv-row">
-                            <span class="fw-bold text-gray-800 fs-6">8:00 AM</span>
+                            <span class="fw-bold text-gray-800 fs-6">{{ucwords($data[$i]->start_time)}}</span>
                         </div>
                         <div class="col-lg-3 fv-row">
-                            <span class="fw-bold text-gray-800 fs-6">6:00 PM</span>
+                            <span class="fw-bold text-gray-800 fs-6">{{ucwords($data[$i]->end_time)}}</span>
                         </div>
                         <!--end::Col-->
-                    </div>
-                    <div class="row mb-7">
-                        <!--begin::Label-->
-                        <label class="col-lg-4 fw-bold text-muted">Tuesday</label>
-                        <!--end::Label-->
-                        <!--begin::Col-->
-                        <div class="col-lg-3 fv-row">
-                            <span class="fw-bold text-gray-800 fs-6">8:00 AM</span>
-                        </div>
-                        <div class="col-lg-3 fv-row">
-                            <span class="fw-bold text-gray-800 fs-6">6:00 PM</span>
-                        </div>
-                        <!--end::Col-->
-                    </div>
-                    <div class="row mb-7">
-                        <!--begin::Label-->
-                        <label class="col-lg-4 fw-bold text-muted">Wednesday</label>
-                        <!--end::Label-->
-                        <!--begin::Col-->
-                        <div class="col-lg-3 fv-row">
-                            <span class="fw-bold text-gray-800 fs-6">8:00 AM</span>
-                        </div>
-                        <div class="col-lg-3 fv-row">
-                            <span class="fw-bold text-gray-800 fs-6">6:00 PM</span>
-                        </div>
-                        <!--end::Col-->
-                    </div>
-                    <!--end::Input group-->
                 </div>
-                <!--end::Card body-->
+                @endfor
+                <!--end::Input group-->
             </div>
-            <!--end::details View-->
+            <!--end::Card body-->
         </div>
-        <!--end::Container-->
+        <!--end::details View-->
     </div>
-    <!--end::Post-->
+    <!--end::Container-->
+</div>
+<!--end::Post-->
 </div>
 <!--end::Content-->
 

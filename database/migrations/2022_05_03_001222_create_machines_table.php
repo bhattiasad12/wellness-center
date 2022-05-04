@@ -15,7 +15,12 @@ class CreateMachinesTable extends Migration
     {
         Schema::create('machines', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('user_id');
+            $table->string('name');
+            $table->string('created_by')->nullable();
+            $table->string('updated_by')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

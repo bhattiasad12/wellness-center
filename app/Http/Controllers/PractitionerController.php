@@ -18,9 +18,9 @@ class PractitionerController extends Controller
      */
     public function index()
     {
-        $practitioner = Practitioner::get();
+        $practitioner = Practitioner::where('user_id', Auth::user()->id)->get();
         $days = PractitionerDay::get();
-        return view('practitioner/practitioner', ['days' => $days]);
+        return view('practitioner/practitioner', compact('days', 'practitioner'));
     }
 
     /**
@@ -45,11 +45,11 @@ class PractitionerController extends Controller
         $request->validate([
             'first_name' => ['required'],
             'last_name' => ['required'],
-            'email' => ['required'],
+            'email' => ['required', 'email'],
             'phone_number' => ['required'],
-            'days' => ['required'],
-            'check_in' => ['required'],
-            'check_out' => ['required'],
+            'days.*' => ['required'],
+            'check_in.*' => ['required'],
+            'check_out.*' => ['required'],
         ]);
         // DB::enableQueryLog();
         $data = Practitioner::create([
@@ -81,10 +81,13 @@ class PractitionerController extends Controller
      * @param  \App\Models\Practitioner  $practitioner
      * @return \Illuminate\Http\Response
      */
-    public function show(Practitioner $practitioner)
+    public function show(int $id)
     {
-        $data = array();
-        return view('practitioner/practitioner_details', $data);
+        $userId = Auth::user()->id;
+        $data = DB::select(DB::raw("SELECT * FROM `practitioners` p INNER JOIN `practitioners_time`pt ON p.`id`=pt.`practitioner_id`
+        INNER JOIN `practitioners_days`pd ON pd.`id`=pt.`practitioner_day_id` WHERE p.`deleted_at` IS NULL
+        AND p.`id`='$id' AND p.`user_id`='$userId' ORDER BY pd.`day` ASC "));
+        return view('practitioner/practitioner_details', compact('data'));
     }
 
     /**
@@ -116,8 +119,10 @@ class PractitionerController extends Controller
      * @param  \App\Models\Practitioner  $practitioner
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Practitioner $practitioner)
+    public function destroy(int $id)
     {
-        //
+        $data = Practitioner::find($id);
+        $data->delete();
+        return redirect()->route('practitioner.index');
     }
 }

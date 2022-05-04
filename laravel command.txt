@@ -1,0 +1,2 @@
+run only one migration 
+php artisan migrate --path=/database/migrations/2022_05_03_001222_create_machines_table.php

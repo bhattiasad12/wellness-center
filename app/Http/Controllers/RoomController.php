@@ -16,7 +16,7 @@ class RoomController extends Controller
      */
     public function index()
     {
-        $room = Room::get();
+        $room = Room::where('user_id', Auth::user()->id)->get();
         return view('room/room', compact('room'));
     }
 
@@ -96,9 +96,9 @@ class RoomController extends Controller
 
         $room->name = $request->room;
         $room->color = $request->color;
-        $room->user_id = '1';
+        $room->user_id = Auth::user()->id;
         $room->updated_at =  date("Y-m-d");
-        $room->updated_by =   '1';
+        $room->updated_by =   Auth::user()->id;
 
         $room->save();
         return redirect()->route('room.index');
