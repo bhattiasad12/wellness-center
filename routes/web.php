@@ -28,12 +28,12 @@ Route::get('/', function () {
 
 require __DIR__ . '/auth.php';
 
-Route::resource('appointment', AppointmentController::class);
-Route::resource('client', ClientController::class);
-Route::resource('machine', MachineController::class);
-Route::resource('service', ServiceController::class);
-Route::resource('room', RoomController::class);
-Route::resource('practitioner', PractitionerController::class);
+Route::resource('appointment', AppointmentController::class)->middleware(['auth']);
+Route::resource('client', ClientController::class)->middleware(['auth']);
+Route::resource('machine', MachineController::class)->middleware(['auth']);
+Route::resource('service', ServiceController::class)->middleware(['auth']);
+Route::resource('room', RoomController::class)->middleware(['auth']);
+Route::resource('practitioner', PractitionerController::class)->middleware(['auth']);
 
 // ->middleware(['auth'])
 require __DIR__ . '/auth.php';
@@ -41,6 +41,6 @@ require __DIR__ . '/auth.php';
 // Route::get('/photos/popular', [SettingsController::class, 'upload']);
 // Route::post('/settings/{email}/updateEmail', 'SettingsController@updateEmail');
 
-Route::post('/settings/{id}/updateEmail', [App\Http\Controllers\SettingsController::class, 'updateEmail'])->name('updateEmail');
-Route::post('/settings/{id}/updatePassword', [App\Http\Controllers\SettingsController::class, 'updatePassword'])->name('updatePassword');
-Route::resource('settings', App\Http\Controllers\SettingsController::class);
+Route::post('/settings/{id}/updateEmail', [App\Http\Controllers\SettingsController::class, 'updateEmail'])->name('updateEmail')->middleware(['auth']);
+Route::post('/settings/{id}/updatePassword', [App\Http\Controllers\SettingsController::class, 'updatePassword'])->name('updatePassword')->middleware(['auth']);
+Route::resource('settings', App\Http\Controllers\SettingsController::class)->middleware(['auth']);

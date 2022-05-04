@@ -14,7 +14,7 @@ class ClientController extends Controller
      */
     public function index()
     {
-        return view('client/client');
+        return view('client.index');
     }
 
     /**
@@ -24,7 +24,7 @@ class ClientController extends Controller
      */
     public function create()
     {
-        //
+        return view('client.create');
     }
 
     /**
@@ -46,8 +46,7 @@ class ClientController extends Controller
      */
     public function show(Client $client)
     {
-        $data = array();
-        return view('client/client_details', $data);
+        return view('client.show',  $client);
     }
 
     /**
@@ -58,7 +57,7 @@ class ClientController extends Controller
      */
     public function edit(Client $client)
     {
-        //
+        return view('client.edit',  $client);
     }
 
     /**

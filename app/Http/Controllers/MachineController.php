@@ -17,7 +17,7 @@ class MachineController extends Controller
     public function index()
     {
         $machine = Machine::where('user_id', Auth::user()->id)->get();
-        return view('machine/machine', compact('machine'));
+        return view('machine.index', compact('machine'));
     }
 
     /**
@@ -27,7 +27,7 @@ class MachineController extends Controller
      */
     public function create()
     {
-        //
+        return view('machine.create');
     }
 
     /**
@@ -60,8 +60,7 @@ class MachineController extends Controller
      */
     public function show(Machine $machine)
     {
-        $data = array();
-        return view('machine/machine_details', $data);
+        return view('machine.show', $machine);
     }
 
     /**
@@ -72,7 +71,7 @@ class MachineController extends Controller
      */
     public function edit(Machine $machine)
     {
-        //
+        return view('machine.edit', $machine);
     }
 
     /**

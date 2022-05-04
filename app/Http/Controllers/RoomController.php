@@ -9,82 +9,53 @@ use Illuminate\Support\Facades\Log;
 
 class RoomController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
         $room = Room::where('user_id', Auth::user()->id)->get();
-        return view('room/room', compact('room'));
+        return view('room.index', compact('room'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function create()
     {
-        //
+        return view('room.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+
     public function store(Request $request)
     {
 
-        $request->validate([
+        $validatedData = $request->validate([
             'room' => ['required'],
             'color' => ['required'],
         ]);
 
-        $user = Room::create([
+        Room::create([
             'name' => $request->room,
             'color' => $request->color,
             'user_id' => Auth::user()->id,
             'created_at' => date("Y-m-d"),
             'created_by' => Auth::user()->id,
         ]);
+
         //Log::info('Showing the user profile for user: ' . $user);
 
         return redirect()->route('room.index');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Room  $room
-     * @return \Illuminate\Http\Response
-     */
+
     public function show(Room $room)
     {
-        //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Room  $room
-     * @return \Illuminate\Http\Response
-     */
+
     public function edit(Room $room)
     {
-        //
+        return view('room.edit', ['room' => $room]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Room  $room
-     * @return \Illuminate\Http\Response
-     */
+
     public function update(Request $request, int $id)
     {
         $request->validate([
@@ -106,12 +77,7 @@ class RoomController extends Controller
 
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Room  $room
-     * @return \Illuminate\Http\Response
-     */
+
     public function destroy(Room $room)
     {
         //

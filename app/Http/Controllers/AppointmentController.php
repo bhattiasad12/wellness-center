@@ -14,7 +14,7 @@ class AppointmentController extends Controller
      */
     public function index()
     {
-        return view('appointment/appointment');
+        return view('appointment.index');
     }
 
     /**
@@ -24,7 +24,7 @@ class AppointmentController extends Controller
      */
     public function create()
     {
-        //
+        return view('appointment.create');
     }
 
     /**
@@ -46,8 +46,7 @@ class AppointmentController extends Controller
      */
     public function show(appointment $appointment)
     {
-        $data = array();
-        return view('appointment/appointment_details', $data);
+        return view('appointment.show', $appointment);
     }
 
     /**
@@ -58,7 +57,7 @@ class AppointmentController extends Controller
      */
     public function edit(appointment $appointment)
     {
-        //
+        return view('appointment.edit', $appointment);
     }
 
     /**

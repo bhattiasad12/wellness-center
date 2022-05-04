@@ -98,8 +98,7 @@
                                     <!--begin::Toolbar-->
                                     <div class="d-flex justify-content-end" data-kt-user-table-toolbar="base">
                                         <!--begin::Add Service-->
-                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                            data-bs-target="#kt_modal_add_service">
+                                        <button type="button" class="btn btn-primary" onclick="addService()">
                                             <!--begin::Svg Icon | path: icons/duotune/arrows/arr075.svg-->
                                             <span class="svg-icon svg-icon-2">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -151,7 +150,7 @@
                                                 <td>15 min</td>
                                                 <td>$299</td>
                                                 <td>
-                                                    <a href="#kt_modal_edit_service"
+                                                    <button
                                                         class="btn btn-icon btn-sm btn-color-gray-400 btn-active-icon-primary me-2"
                                                         data-bs-toggle="modal" data-bs-original-title="Edit Service">
                                                         <!--begin::Svg Icon | path: icons/duotune/art/art005.svg-->
@@ -167,8 +166,8 @@
                                                             </svg>
                                                         </span>
                                                         <!--end::Svg Icon-->
-                                                    </a>
-                                                    <a href=""
+                                                    </button>
+                                                    <button
                                                         class="btn btn-icon btn-sm btn-color-gray-400 btn-active-icon-danger me-2"
                                                         data-bs-toggle="tooltip" data-bs-original-title="Delete Service">
                                                         <!--begin::Svg Icon | path: icons/duotune/general/gen027.svg-->
@@ -187,7 +186,7 @@
                                                             </svg>
                                                         </span>
                                                         <!--end::Svg Icon-->
-                                                    </a>
+                                                    </button>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -202,7 +201,7 @@
                                                 <td>30 min</td>
                                                 <td>$299</td>
                                                 <td>
-                                                    <a href="#kt_modal_edit_service"
+                                                    <button
                                                         class="btn btn-icon btn-sm btn-color-gray-400 btn-active-icon-primary me-2"
                                                         data-bs-toggle="modal" data-bs-original-title="Edit Service">
                                                         <!--begin::Svg Icon | path: icons/duotune/art/art005.svg-->
@@ -218,11 +217,9 @@
                                                             </svg>
                                                         </span>
                                                         <!--end::Svg Icon-->
-                                                    </a>
-                                                    <a href=""
-                                                        class="btn btn-icon btn-sm btn-color-gray-400 btn-active-icon-danger me-2"
-                                                        data-bs-toggle="tooltip" data-bs-original-title="Delete Service">
-                                                        <!--begin::Svg Icon | path: icons/duotune/general/gen027.svg-->
+                                                    </button>
+                                                    <button
+                                                        class="btn btn-icon btn-sm btn-color-gray-400 btn-active-icon-danger me-2">
                                                         <span class="svg-icon svg-icon-2">
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                                                 viewBox="0 0 24 24" fill="none">
@@ -238,7 +235,7 @@
                                                             </svg>
                                                         </span>
                                                         <!--end::Svg Icon-->
-                                                    </a>
+                                                    </button>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -258,232 +255,29 @@
     </div>
     <!--end::Content-->
 
-    <!--begin::Modal - Add Service-->
-    <div class="modal fade" id="kt_modal_add_service" tabindex="-1" aria-hidden="true">
-        <!--begin::Modal dialog-->
-        <div class="modal-dialog modal-dialog-centered modal-lg">
-            <!--begin::Modal content-->
-            <div class="modal-content">
-                <!--begin::Modal header-->
-                <div class="modal-header" id="kt_modal_add_user_header">
-                    <!--begin::Modal title-->
-                    <h2 class="fw-bolder">Add Service</h2>
-                    <!--end::Modal title-->
-                    <!--begin::Close-->
-                    <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal"
-                        aria-label="Close">
-                        <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
-                        <span class="svg-icon svg-icon-2x">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                                <rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1"
-                                    transform="rotate(-45 6 17.3137)" fill="black"></rect>
-                                <rect x="7.41422" y="6" width="16" height="2" rx="1" transform="rotate(45 7.41422 6)"
-                                    fill="black"></rect>
-                            </svg>
-                        </span>
-                        <!--end::Svg Icon-->
-                    </div>
-                    <!--end::Close-->
-                </div>
-                <!--end::Modal header-->
-                <!--begin::Modal body-->
-                <div class="modal-body scroll-y mx-10 my-7">
-                    <!--begin::Form-->
-                    <form id="" class="form" action="#">
-                        <!--begin::Scroll-->
-                        <div class="d-flex flex-column scroll-y me-n7 pe-7" id="" data-kt-scroll="true"
-                            data-kt-scroll-activate="{default: false, lg: true}" data-kt-scroll-max-height="auto"
-                            data-kt-scroll-dependencies="#kt_modal_add_user_header"
-                            data-kt-scroll-wrappers="#kt_modal_add_user_scroll" data-kt-scroll-offset="300px">
-                            <div class="fv-row mb-7">
-                                <label for="" class="required fw-bold fs-6 mb-2">Machine</label>
-                                <select name="machine" class="form-control form-control-solid mb-3 mb-lg-0" id="">
-                                    <option value="">-- Select Machine --</option>
-                                    <option value="Machine A">Machine A</option>
-                                    <option value="Machine B">Machine B</option>
-                                    <option value="Machine C">Machine C</option>
-                                </select>
-                                <!-- <select class="form-select form-select-solid js-example-basic-single" data-placeholder="Select an option">
-                                            <option></option>
-                                            <option value="1">Option 1</option>
-                                            <option value="2">Option 2</option>
-                                            <option value="3">Option 3</option>
-                                            <option value="4">Option 4</option>
-                                            <option value="5">Option 5</option>
-                                        </select> -->
-                            </div>
-                            <div class="fv-row mb-7">
-                                <label class="required fw-bold fs-6 mb-2">Hand</label>
-                                <input type="text" name="hand" class="form-control form-control-solid mb-3 mb-lg-0"
-                                    placeholder="Hand 2" />
-                            </div>
-                            <div class="fv-row mb-7">
-                                <label class="required fw-bold fs-6 mb-2">Service Name</label>
-                                <input type="text" min="0" name="service"
-                                    class="form-control form-control-solid mb-3 mb-lg-0" placeholder="Service 2" />
-                            </div>
-                            <div class="fv-row mb-7">
-                                <label class="required fw-bold fs-6 mb-2">Zone</label>
-                                <select name="zone" class="form-control form-control-solid mb-3 mb-lg-0" id="">
-                                    <option value="">-- Select Zone --</option>
-                                    <option value="Face">Face</option>
-                                    <option value="Leg">Leg</option>
-                                    <option value="Arm">Arm</option>
-                                </select>
-                            </div>
-                            <div class="fv-row mb-7">
-                                <label class="required fw-bold fs-6 mb-2">Sessions</label>
-                                <select name="sessions" class="form-control form-control-solid mb-3 mb-lg-0" id="">
-                                    <option value="">-- Select Sessions --</option>
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
-                                    <option value="5">5</option>
-                                    <option value="6">6</option>
-                                    <option value="7">7</option>
-                                    <option value="8">8</option>
-                                    <option value="9">9</option>
-                                    <option value="10">10</option>
-                                </select>
-                            </div>
-                            <div class="fv-row mb-7">
-                                <label class="required fw-bold fs-6 mb-2">Time Limit (min)</label>
-                                <input type="number" name="time_limit" class="form-control form-control-solid mb-3 mb-lg-0"
-                                    placeholder="20" />
-                            </div>
-                            <div class="fv-row mb-7">
-                                <label class="required fw-bold fs-6 mb-2">Price ($)</label>
-                                <input type="number" name="price" class="form-control form-control-solid mb-3 mb-lg-0"
-                                    placeholder="299" />
-                            </div>
+    <script type="text/javascript">
+        function addService() {
+            $.ajax({
+                type: 'GET',
+                url: "service/create",
+                success: function(result) {
+                    $('#myModalLgHeading').html('Add Service');
+                    $('#modalBodyLarge').html(result);
+                    $('#myModalLg').modal('show');
+                }
+            });
+        }
 
-                        </div>
-                        <!--end::Scroll-->
-                        <!--begin::Actions-->
-                        <div class="text-center pt-15">
-                            <button type="reset" class="btn btn-light me-3" data-bs-dismiss="modal"
-                                aria-label="Close">Discard</button>
-                            <button type="submit" class="btn btn-primary">Update</button>
-                        </div>
-                        <!--end::Actions-->
-                    </form>
-                    <!--end::Form-->
-                </div>
-                <!--end::Modal body-->
-            </div>
-            <!--end::Modal content-->
-        </div>
-        <!--end::Modal dialog-->
-    </div>
-    <!--end::Modal - Add Service-->
-
-    <!--begin::Modal - Edit Service-->
-    <div class="modal fade" id="kt_modal_edit_service" tabindex="-1" aria-hidden="true">
-        <!--begin::Modal dialog-->
-        <div class="modal-dialog modal-dialog-centered modal-lg">
-            <!--begin::Modal content-->
-            <div class="modal-content">
-                <!--begin::Modal header-->
-                <div class="modal-header" id="kt_modal_add_user_header">
-                    <!--begin::Modal title-->
-                    <h2 class="fw-bolder">Edit Service</h2>
-                    <!--end::Modal title-->
-                    <!--begin::Close-->
-                    <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal"
-                        aria-label="Close">
-                        <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
-                        <span class="svg-icon svg-icon-2x">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                                <rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1"
-                                    transform="rotate(-45 6 17.3137)" fill="black"></rect>
-                                <rect x="7.41422" y="6" width="16" height="2" rx="1" transform="rotate(45 7.41422 6)"
-                                    fill="black"></rect>
-                            </svg>
-                        </span>
-                        <!--end::Svg Icon-->
-                    </div>
-                    <!--end::Close-->
-                </div>
-                <!--end::Modal header-->
-                <!--begin::Modal body-->
-                <div class="modal-body scroll-y mx-10 my-7">
-                    <!--begin::Form-->
-                    <form id="" class="form" action="#">
-                        <!--begin::Scroll-->
-                        <div class="d-flex flex-column scroll-y me-n7 pe-7" id="" data-kt-scroll="true"
-                            data-kt-scroll-activate="{default: false, lg: true}" data-kt-scroll-max-height="auto"
-                            data-kt-scroll-dependencies="#kt_modal_add_user_header"
-                            data-kt-scroll-wrappers="#kt_modal_add_user_scroll" data-kt-scroll-offset="300px">
-                            <div class="fv-row mb-7">
-                                <label class="required fw-bold fs-6 mb-2">Machine</label>
-                                <select name="machine" class="form-control form-control-solid mb-3 mb-lg-0" id="">
-                                    <option value="Machine A">Machine A</option>
-                                    <option value="Machine B">Machine B</option>
-                                    <option value="Machine C">Machine C</option>
-                                </select>
-                            </div>
-                            <div class="fv-row mb-7">
-                                <label class="required fw-bold fs-6 mb-2">Hand</label>
-                                <input type="text" name="hand" class="form-control form-control-solid mb-3 mb-lg-0"
-                                    value="Hand 2" />
-                            </div>
-                            <div class="fv-row mb-7">
-                                <label class="required fw-bold fs-6 mb-2">Service Name</label>
-                                <input type="text" min="0" name="service"
-                                    class="form-control form-control-solid mb-3 mb-lg-0" value="Service 2" />
-                            </div>
-                            <div class="fv-row mb-7">
-                                <label class="required fw-bold fs-6 mb-2">Zone</label>
-                                <select name="zone" class="form-control form-control-solid mb-3 mb-lg-0" id="">
-                                    <option value="Face">Face</option>
-                                    <option value="Leg">Leg</option>
-                                    <option value="Arm">Arm</option>
-                                </select>
-                            </div>
-                            <div class="fv-row mb-7">
-                                <label class="required fw-bold fs-6 mb-2">Sessions</label>
-                                <select name="sessions" class="form-control form-control-solid mb-3 mb-lg-0" id="">
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
-                                    <option value="5">5</option>
-                                    <option value="6">6</option>
-                                    <option value="7">7</option>
-                                    <option value="8">8</option>
-                                    <option value="9">9</option>
-                                    <option value="10">10</option>
-                                </select>
-                            </div>
-                            <div class="fv-row mb-7">
-                                <label class="required fw-bold fs-6 mb-2">Time Limit (min)</label>
-                                <input type="number" name="time_limit" class="form-control form-control-solid mb-3 mb-lg-0"
-                                    value="20" />
-                            </div>
-                            <div class="fv-row mb-7">
-                                <label class="required fw-bold fs-6 mb-2">Price ($)</label>
-                                <input type="number" name="price" class="form-control form-control-solid mb-3 mb-lg-0"
-                                    value="299" />
-                            </div>
-
-                        </div>
-                        <!--end::Scroll-->
-                        <!--begin::Actions-->
-                        <div class="text-center pt-15">
-                            <button type="reset" class="btn btn-light me-3" data-bs-dismiss="modal"
-                                aria-label="Close">Discard</button>
-                            <button type="submit" class="btn btn-primary">Update</button>
-                        </div>
-                        <!--end::Actions-->
-                    </form>
-                    <!--end::Form-->
-                </div>
-                <!--end::Modal body-->
-            </div>
-            <!--end::Modal content-->
-        </div>
-        <!--end::Modal dialog-->
-    </div>
-    <!--end::Modal - Edit Service-->
+        function editService(id) {
+            $.ajax({
+                type: 'GET',
+                url: `service/` + id + `/edit `,
+                success: function(result) {
+                    $('#myModalLgHeading').html('Edit Service');
+                    $('#modalBodyLarge').html(result);
+                    $('#myModalLg').modal('show');
+                }
+            });
+        }
+    </script>
 @endsection
