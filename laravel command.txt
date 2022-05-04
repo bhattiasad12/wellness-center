@@ -1,2 +1,7 @@
 run only one migration 
-php artisan migrate --path=/database/migrations/2022_05_03_001222_create_machines_table.php
+
+php artisan migrate --path=/database/migrations/2022_04_13_220743_add_profile_picture_to_users_table.php
+
+resource controller,model,migration
+
+php artisan make:model Products -mcr

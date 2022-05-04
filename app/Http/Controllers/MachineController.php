@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Machine;
+use App\Models\Hand;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -58,9 +59,17 @@ class MachineController extends Controller
      * @param  \App\Models\Machine  $machine
      * @return \Illuminate\Http\Response
      */
-    public function show(Machine $machine)
+    public function show(int $id)
     {
-        return view('machine.show', $machine);
+        $machineId = $id;
+        $userId = Auth::user()->id;
+        $hand = DB::select(DB::raw("SELECT m.name AS machine_name ,h.name AS hand_name,h.`id` AS hand_id FROM machines m INNER JOIN hands h ON m.id=h.machine_id
+        WHERE h.`deleted_at` IS NULL AND h.`machine_id`='$machineId' AND h.`user_id`='$userId' "));
+
+        $handSetting = DB::select(DB::raw("SELECT *,h.name AS hand_name,hs.id AS hand_setting_id FROM hands h INNER JOIN hand_settings hs
+        ON h.id=hs.hand_id  WHERE h.`deleted_at` IS NULL AND h.`machine_id`='$machineId' AND h.`user_id`='$userId' AND hs.`deleted_at` IS NULL"));
+
+        return view('machine/machine_details', compact('hand', 'machineId', 'handSetting'));
     }
 
     /**

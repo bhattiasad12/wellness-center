@@ -7,6 +7,8 @@ use App\Http\Controllers\PractitionerController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\AppointmentController;
+use App\Http\Controllers\HandController;
+use App\Http\Controllers\HandSettingController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,12 +30,14 @@ Route::get('/', function () {
 
 require __DIR__ . '/auth.php';
 
-Route::resource('appointment', AppointmentController::class)->middleware(['auth']);
-Route::resource('client', ClientController::class)->middleware(['auth']);
-Route::resource('machine', MachineController::class)->middleware(['auth']);
-Route::resource('service', ServiceController::class)->middleware(['auth']);
-Route::resource('room', RoomController::class)->middleware(['auth']);
-Route::resource('practitioner', PractitionerController::class)->middleware(['auth']);
+Route::resource('appointment', AppointmentController::class)->middleware(['auth']);;
+Route::resource('client', ClientController::class)->middleware(['auth']);;
+Route::resource('machine', MachineController::class)->middleware(['auth']);;
+Route::resource('hand', HandController::class)->middleware(['auth']);;
+Route::resource('hand_setting', HandSettingController::class)->middleware(['auth']);;
+Route::resource('service', ServiceController::class)->middleware(['auth']);;
+Route::resource('room', RoomController::class)->middleware(['auth']);;
+Route::resource('practitioner', PractitionerController::class)->middleware(['auth']);;
 
 // ->middleware(['auth'])
 require __DIR__ . '/auth.php';
