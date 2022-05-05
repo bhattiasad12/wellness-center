@@ -33,16 +33,20 @@ Route::get('/', function () {
 require __DIR__ . '/auth.php';
 
 Route::resource('appointment', AppointmentController::class)->middleware(['auth']);
+/// client Controller
 Route::resource('client', ClientController::class)->middleware(['auth']);
 
 Route::Get('createDocumnet', [ClientController::class, 'createDocumnet'])->name('create_documnet');
 Route::POST('storeDocument', [ClientController::class, 'storeDocument'])->name('store_document');
-
+/// client Controller End
 Route::resource('client_note', ClientNoteController::class)->middleware(['auth']);
 Route::resource('machine', MachineController::class)->middleware(['auth']);
 Route::resource('hand', HandController::class)->middleware(['auth']);
 Route::resource('hand_setting', HandSettingController::class)->middleware(['auth']);
+/// service Controller
 Route::resource('service', ServiceController::class)->middleware(['auth']);
+Route::Get('getMachineHand', [ServiceController::class, 'getMachineHand'])->name('machine_hand');
+/// service Controller End
 Route::resource('room', RoomController::class)->middleware(['auth']);
 Route::resource('practitioner', PractitionerController::class)->middleware(['auth']);
 

@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Service;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use App\Models\Machine;
+use Illuminate\Support\Facades\Log;
 
 class ServiceController extends Controller
 {
@@ -14,7 +18,11 @@ class ServiceController extends Controller
      */
     public function index()
     {
-        return view('service/service_index');
+        $userId = Auth::user()->id;
+        $service = DB::select(DB::raw("SELECT s.id AS service_id,s.service_name, m.name AS machine_name,h.name AS hand_name, s.zone,s.session,s.time_limit,s.price FROM `services` s 
+        INNER JOIN `machines` m ON m.id=s.machine_id INNER JOIN `hands` h 
+        ON h.id=s.hand_id WHERE s.user_id='$userId' AND s.deleted_at IS NULL"));
+        return view('service/service_index', compact('service'));
     }
 
     /**
@@ -24,7 +32,11 @@ class ServiceController extends Controller
      */
     public function create()
     {
-        return view('service/service_create');
+        $userId = Auth::user()->id;
+        $zone = DB::select(DB::raw("SELECT * FROM zone "));
+        $machine = Machine::where('user_id', Auth::user()->id)->get();
+
+        return view('service/service_create', compact('zone', 'machine'));
     }
 
     /**
@@ -35,7 +47,32 @@ class ServiceController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'machine' => ['required', 'numeric'],
+            'hand' => ['required', 'numeric'],
+            'service_name' => ['required'],
+            'zone' => ['required'],
+            'session' => ['required'],
+            'time_limit' => ['required'],
+            'price' => ['required'],
+        ]);
+
+        Service::create([
+            'machine_id' => $request->machine,
+            'hand_id' => $request->hand,
+            'service_name' => $request->service_name,
+            'zone' => $request->zone,
+            'session' => $request->session,
+            'time_limit' => $request->time_limit,
+            'price' => $request->price,
+            'user_id' => Auth::user()->id,
+            'created_at' => date("Y-m-d h:i:s"),
+            'created_by' => Auth::user()->id,
+        ]);
+
+        //Log::info('Showing the user profile for user: ' . $user);
+
+        return redirect()->back();
     }
 
     /**
@@ -46,7 +83,12 @@ class ServiceController extends Controller
      */
     public function show(Service $service)
     {
-        return view('service/service_show', $service);
+        $serviceId = $service->id;
+        $userId = Auth::user()->id;
+        $service = DB::select(DB::raw("SELECT s.id AS service_id,s.service_name, m.name AS machine_name,h.name AS hand_name, s.zone,s.session,s.time_limit,s.price FROM `services` s 
+        INNER JOIN `machines` m ON m.id=s.machine_id INNER JOIN `hands` h 
+        ON h.id=s.hand_id WHERE s.user_id='$userId' AND s.deleted_at IS NULL AND s.id='$serviceId'"));
+        return view('service/service_show', compact('service'));
     }
 
     /**
@@ -57,7 +99,11 @@ class ServiceController extends Controller
      */
     public function edit(Service $service)
     {
-        return view('service/service_edit');
+        $userId = Auth::user()->id;
+        $zone = DB::select(DB::raw("SELECT * FROM zone "));
+        $machine = Machine::where('user_id', Auth::user()->id)->get();
+
+        return view('service/service_edit', compact('service', 'zone', 'machine'));
     }
 
     /**
@@ -67,9 +113,32 @@ class ServiceController extends Controller
      * @param  \App\Models\Service  $service
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Service $service)
+    public function update(Request $request, int $id)
     {
-        //
+        $validatedData = $request->validate([
+            'machine' => ['required', 'numeric'],
+            'hand' => ['required', 'numeric'],
+            'service_name' => ['required'],
+            'zone' => ['required'],
+            'session' => ['required'],
+            'time_limit' => ['required'],
+            'price' => ['required'],
+        ]);
+
+        $service = Service::find($id);
+
+        $service->machine_id = $request->machine;
+        $service->hand_id = $request->hand;
+        $service->service_name = $request->service_name;
+        $service->zone = $request->zone;
+        $service->session = $request->session;
+        $service->time_limit = $request->time_limit;
+        $service->price = $request->price;
+        $service->updated_at =  date("Y-m-d h:i:s");
+        $service->updated_by =   Auth::user()->id;
+
+        $service->save();
+        return redirect()->back();
     }
 
     /**
@@ -78,8 +147,18 @@ class ServiceController extends Controller
      * @param  \App\Models\Service  $service
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Service $service)
+    public function destroy(int $id)
     {
-        //
+        $data = Service::find($id);
+        $data->delete();
+        return redirect()->back();
+    }
+    public function getMachineHand()
+    {
+        $userId = Auth::user()->id;
+
+        $machineId = $_REQUEST['machineId'];
+
+        return DB::select(DB::raw("SELECT * FROM hands where machine_id='$machineId' AND user_id='$userId' "));
     }
 }
