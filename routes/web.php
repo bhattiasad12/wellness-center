@@ -9,6 +9,8 @@ use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\HandController;
 use App\Http\Controllers\HandSettingController;
+use App\Http\Controllers\ClientNoteController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -30,14 +32,19 @@ Route::get('/', function () {
 
 require __DIR__ . '/auth.php';
 
-Route::resource('appointment', AppointmentController::class)->middleware(['auth']);;
-Route::resource('client', ClientController::class)->middleware(['auth']);;
-Route::resource('machine', MachineController::class)->middleware(['auth']);;
-Route::resource('hand', HandController::class)->middleware(['auth']);;
-Route::resource('hand_setting', HandSettingController::class)->middleware(['auth']);;
-Route::resource('service', ServiceController::class)->middleware(['auth']);;
-Route::resource('room', RoomController::class)->middleware(['auth']);;
-Route::resource('practitioner', PractitionerController::class)->middleware(['auth']);;
+Route::resource('appointment', AppointmentController::class)->middleware(['auth']);
+Route::resource('client', ClientController::class)->middleware(['auth']);
+
+Route::Get('createDocumnet', [ClientController::class, 'createDocumnet'])->name('create_documnet');
+Route::POST('storeDocument', [ClientController::class, 'storeDocument'])->name('store_document');
+
+Route::resource('client_note', ClientNoteController::class)->middleware(['auth']);
+Route::resource('machine', MachineController::class)->middleware(['auth']);
+Route::resource('hand', HandController::class)->middleware(['auth']);
+Route::resource('hand_setting', HandSettingController::class)->middleware(['auth']);
+Route::resource('service', ServiceController::class)->middleware(['auth']);
+Route::resource('room', RoomController::class)->middleware(['auth']);
+Route::resource('practitioner', PractitionerController::class)->middleware(['auth']);
 
 // ->middleware(['auth'])
 require __DIR__ . '/auth.php';

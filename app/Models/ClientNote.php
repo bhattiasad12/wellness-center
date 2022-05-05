@@ -6,21 +6,15 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Client extends Model
+class ClientNote extends Model
 {
     use HasFactory, SoftDeletes;
     protected $fillable = [
-        'profile_pic',
-        'first_name',
-        'last_name',
-        'email',
-        'phone_number',
-        'age',
-        'source',
-        'neighborhood',
-        'city',
-        'zip_code',
+        'client_id',
+        'note',
         'user_id',
+        'user_name',
+        'status',
         'created_at',
         'created_by',
         'updated_at',
