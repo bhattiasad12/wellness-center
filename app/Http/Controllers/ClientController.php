@@ -109,7 +109,8 @@ class ClientController extends Controller
         $clientId = $client->id;
         // DB::enableQueryLog();
         $clientNote = DB::select(DB::raw("SELECT * FROM client_notes WHERE client_id='$clientId' AND user_id='$userId'"));
-        return view('client/client_show',  compact('client', 'clientNote'));
+        $clientDoc = DB::select(DB::raw("SELECT * FROM client_document WHERE client_id='$clientId' AND user_id='$userId'"));
+        return view('client/client_show',  compact('client', 'clientNote', 'clientDoc'));
     }
 
     /**
@@ -236,7 +237,7 @@ class ClientController extends Controller
                 'file_name' => $file->getClientOriginalName(),
                 'size' => $size,
                 'path' => $path,
-                'created_at' => date("Y-m-d"),
+                'created_at' => date("Y-m-d h:i:s"),
                 'created_by' => Auth::user()->id,
             ]);
             return redirect()->back();

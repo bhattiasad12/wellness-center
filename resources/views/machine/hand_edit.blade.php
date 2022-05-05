@@ -8,7 +8,7 @@
         <div class="row mb-7">
             <div class="col">
                 <label class="required fw-bold fs-6 mb-2">Hand Name</label>
-                <input type="text" class="form-control form-control-solid mb-3 mb-lg-0" name="hand" value="{{$hand->name}}" placeholder="Please Enter your Hand Name here.">
+                <input type="text" class="form-control form-control-solid mb-3 mb-lg-0" name="hand" value="{{$hand->name}}" placeholder="Please Enter your Hand Name here." required />
             </div>
         </div>
     </div>

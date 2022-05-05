@@ -6,27 +6,27 @@
         <div class="row mb-7">
             <div class="col-lg-6">
                 <label class="required fw-bold fs-6 mb-2">Practitioner First Name</label>
-                <input type="text" name="first_name" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="Please Enter the Practitioner First Name" />
+                <input type="text" name="first_name" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="Please Enter the Practitioner First Name" required />
             </div>
             <div class="col-lg-6">
                 <label class="required fw-bold fs-6 mb-2">Practitioner Last Name</label>
-                <input type="text" name="last_name" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="Please Enter the Practitioner Last Name" />
+                <input type="text" name="last_name" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="Please Enter the Practitioner Last Name" required />
             </div>
         </div>
         <div class="row mb-7">
             <div class="col-lg-6">
                 <label class="required fw-bold fs-6 mb-2">Email</label>
-                <input type="email" name="email" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="Please Enter the Email" />
+                <input type="email" name="email" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="Please Enter the Email" required />
             </div>
             <div class="col-lg-6">
                 <label class="required fw-bold fs-6 mb-2">Phone Number</label>
-                <input type="number" name="phone_number" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="Please Enter the Practitioner Phone Number" />
+                <input type="number" name="phone_number" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="Please Enter the Practitioner Phone Number" required />
             </div>
         </div>
         <div class="row mb-7" id='details'>
             <div class="col-lg-3">
                 <label class="required fw-bold fs-6 mb-2">Week Day</label>
-                <select name="days[]" class="form-control form-control-solid mb-3 mb-lg-0">
+                <select name="days[]" class="form-control form-control-solid mb-3 mb-lg-0" required>
                     <option>-- Select Week Day --</option>
                     @for ($i = 0; $i< count($days); $i++) <option value=" {{$days[$i]->id}} "> {{ucwords($days[$i]->day)}} </option>
                         @endfor
@@ -34,11 +34,11 @@
             </div>
             <div class="col-lg-3">
                 <label class="required fw-bold fs-6 mb-2">Start Time(Check-In)</label>
-                <input class="form-control form-control-solid kt_datepicker_8" name="check_in[]" value="" />
+                <input class="form-control form-control-solid kt_datepicker_8" name="check_in[]" value="" required />
             </div>
             <div class="col-lg-3">
                 <label class="required fw-bold fs-6 mb-2">Start Time(Check-Out)</label>
-                <input class="form-control form-control-solid kt_datepicker_8" name="check_out[]" value="" />
+                <input class="form-control form-control-solid kt_datepicker_8" name="check_out[]" value="" required />
             </div>
             <div class="col-lg-3" style="text-align: center;align-self: center;">
                 <button type="button" class="btn btn-icon btn-light-facebook me-5" onclick="addMore(this)">

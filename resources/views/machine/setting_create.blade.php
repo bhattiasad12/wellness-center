@@ -9,7 +9,7 @@
         <div class="row mb-7">
             <div class="col-lg-6">
                 <label class="required fw-bold fs-6 mb-2">Hand</label>
-                <select name="hand" class="form-control form-control-solid mb-3 mb-lg-0" value="{{old('hand')}}">
+                <select name="hand" class="form-control form-control-solid mb-3 mb-lg-0" value="{{old('hand')}}" required>
                     <option>-- Select Hand --</option>
                     @for ($i = 0; $i< count($handLov); $i++) <option value="{{$handLov[$i]->id}}">{{ucwords($handLov[$i]->name)}}</option>
                         @endfor
@@ -17,21 +17,21 @@
             </div>
             <div class="col-lg-6">
                 <label class="required fw-bold fs-6 mb-2">Setting Name</label>
-                <input type="text" class="form-control form-control-solid mb-3 mb-lg-0" value="{{old('setting_name')}}" name="setting_name" placeholder="Please Enter your Setting Name here.">
+                <input type="text" class="form-control form-control-solid mb-3 mb-lg-0" value="{{old('setting_name')}}" name="setting_name" placeholder="Please Enter your Setting Name here." required />
             </div>
         </div>
         <div class="row mb-7">
             <div class="col-lg-4">
                 <label class="required fw-bold fs-6 mb-2">Min</label>
-                <input type="text" class="form-control form-control-solid mb-3 mb-lg-0" value="{{old('min')}}" name="min" placeholder="Please Enter your Min here.">
+                <input type="text" class="form-control form-control-solid mb-3 mb-lg-0" value="{{old('min')}}" name="min" placeholder="Please Enter your Min here." required />
             </div>
             <div class="col-lg-4">
                 <label class="required fw-bold fs-6 mb-2">Max</label>
-                <input type="text" class="form-control form-control-solid mb-3 mb-lg-0" value="{{old('max')}}" name="max" placeholder="Please Enter your Max here.">
+                <input type="text" class="form-control form-control-solid mb-3 mb-lg-0" value="{{old('max')}}" name="max" placeholder="Please Enter your Max here." required />
             </div>
             <div class="col-lg-4">
                 <label class="required fw-bold fs-6 mb-2">Start</label>
-                <input type="text" class="form-control form-control-solid mb-3 mb-lg-0" value="{{old('start')}}" name="start" placeholder="Please Enter your Start here.">
+                <input type="text" class="form-control form-control-solid mb-3 mb-lg-0" value="{{old('start')}}" name="start" placeholder="Please Enter your Start here." required />
             </div>
         </div>
     </div>
