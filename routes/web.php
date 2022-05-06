@@ -58,4 +58,5 @@ require __DIR__ . '/auth.php';
 
 Route::post('/settings/{id}/updateEmail', [App\Http\Controllers\SettingsController::class, 'updateEmail'])->name('updateEmail')->middleware(['auth']);
 Route::post('/settings/{id}/updatePassword', [App\Http\Controllers\SettingsController::class, 'updatePassword'])->name('updatePassword')->middleware(['auth']);
-Route::resource('settings', App\Http\Controllers\SettingsController::class)->middleware(['auth']);
+
+require __DIR__ . '/auth.php';

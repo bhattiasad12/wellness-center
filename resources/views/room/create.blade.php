@@ -19,6 +19,7 @@
 <script>
     jQuery(document).ready(function() {
         jQuery('#ajaxSubmit').click(function(e) {
+            $("#ajaxSubmit").prop("disabled", true);
             e.preventDefault();
             jQuery.ajax({
                 url: $("#createRoomForm").attr('action'),
@@ -33,6 +34,7 @@
                 },
                 error: function(response) {
                     let err = response.responseJSON.errors;
+                    $("#ajaxSubmit").prop("disabled", false);
                     $('.alert-danger').html('');
                     $.each(err, function(key, value) {
                         $('.alert-danger').show();

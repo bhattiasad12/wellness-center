@@ -20,7 +20,7 @@ class PractitionerController extends Controller
     {
         $practitioner = Practitioner::where('user_id', Auth::user()->id)->get();
 
-        return view('practitioner/practitioner_index', compact('practitioner'));
+        return view('practitioner.index', compact('practitioner'));
     }
 
     /**
@@ -31,7 +31,7 @@ class PractitionerController extends Controller
     public function create()
     {
         $days = PractitionerDay::get();
-        return view('practitioner/practitioner_create', compact('days'));
+        return view('practitioner.create', compact('days'));
     }
 
     /**
@@ -88,7 +88,7 @@ class PractitionerController extends Controller
         $data = DB::select(DB::raw("SELECT * FROM `practitioners` p INNER JOIN `practitioners_time`pt ON p.`id`=pt.`practitioner_id`
         INNER JOIN `practitioners_days`pd ON pd.`id`=pt.`practitioner_day_id` WHERE p.`deleted_at` IS NULL
         AND p.`id`='$id' AND p.`user_id`='$userId' ORDER BY pd.`day` ASC "));
-        return view('practitioner/practitioner_details', compact('data'));
+        return view('practitioner.show', compact('data'));
     }
 
     /**
@@ -106,7 +106,7 @@ class PractitionerController extends Controller
         INNER JOIN `practitioners_days`pd ON pd.`id`=pt.`practitioner_day_id` WHERE p.`deleted_at` IS NULL
         AND p.`id`='$id' AND p.`user_id`='$userId' ORDER BY pd.`day` ASC "));
 
-        return view('practitioner/practitioner_edit',  compact('days', 'practitioner', 'id'));
+        return view('practitioner.edit',  compact('days', 'practitioner', 'id'));
     }
 
     /**
@@ -118,7 +118,6 @@ class PractitionerController extends Controller
      */
     public function update(Request $request, Practitioner $practitioner)
     {
-        //
     }
 
     /**

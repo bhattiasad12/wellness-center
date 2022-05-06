@@ -185,7 +185,6 @@
                 function editRoom(id) {
                     $.ajax({
                         type: 'GET',
-                        // url: `{{ route('room.create', ['id' => `+ id +`]) }}`,
                         url: `room/` + id + `/edit `,
                         success: function(result) {
                             $('#myModalLgHeading').html('Edit Room');

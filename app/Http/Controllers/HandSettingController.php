@@ -35,7 +35,7 @@ class HandSettingController extends Controller
         WHERE `deleted_at` IS NULL AND `machine_id`='$mechineId' AND `user_id`='$userId' "));
 
         // Log::info('Showing the user profile for user: ' . $handLov);
-        return view('machine/setting_create', compact('handLov', 'mechineId'));
+        return view('machine.setting.create', compact('handLov', 'mechineId'));
     }
 
     /**
@@ -94,7 +94,7 @@ class HandSettingController extends Controller
         $handLov = DB::select(DB::raw("SELECT * FROM hands 
         WHERE `deleted_at` IS NULL AND `machine_id`='$mechineId' AND `user_id`='$userId' "));
 
-        return view('machine.setting_edit',  compact('handLov', 'handSetting'));
+        return view('machine.setting.edit',  compact('handLov', 'handSetting'));
     }
 
     /**

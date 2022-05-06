@@ -25,11 +25,12 @@ class HandController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
+
         $mechineId = $_REQUEST['mechineId'];
 
-        return view('machine/hand_create', compact('mechineId'));
+        return view('machine.hand.create', compact('mechineId'));
     }
 
     /**
@@ -75,7 +76,7 @@ class HandController extends Controller
      */
     public function edit(Hand $hand)
     {
-        return view('machine/hand_edit', compact('hand'));
+        return view('machine.hand.edit', compact('hand'));
     }
 
     /**
