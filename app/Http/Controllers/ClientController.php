@@ -18,7 +18,7 @@ class ClientController extends Controller
     public function index()
     {
         $client = Client::where('user_id', Auth::user()->id)->get();
-        return view('client/client_index', compact('client'));
+        return view('client.index', compact('client'));
     }
 
     /**
@@ -28,7 +28,7 @@ class ClientController extends Controller
      */
     public function create()
     {
-        return view('client/client_create');
+        return view('client.create');
     }
 
     /**
@@ -110,7 +110,7 @@ class ClientController extends Controller
         // DB::enableQueryLog();
         $clientNote = DB::select(DB::raw("SELECT * FROM client_notes WHERE client_id='$clientId' AND user_id='$userId'"));
         $clientDoc = DB::select(DB::raw("SELECT * FROM client_document WHERE client_id='$clientId' AND user_id='$userId'"));
-        return view('client/client_show',  compact('client', 'clientNote', 'clientDoc'));
+        return view('client.show',  compact('client', 'clientNote', 'clientDoc'));
     }
 
     /**
@@ -121,7 +121,7 @@ class ClientController extends Controller
      */
     public function edit(Client $client)
     {
-        return view('client/client_edit',  compact('client'));
+        return view('client.edit',  compact('client'));
     }
 
     /**
@@ -210,7 +210,7 @@ class ClientController extends Controller
     public function createDocumnet()
     {
         $clientId = $_REQUEST['clientId'];
-        return view('client/document_create', compact('clientId'));
+        return view('client.document_create', compact('clientId'));
     }
 
     public function storeDocument(request $request)

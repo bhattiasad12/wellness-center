@@ -1,17 +1,12 @@
 <x-auth-validation-errors class="mb-4" style="color:red" :errors="$errors" />
-<form id="" class="form" method="POST" action="{{route('store_document')}}" enctype="multipart/form-data">
+<form id="" class="form" method="POST" action="{{ route('store_document') }}" enctype="multipart/form-data">
     @csrf
-    <!--begin::Input group-->
-    <input type="hidden" name="client_id" value="{{$clientId}}" />
+    <input type="hidden" name="client_id" value="{{ $clientId }}" />
     <div class="form-group">
         <input type="file" id='fileinput' name="document" class="form-control" required>
-        <!--begin::Hint-->
         <span class="form-text fs-6 text-muted">Max file size is 5MB per
             file.</span>
-        <!--end::Hint-->
     </div>
-    <!--end::Input group-->
-    <!--begin::Actions-->
     <div class="text-center pt-15">
         <button type="reset" class="btn btn-light me-3" data-bs-dismiss="modal" aria-label="Close">Discard</button>
         <button type="submit" class="btn btn-primary" data-kt-users-modal-action="submit">Submit</button>
@@ -35,8 +30,6 @@
                     alert('File size Greater then 5MB!');
                     document.getElementById("fileinput").value = '';
                 }
-
-
             }
             r.readAsText(f);
         } else {

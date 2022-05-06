@@ -22,7 +22,7 @@ class ServiceController extends Controller
         $service = DB::select(DB::raw("SELECT s.id AS service_id,s.service_name, m.name AS machine_name,h.name AS hand_name, s.zone,s.session,s.time_limit,s.price FROM `services` s 
         INNER JOIN `machines` m ON m.id=s.machine_id INNER JOIN `hands` h 
         ON h.id=s.hand_id WHERE s.user_id='$userId' AND s.deleted_at IS NULL"));
-        return view('service/service_index', compact('service'));
+        return view('service.index', compact('service'));
     }
 
     /**
@@ -36,7 +36,7 @@ class ServiceController extends Controller
         $zone = DB::select(DB::raw("SELECT * FROM zone "));
         $machine = Machine::where('user_id', Auth::user()->id)->get();
 
-        return view('service/service_create', compact('zone', 'machine'));
+        return view('service.create', compact('zone', 'machine'));
     }
 
     /**
@@ -88,7 +88,7 @@ class ServiceController extends Controller
         $service = DB::select(DB::raw("SELECT s.id AS service_id,s.service_name, m.name AS machine_name,h.name AS hand_name, s.zone,s.session,s.time_limit,s.price FROM `services` s 
         INNER JOIN `machines` m ON m.id=s.machine_id INNER JOIN `hands` h 
         ON h.id=s.hand_id WHERE s.user_id='$userId' AND s.deleted_at IS NULL AND s.id='$serviceId'"));
-        return view('service/service_show', compact('service'));
+        return view('service.show', compact('service'));
     }
 
     /**
@@ -103,7 +103,7 @@ class ServiceController extends Controller
         $zone = DB::select(DB::raw("SELECT * FROM zone "));
         $machine = Machine::where('user_id', Auth::user()->id)->get();
 
-        return view('service/service_edit', compact('service', 'zone', 'machine'));
+        return view('service.edit', compact('service', 'zone', 'machine'));
     }
 
     /**
