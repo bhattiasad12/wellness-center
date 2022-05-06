@@ -64,7 +64,7 @@ class SettingsController extends Controller
 
         if ($request->hasFile('profile_picture')) {
             $fileName = $userId . '.jpg';
-            $request->profile_picture->storeAs('profile', $fileName, 'public');
+            $request->profile_picture->storeAs('profile', $fileName, 'uploads');
             $user->profile_picture = $fileName;
         }
 
