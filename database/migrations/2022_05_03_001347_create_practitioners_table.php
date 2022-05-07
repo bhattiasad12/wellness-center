@@ -29,8 +29,8 @@ class CreatePractitionersTable extends Migration
             $table->id();
             $table->bigInteger('practitioner_id')->nullable();
             $table->bigInteger('practitioner_day_id')->nullable();
-            $table->string('start_time')->nullable();
-            $table->string('end_time')->nullable();
+            $table->time('start_time')->nullable();
+            $table->time('end_time')->nullable();
             $table->softDeletes();
         });
         Schema::create('practitioners_days', function (Blueprint $table) {

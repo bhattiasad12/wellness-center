@@ -67,8 +67,8 @@ class PractitionerController extends Controller
             $practitionerTime = array();
             $practitionerTime['practitioner_id'] = $data['id'];
             $practitionerTime['practitioner_day_id'] = $request->days[$i];
-            $practitionerTime['start_time'] = $request->check_in[$i];
-            $practitionerTime['end_time'] = $request->check_out[$i];
+            $practitionerTime['start_time'] = date("H:i:s", strtotime($request->check_in[$i]));
+            $practitionerTime['end_time'] = date("H:i:s", strtotime($request->check_out[$i]));
             DB::table('practitioners_time')->insert($practitionerTime);
         }
         // dd(DB::getQueryLog());

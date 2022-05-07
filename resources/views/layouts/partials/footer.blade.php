@@ -29,22 +29,22 @@
 
 <script src="{{ asset('theme/assets/plugins/global/plugins.bundle.js') }}"></script>
 <script src="{{ asset('theme/assets/js/scripts.bundle.js') }}"></script>
-<script src="{{ asset('theme/assets/plugins/custom/fullcalendar/fullcalendar.bundle.js') }}"></script>
+<!-- <script src="{{ asset('theme/assets/plugins/custom/fullcalendar/fullcalendar.bundle.js') }}"></script> -->
+<!-- <script src="{{ asset('theme/assets/js/custom/documentation/general/fullcalendar/basic.js')}}"></script> -->
 <script src="{{ asset('theme/assets/plugins/custom/datatables/datatables.bundle.js') }}"></script>
 <!--begin::Page Custom Javascript(used by this page)-->
-<script src="{{ asset('theme/assets/js/custom/calendar.js') }}"></script>
+<!-- <script src="{{ asset('theme/assets/js/custom/calendar.js') }}"></script> -->
 <script src="{{ asset('theme/assets/js/widgets.bundle.js') }}"></script>
 <script src="{{ asset('theme/assets/js/custom/widgets.js') }}"></script>
-<script src="{{ asset('theme/assets/js/custom/signin-methods.js') }}"></script>
+<!-- <script src="{{ asset('theme/assets/js/custom/signin-methods.js') }}"></script> -->
 
 <!--end::Page Vendors Javascript-->
 <!--begin::Page Custom Javascript(used by this page)-->
-<script src="{{ asset('theme/assets/plugins/custom/prismjs/prismjs.bundle.js') }}"></script>
+<!-- <script src="{{ asset('theme/assets/plugins/custom/prismjs/prismjs.bundle.js') }}"></script>
 <script src="{{ asset('theme/assets/js/custom/documentation/documentation.js') }}"></script>
 <script src="{{ asset('theme/assets/js/custom/documentation/search.js') }}"></script>
 <script src="{{ asset('theme/assets/js/custom/select2.js') }}"></script>
-<script src="{{ asset('theme/assets/js/custom/documentation/general/fullcalendar/basic.js')}}"></script>
-<script src="{{ asset('theme/assets/js/custom/documentation/editors/quill/basic.js')}}"></script>
+<script src="{{ asset('theme/assets/js/custom/documentation/editors/quill/basic.js')}}"></script> -->
 <!--end::Page Custom Javascript-->
 <script>
     // $("#kt_datatable_example_1").DataTable();

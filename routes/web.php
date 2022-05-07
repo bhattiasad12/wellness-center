@@ -31,9 +31,16 @@ Route::get('/', function () {
 
 
 require __DIR__ . '/auth.php';
-
+/// appointment Controller
 Route::resource('appointment', AppointmentController::class)->middleware(['auth']);
+Route::Get('client_info', [AppointmentController::class, 'clientInfo'])->name('client_info');
+Route::Get('room_practitioner', [AppointmentController::class, 'getRoomPractitioner'])->name('room_practitioner');
+Route::Get('machine_hand', [AppointmentController::class, 'getMachineHand'])->name('machine_hand');
+Route::Get('hand_service_setting', [AppointmentController::class, 'getHandServiceSetting'])->name('hand_service_setting');
+Route::Get('check_appointment', [AppointmentController::class, 'checkAppointment'])->name('check_appointment');
 
+
+/// appointment Controller end
 /// client Controller
 Route::resource('client', ClientController::class)->middleware(['auth']);
 Route::Get('createDocumnet', [ClientController::class, 'createDocumnet'])->name('create_documnet');
