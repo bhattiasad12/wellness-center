@@ -1,3 +1,5 @@
+@extends('layouts.partials.footer')
+
 <div class="alert alert-danger" style="display:none"></div>
 <form id="createClientForm" class="form" method="POST" action="{{ route('client.store') }}"
     enctype="multipart/form-data">

@@ -3,18 +3,12 @@
 @section('content')
     <x-auth-validation-errors class="mb-4" :errors="$errors" />
 
-    <!--begin::Content-->
     <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
-        <!--begin::Post-->
         <div class="post d-flex flex-column-fluid" id="kt_post">
-            <!--begin::Container-->
             <div id="kt_content_container" class="container-xxl">
-                <!--begin::Navbar-->
                 <div class="card mb-5 mb-xl-10">
                     <div class="card-body pt-9 pb-0">
-                        <!--begin::Details-->
                         <div class="d-flex flex-wrap flex-sm-nowrap mb-3">
-                            <!--begin: Pic-->
                             <div class="me-7 mb-4">
                                 <div class="symbol symbol-100px symbol-lg-160px symbol-fixed position-relative">
                                     <img src="{{ asset('/profile/' . $profile_picture) }}"
@@ -25,19 +19,13 @@
                                     </div>
                                 </div>
                             </div>
-                            <!--end::Pic-->
-                            <!--begin::Info-->
                             <div class="flex-grow-1 align-self-center">
-                                <!--begin::Title-->
                                 <div class="d-flex justify-content-between align-items-start flex-wrap mb-2">
-                                    <!--begin::User-->
                                     <div class="d-flex flex-column">
-                                        <!--begin::Name-->
                                         <div class="d-flex align-items-center mb-2">
                                             <a href="#"
                                                 class="text-gray-900 text-hover-primary fs-2 fw-bolder me-1">{{ $full_name }}</a>
                                             <a href="#">
-                                                <!--begin::Svg Icon | path: icons/duotune/general/gen026.svg-->
                                                 <span class="svg-icon svg-icon-1 svg-icon-primary">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px"
                                                         viewBox="0 0 24 24">
@@ -49,15 +37,11 @@
                                                             fill="white" />
                                                     </svg>
                                                 </span>
-                                                <!--end::Svg Icon-->
                                             </a>
                                         </div>
-                                        <!--end::Name-->
-                                        <!--begin::Info-->
                                         <div class="d-flex flex-wrap fw-bold fs-6 mb-4 pe-2">
                                             <a href="#"
                                                 class="d-flex align-items-center text-gray-400 text-hover-primary me-5 mb-2">
-                                                <!--begin::Svg Icon | path: icons/duotune/communication/com006.svg-->
                                                 <span class="svg-icon svg-icon-4 me-1">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                                         viewBox="0 0 24 24" fill="none">
@@ -69,11 +53,9 @@
                                                             fill="black" />
                                                     </svg>
                                                 </span>
-                                                <!--end::Svg Icon-->Admin
                                             </a>
                                             <a href="#"
                                                 class="d-flex align-items-center text-gray-400 text-hover-primary mb-2">
-                                                <!--begin::Svg Icon | path: icons/duotune/communication/com011.svg-->
                                                 <span class="svg-icon svg-icon-4 me-1">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                                         viewBox="0 0 24 24" fill="none">
@@ -85,21 +67,14 @@
                                                             fill="black" />
                                                     </svg>
                                                 </span>
-                                                <!--end::Svg Icon-->{{ $email }}
                                             </a>
                                         </div>
-                                        <!--end::Info-->
                                     </div>
-                                    <!--end::User-->
                                 </div>
-                                <!--end::Title-->
                             </div>
-                            <!--end::Info-->
                         </div>
-                        <!--end::Details-->
                     </div>
                 </div>
-                <!--end::Navbar-->
                 <div class="card mb-5 mb-xl-10">
                     <div class="card-header border-0 cursor-pointer" role="button" data-bs-toggle="collapse"
                         data-bs-target="#kt_account_profile_details" aria-expanded="true"
@@ -109,7 +84,6 @@
                         </div>
                     </div>
                     <div id="kt_account_settings_profile_details" class="collapse show">
-                        <!--begin::Form-->
                         <form action="{{ route('settings.store') }}" method="POST" enctype="multipart/form-data"
                             id="kt_account_profile_details_form" class="form">
                             @csrf
@@ -118,9 +92,9 @@
                                     <label class="col-lg-4 col-form-label fw-bold fs-6">Avatar</label>
                                     <div class="col-lg-8">
                                         <div class="image-input image-input-outline" data-kt-image-input="true"
-                                            style="background-image: url({{ asset('/storage/profile/blank.png') }})">
+                                            style="background-image: url({{ asset('/profile/' . $profile_picture) }})">
                                             <div class="image-input-wrapper w-125px h-125px"
-                                                style="background-image: url({{ asset('/storage/profile/blank.png') }})">
+                                                style="background-image: url({{ asset('/profile/' . $profile_picture) }})">
                                             </div>
                                             <label
                                                 class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow"
@@ -130,16 +104,12 @@
                                                 <input type="file" name="profile_picture" accept=".png, .jpg, .jpeg" />
                                                 <input type="hidden" name="avatar_remove" />
                                             </label>
-                                            <!--end::Label-->
-                                            <!--begin::Cancel-->
                                             <span
                                                 class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow"
                                                 data-kt-image-input-action="cancel" data-bs-toggle="tooltip"
                                                 title="Cancel avatar">
                                                 <i class="bi bi-x fs-2"></i>
                                             </span>
-                                            <!--end::Cancel-->
-                                            <!--begin::Remove-->
                                             <span
                                                 class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow"
                                                 data-kt-image-input-action="remove" data-bs-toggle="tooltip"
@@ -162,52 +132,34 @@
                                         </div>
                                     </div>
                                 </div>
-                                <!--end::Input group-->
-                                <!--begin::Input group-->
                                 <div class="row mb-6">
-                                    <!--begin::Label-->
                                     <label class="col-lg-4 col-form-label required fw-bold fs-6">Company</label>
-                                    <!--end::Label-->
-                                    <!--begin::Col-->
                                     <div class="col-lg-8 fv-row">
                                         <input type="text" name="company"
                                             class="form-control form-control-lg form-control-solid"
                                             placeholder="Company name" value="Wellness Centre" />
                                     </div>
-                                    <!--end::Col-->
                                 </div>
-                                <!--end::Input group-->
-                                <!--begin::Input group-->
                                 <div class="row mb-6">
-                                    <!--begin::Label-->
                                     <label class="col-lg-4 col-form-label fw-bold fs-6">
                                         <span class="required">Contact Phone</span>
                                         <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip"
                                             title="Phone number must be active"></i>
                                     </label>
-                                    <!--end::Label-->
-                                    <!--begin::Col-->
                                     <div class="col-lg-8 fv-row">
                                         <input type="tel" name="contact_no"
                                             class="form-control form-control-lg form-control-solid"
                                             placeholder="Phone number" value="{{ $contact_no }}" />
                                     </div>
-                                    <!--end::Col-->
                                 </div>
-                                <!--end::Input group-->
                             </div>
-                            <!--end::Card body-->
-                            <!--begin::Actions-->
                             <div class="card-footer d-flex justify-content-end py-6 px-9">
                                 <button type="reset" class="btn btn-light btn-active-light-primary me-2">Discard</button>
                                 <button type="submit" class="btn btn-primary" id="kt_account_profile_details_submit">Save
                                     Changes</button>
                             </div>
-                            <!--end::Actions-->
                         </form>
-                        <!--end::Form-->
                     </div>
-                    <!--end::Content-->
                 </div>
 
                 <div class="card mb-5 mb-xl-10">
@@ -263,23 +215,14 @@
                                 <div id="kt_signin_email_button" class="ms-auto">
                                     <button class="btn btn-light btn-active-light-primary">Change Email</button>
                                 </div>
-                                <!--end::Action-->
                             </div>
-                            <!--end::Email Address-->
-                            <!--begin::Separator-->
                             <div class="separator separator-dashed my-6"></div>
-                            <!--end::Separator-->
-                            <!--begin::Password-->
                             <div class="d-flex flex-wrap align-items-center mb-1">
-                                <!--begin::Label-->
                                 <div id="kt_signin_password">
                                     <div class="fs-6 fw-bolder mb-1">Password</div>
                                     <div class="fw-bold text-gray-600">************</div>
                                 </div>
-                                <!--end::Label-->
-                                <!--begin::Edit-->
                                 <div id="kt_signin_password_edit" class="flex-row-fluid d-none">
-                                    <!--begin::Form-->
                                     <x-auth-validation-errors class="mb-4" :errors="$errors" />
 
                                     <form method="POST" action="{{ route('updatePassword', ['id' => $id]) }}">
@@ -323,27 +266,15 @@
                                                 class="btn btn-color-gray-400 btn-active-light-primary px-6">Cancel</button>
                                         </div>
                                     </form>
-                                    <!--end::Form-->
                                 </div>
-                                <!--end::Edit-->
-                                <!--begin::Action-->
                                 <div id="kt_signin_password_button" class="ms-auto">
                                     <button class="btn btn-light btn-active-light-primary">Reset Password</button>
                                 </div>
-                                <!--end::Action-->
                             </div>
-                            <!--end::Password-->
                         </div>
-                        <!--end::Card body-->
                     </div>
-                    <!--end::Content-->
                 </div>
-                <!--end::Sign-in Method-->
-                <!--end::Modals-->
             </div>
-            <!--end::Container-->
         </div>
-        <!--end::Post-->
     </div>
-    <!--end::Content-->
 @endsection('content')

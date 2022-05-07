@@ -1,3 +1,6 @@
+@extends('layouts.partials.footer')
+<div class="alert alert-danger" style="display:none"></div>
+
 <form id="editClientForm" class="form" method="POST" action="{{ route('client.update', $client->id) }}">
     @method("PUT")
     @csrf
