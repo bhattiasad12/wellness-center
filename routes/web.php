@@ -38,6 +38,8 @@ Route::Get('room_practitioner', [AppointmentController::class, 'getRoomPractitio
 Route::Get('machine_hand', [AppointmentController::class, 'getMachineHand'])->name('machine_hand');
 Route::Get('hand_service_setting', [AppointmentController::class, 'getHandServiceSetting'])->name('hand_service_setting');
 Route::Get('check_appointment', [AppointmentController::class, 'checkAppointment'])->name('check_appointment');
+Route::POST('add_payment', [AppointmentController::class, 'paymentStore'])->name('add_payment');
+Route::GET('appointment_calender', [AppointmentController::class, 'showCalender'])->name('appointment_calender');
 
 
 /// appointment Controller end

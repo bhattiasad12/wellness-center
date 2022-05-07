@@ -357,32 +357,33 @@
                                                 </tr>
                                             </thead>
                                             <tbody class="fw-bold">
-                                                <tr>
-                                                    <td>001</td>
-                                                    <td>11-04-2022</td>
-                                                    <td>IPL</td>
-                                                    <td>Laser</td>
-                                                    <td>01 Epilation</td>
-                                                    <td>Legs</td>
-                                                    <td>4</td>
-                                                    <td>200</td>
-                                                    <td class="fw-bolder">$800</td>
-                                                    <td class="fw-bolder text-success">$300</td>
-                                                    <td class="fw-bolder text-danger">$500</td>
-                                                    <td>11-04-2022 3:00 PM</td>
-                                                    <td>11-04-2022 3:30 PM</td>
-                                                    <td>3:00 PM</td>
-                                                    <td>Room 3</td>
-                                                    <td>John Andrew</td>
-                                                    <td>Jules</td>
-                                                    <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus
-                                                        eveniet asperiores.</td>
-                                                    <td>08-04-2022</td>
+                                                @for ($i=0; $i < count($appointment); $i++) <tr>
+                                                    <td><a href="{{ route('appointment.show', $appointment[$i]->appointment_id) }}" class="fw-bolder text-gray-800 text-hover-primary mb-1">{{$appointment[$i]->appointment_id}}</a></td>
+                                                    <td>{{Date("Y-m-d",strtotime($appointment[$i]->appointment_start))}}
+                                                    </td>
+                                                    <td>{{ucwords($appointment[$i]->machine_name)}}</td>
+                                                    <td>{{ucwords($appointment[$i]->service_name)}}</td>
+                                                    <td>{{ucwords($appointment[$i]->hand_name)}}</td>
+                                                    <td>{{ucwords($appointment[$i]->zone)}}</td>
+                                                    <td>{{$appointment[$i]->session}}</td>
+                                                    <td>{{$appointment[$i]->session_price}}</td>
+                                                    <td>{{$appointment[$i]->total_service_amount}}</td>
+                                                    <td>{{$appointment[$i]->paid}}</td>
+                                                    <td>{{$appointment[$i]->unpaid}}</td>
+                                                    <td>{{$appointment[$i]->appointment_start}}</td>
+                                                    <td>{{$appointment[$i]->appointment_end}}</td>
+                                                    <td>{{$appointment[$i]->room_time}}</td>
+                                                    <td>{{ucwords($appointment[$i]->room_name)}}</td>
+                                                    <td>{{ucwords($appointment[$i]->pra_first_name)}} {{ucwords($appointment[$i]->pra_last_name)}}</td>
+                                                    <td>{{ucwords($appointment[$i]->setting_name)}}</td>
+                                                    <td>{{ucfirst($appointment[$i]->note)}}</td>
+                                                    <td>{{date("Y-m-d",strtotime($appointment[$i]->created_at))}}</td>
                                                     <td>
-                                                        <div class="badge badge-lg badge-success d-inline">Consumed
+                                                        <div class="badge badge-lg badge-success d-inline">{{ucfirst($appointment[$i]->status)}}
                                                         </div>
                                                     </td>
-                                                </tr>
+                                                    </tr>
+                                                    @endfor
                                             </tbody>
                                         </table>
                                         <!--end::Table-->
@@ -412,8 +413,6 @@
                                                 <tr class="fw-bold fs-6 text-muted">
                                                     <th class="min-w-30px">ID</th>
                                                     <th class="min-w-80px">Service</th>
-                                                    <th class="min-w-150px">Payment Method</th>
-                                                    <th class="min-w-100px">Payment Date</th>
                                                     <th class="min-w-80px">Total</th>
                                                     <th class="min-w-80px">Paid</th>
                                                     <th class="min-w-80px">Un-Paid</th>
@@ -421,30 +420,23 @@
                                                 </tr>
                                             </thead>
                                             <tbody class="fw-bold">
-                                                <tr>
-                                                    <td>1</td>
-                                                    <td>Laser</td>
-                                                    <td>Cash</td>
-                                                    <td>11-04-2022</td>
-                                                    <td class="fw-bolder">$800</td>
-                                                    <td class="text-success fw-bolder">$800</td>
-                                                    <td class="text-danger fw-bolder">$0</td>
-                                                    <td class="">
+                                                @for ($i = 0; $i< count($paymentHistory); $i++) <tr>
+                                                    <td><a href="{{ route('appointment.show', $appointment[$i]->appointment_id) }}" class="fw-bolder text-gray-800 text-hover-primary mb-1">{{$paymentHistory[$i]->appointment_id}}</a></td>
+                                                    <td>{{ucwords($paymentHistory[$i]->service_name)}}</td>
+                                                    <td class="fw-bolder">${{$paymentHistory[$i]->total_service_amount}}</td>
+                                                    <td class="text-success fw-bolder">${{$paymentHistory[$i]->paid}}</td>
+                                                    <td class="text-danger fw-bolder">${{$paymentHistory[$i]->unpaid}}</td>
+                                                    @if($paymentHistory[$i]->unpaid <= 0) <td class="">
                                                         <div class="badge badge-lg badge-success d-inline">Paid</div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>2</td>
-                                                    <td>01 Epilation</td>
-                                                    <td>Credit Card</td>
-                                                    <td>26-07-2022</td>
-                                                    <td class="fw-bolder">$1200</td>
-                                                    <td class="text-success fw-bolder">$800</td>
-                                                    <td class="text-danger fw-bolder">$400</td>
-                                                    <td class="">
-                                                        <div class="badge badge-lg badge-danger d-inline">Un-Paid</div>
-                                                    </td>
-                                                </tr>
+                                                        </td>
+                                                        @endif
+                                                        @if($paymentHistory[$i]->unpaid > 0)
+                                                        <td class="">
+                                                            <div class="badge badge-lg badge-danger d-inline">Un-Paid</div>
+                                                        </td>
+                                                        @endif
+                                                        </tr>
+                                                        @endfor
                                             </tbody>
                                         </table>
                                     </div>

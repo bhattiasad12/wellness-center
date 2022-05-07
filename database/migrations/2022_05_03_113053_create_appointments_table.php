@@ -31,6 +31,8 @@ class CreateAppointmentsTable extends Migration
             $table->string('room_time');
             $table->string('check_in');
             $table->string('check_out');
+            $table->string('paid');
+            $table->string('unpaid');
             $table->enum('status', ['taken', 'comfirmed', 'checkin', 'cancelled']);
             $table->string('note');
             $table->dateTime('appointment_start');

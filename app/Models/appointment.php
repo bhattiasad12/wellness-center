@@ -27,6 +27,8 @@ class Appointment extends Model
         'check_in',
         'check_out',
         'status',
+        'paid',
+        'unpaid',
         'note',
         'appointment_start',
         'appointment_end',

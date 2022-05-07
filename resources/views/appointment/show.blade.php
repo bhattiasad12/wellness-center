@@ -19,7 +19,7 @@
                                 <div class="d-flex flex-column">
                                     <!--begin::Name-->
                                     <div class="d-flex align-items-center mb-2">
-                                        <a class="text-gray-900 text-hover-primary fs-2 fw-bolder me-1">Appointment# <span>001</span>: <span class="text-primary">Tiger Nixon</span></a>
+                                        <a class="text-gray-900 text-hover-primary fs-2 fw-bolder me-1">Appointment# <span>{{$appointment[0]->appointment_id}}</span>: <span class="text-primary">{{ucwords($appointment[0]->client_first_name)}} {{ucwords($appointment[0]->client_last_name)}}</span></a>
                                         <a>
                                             <!--begin::Svg Icon | path: icons/duotune/general/gen026.svg-->
                                             <span class="svg-icon svg-icon-1 svg-icon-primary">
@@ -42,7 +42,7 @@
                                                     <path d="M17.5 16C17.5 16 17.4 16 17.5 16L16.7 15.3C16.1 14.7 15.7 13.9 15.6 13.1C15.5 12.4 15.5 11.6 15.6 10.8C15.7 9.99999 16.1 9.19998 16.7 8.59998L17.4 7.90002H17.5C18.3 7.90002 19 7.20002 19 6.40002C19 5.60002 18.3 4.90002 17.5 4.90002C16.7 4.90002 16 5.60002 16 6.40002V6.5L15.3 7.20001C14.7 7.80001 13.9 8.19999 13.1 8.29999C12.4 8.39999 11.6 8.39999 10.8 8.29999C9.99999 8.19999 9.20001 7.80001 8.60001 7.20001L7.89999 6.5V6.40002C7.89999 5.60002 7.19999 4.90002 6.39999 4.90002C5.59999 4.90002 4.89999 5.60002 4.89999 6.40002C4.89999 7.20002 5.59999 7.90002 6.39999 7.90002H6.5L7.20001 8.59998C7.80001 9.19998 8.19999 9.99999 8.29999 10.8C8.39999 11.5 8.39999 12.3 8.29999 13.1C8.19999 13.9 7.80001 14.7 7.20001 15.3L6.5 16H6.39999C5.59999 16 4.89999 16.7 4.89999 17.5C4.89999 18.3 5.59999 19 6.39999 19C7.19999 19 7.89999 18.3 7.89999 17.5V17.4L8.60001 16.7C9.20001 16.1 9.99999 15.7 10.8 15.6C11.5 15.5 12.3 15.5 13.1 15.6C13.9 15.7 14.7 16.1 15.3 16.7L16 17.4V17.5C16 18.3 16.7 19 17.5 19C18.3 19 19 18.3 19 17.5C19 16.7 18.3 16 17.5 16Z" fill="black" />
                                                 </svg>
                                             </span>
-                                            <!--end::Svg Icon-->Machine: <span class="fw-bolder mx-1">IPL</span>
+                                            <!--end::Svg Icon-->Machine: <span class="fw-bolder mx-1">{{ucwords($appointment[0]->machine_name)}}</span>
                                         </a>
                                         <a href="#" class="d-flex align-items-center text-gray-400 text-hover-primary me-5 mb-2">
                                             <!--begin::Svg Icon | path: icons/duotune/communication/com006.svg-->
@@ -52,7 +52,7 @@
                                                     <path d="M11.05 11.025L2.84998 7.725C1.84998 7.325 1.84998 5.925 2.84998 5.525L11.05 2.225C11.75 1.925 12.45 1.925 13.15 2.225L21.35 5.525C22.35 5.925 22.35 7.325 21.35 7.725L13.05 11.025C12.45 11.325 11.65 11.325 11.05 11.025Z" fill="black"></path>
                                                 </svg>
                                             </span>
-                                            <!--end::Svg Icon-->Service: <span class="fw-bolder mx-1">Laser</span>
+                                            <!--end::Svg Icon-->Service: <span class="fw-bolder mx-1">{{ucwords($appointment[0]->service_name)}}</span>
                                         </a>
                                     </div>
                                     <!--end::Info-->
@@ -61,7 +61,10 @@
                                 <!--begin::Actions-->
                                 <div class="d-flex my-4">
                                     <a href="#" class="btn btn-sm btn-circle btn-light-primary me-2" data-bs-toggle="modal" data-bs-target="#kt_modal_edit_appointment">Edit Appointment</a>
-                                    <a href="#" class="btn btn-sm btn-circle btn-light-warning me-2" data-bs-toggle="modal" data-bs-target="#kt_modal_add_payment">Add Remaining Payment</a>
+                                    @if($appointment[0]->unpaid <= '0' ) <button disabled class="btn btn-sm btn-circle btn-light-warning me-2" data-bs-toggle="modal" data-bs-target="#kt_modal_add_payment">Add Remaining Payment</button>
+                                        @else
+                                        <a href="#" class="btn btn-sm btn-circle btn-light-warning me-2" data-bs-toggle="modal" data-bs-target="#kt_modal_add_payment">Add Remaining Payment</a>
+                                        @endif
                                 </div>
                                 <!--end::Actions-->
                             </div>
@@ -92,21 +95,21 @@
                                 <div class="row mb-7">
                                     <div class="col-lg-6">
                                         <label class="fw-bold fs-6 mb-2">First Name</label>
-                                        <p class="text-muted">Tiger</p>
+                                        <p class="text-muted">{{ucwords($appointment[0]->client_first_name)}}</p>
                                     </div>
                                     <div class="col-lg-6">
                                         <label class="fw-bold fs-6 mb-2">Last Name</label>
-                                        <p class="text-muted">Nixon</p>
+                                        <p class="text-muted">{{ucwords($appointment[0]->client_last_name)}}</p>
                                     </div>
                                 </div>
                                 <div class="row mb-7">
                                     <div class="col-lg-6">
                                         <label class="fw-bold fs-6 mb-2">Phone Number</label>
-                                        <p class="text-muted">03343394556</p>
+                                        <p class="text-muted">{{$appointment[0]->phone_number}}</p>
                                     </div>
                                     <div class="col-lg-6">
                                         <label class="fw-bold fs-6 mb-2">Appointment Date</label>
-                                        <p class="text-muted">11-04-2022</p>
+                                        <p class="text-muted">{{Date("Y-m-d",strtotime($appointment[0]->appointment_start))}}</p>
                                     </div>
                                 </div>
 
@@ -115,45 +118,45 @@
                                 <div class="row mb-7">
                                     <div class="col-lg-6">
                                         <label class="fw-bold fs-6 mb-2">Machine</label>
-                                        <p class="text-muted">IPL</p>
+                                        <p class="text-muted">{{ucwords($appointment[0]->machine_name)}}</p>
                                     </div>
                                     <div class="col-lg-6">
                                         <label class="fw-bold fs-6 mb-2">Hand</label>
-                                        <p class="text-muted">01 Epilation</p>
+                                        <p class="text-muted">{{ucwords($appointment[0]->hand_name)}}</p>
                                     </div>
                                 </div>
                                 <div class="row mb-7">
                                     <div class="col-lg-6">
                                         <label class="fw-bold fs-6 mb-2">Service</label>
-                                        <p class="text-muted">EPILATION IPL</p>
+                                        <p class="text-muted">{{ucwords($appointment[0]->service_name)}}</p>
                                     </div>
                                     <div class="col-lg-6">
                                         <label class="fw-bold fs-6 mb-2">Zone</label>
-                                        <p class="text-muted">Front</p>
+                                        <p class="text-muted">{{ucwords($appointment[0]->zone)}}</p>
                                     </div>
                                 </div>
                                 <div class="row mb-7">
                                     <div class="col-lg-6">
                                         <label class="fw-bold fs-6 mb-2">Sessions</label>
-                                        <p class="text-muted">4</p>
+                                        <p class="text-muted">{{$appointment[0]->session}}</p>
                                     </div>
                                     <div class="col-lg-6">
                                         <label class="fw-bold fs-6 mb-2">Session Price</label>
-                                        <p class="text-muted">$200</p>
+                                        <p class="text-muted">${{$appointment[0]->session_price}}</p>
                                     </div>
                                 </div>
                                 <div class="row mb-7">
                                     <div class="col-lg-6">
                                         <label class="fw-bold fs-6 mb-2">Promotion(%)</label>
-                                        <p class="text-muted">-</p>
+                                        <p class="text-muted">{{$appointment[0]->promotion}}</p>
                                     </div>
                                     <div class="col-lg-6">
                                         <label class="fw-bold fs-6 mb-2">Total Service Amount</label>
-                                        <p class="text-muted">$800</p>
+                                        <p class="text-muted">${{$appointment[0]->total_service_amount}}</p>
                                     </div>
                                 </div>
 
-                                <div class="separator separator-dashed my-10"></div>
+                                <!-- <div class="separator separator-dashed my-10"></div>
 
                                 <div class="row mb-7">
                                     <div class="col-lg-6">
@@ -174,50 +177,50 @@
                                         <label class="fw-bold fs-6 mb-2">Un-Paid</label>
                                         <p class="text-muted">$500</p>
                                     </div>
-                                </div>
+                                </div> -->
 
                                 <div class="separator separator-dashed my-10"></div>
 
                                 <div class="row mb-7">
                                     <div class="col-lg-6">
                                         <label class="fw-bold fs-6 mb-2">Start Time(Check-In)</label>
-                                        <p class="text-muted">11-04-2022 11:00PM</p>
+                                        <p class="text-muted">{{$appointment[0]->appointment_start}}</p>
                                     </div>
                                     <div class="col-lg-6">
                                         <label class="fw-bold fs-6 mb-2">Finish Time (Check-Out)</label>
-                                        <p class="text-muted">11-04-2022 11:30PM</p>
+                                        <p class="text-muted">{{$appointment[0]->appointment_end}}</p>
                                     </div>
                                 </div>
                                 <div class="row mb-7">
                                     <div class="col-lg-6">
                                         <label class="fw-bold fs-6 mb-2">Room Time</label>
-                                        <p class="text-muted">11:00PM</p>
+                                        <p class="text-muted">{{$appointment[0]->room_time}}</p>
                                     </div>
                                     <div class="col-lg-6">
                                         <label class="fw-bold fs-6 mb-2">Room</label>
-                                        <p class="text-muted">Room 3</p>
+                                        <p class="text-muted">{{ucwords($appointment[0]->room_name)}}</p>
                                     </div>
                                 </div>
                                 <div class="row mb-7">
                                     <div class="col-lg-6">
                                         <label class="fw-bold fs-6 mb-2">Practitionner</label>
-                                        <p class="text-muted">John Camry</p>
+                                        <p class="text-muted">{{ucwords($appointment[0]->pra_first_name)}} {{ucwords($appointment[0]->pra_last_name)}}</p>
                                     </div>
                                     <div class="col-lg-6">
                                         <label class="fw-bold fs-6 mb-2">Settings</label>
-                                        <p class="text-muted">3</p>
+                                        <p class="text-muted">{{ucwords($appointment[0]->setting_name)}}</p>
                                     </div>
                                 </div>
                                 <div class="row mb-7">
                                     <div class="col-lg-6">
                                         <label class="fw-bold fs-6 mb-2">Appointment Status</label>
-                                        <div class="d-table-cell badge badge-light-success fw-bolder fs-8 px-2 py-1 ms-2">Completed</div>
+                                        <div class="d-table-cell badge badge-light-success fw-bolder fs-8 px-2 py-1 ms-2">{{ucwords($appointment[0]->status)}}</div>
                                     </div>
                                 </div>
                                 <div class="row mb-7">
                                     <div class="col-lg-12">
                                         <label class="fw-bold fs-6 mb-2">Notes</label>
-                                        <p class="text-muted">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Autem vitae numquam expedita possimus obcaecati dicta omnis quia. Quod vel laboriosam velit dolore labore aut fugit quam inventore, dolorem ullam? Amet?</p>
+                                        <p class="text-muted">{{ucfirst($appointment[0]->note)}}</p>
                                     </div>
                                 </div>
                             </div>
@@ -253,13 +256,14 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr>
-                                                        <td>1</td>
-                                                        <td>11-04-2022</td>
-                                                        <td>Cash</td>
-                                                        <td>$300</td>
-                                                        <td>$500</td>
-                                                    </tr>
+                                                    @for ($i = 0; $i < count($paymentHistory); $i++) @php $a=$i; $a++; @endphp <tr>
+                                                        <td>{{$a}}</td>
+                                                        <td>{{date("Y-m-d",strtotime($paymentHistory[$i]->payment_date))}}</td>
+                                                        <td>{{ucwords($paymentHistory[$i]->payment_method)}}</td>
+                                                        <td>${{$paymentHistory[$i]->paid}}</td>
+                                                        <td>${{$paymentHistory[$i]->unpaid}}</td>
+                                                        </tr>
+                                                        @endfor
                                                 </tbody>
                                             </table>
                                         </div>
@@ -286,19 +290,19 @@
                                     <div class="row mb-7 justify-content-end text-end">
                                         <div class="col-lg-6">
                                             <label class="fw-bold fs-6 mb-2">Total Service Amount</label>
-                                            <h3 class="fw-bolder m-0 text-primary">$800</h3>
+                                            <h3 class="fw-bolder m-0 text-primary">${{$appointment[0]->total_service_amount}}</h3>
                                         </div>
                                     </div>
                                     <div class="row mb-7 justify-content-end text-end">
                                         <div class="col-lg-6">
                                             <label class="fw-bold fs-6 mb-2">Paid</label>
-                                            <h3 class="fw-bolder m-0 text-success">$300</h3>
+                                            <h3 class="fw-bolder m-0 text-success">${{$appointment[0]->paid}}</h3>
                                         </div>
                                     </div>
                                     <div class="row mb-7 justify-content-end text-end">
                                         <div class="col-lg-6">
                                             <label class="fw-bold fs-6 mb-2">Un-Paid</label>
-                                            <h3 class="fw-bolder m-0 text-danger">$500</h3>
+                                            <h3 class="fw-bolder m-0 text-danger">${{$appointment[0]->unpaid}}</h3>
                                         </div>
                                     </div>
                                 </div>
@@ -314,207 +318,7 @@
     </div>
     <!--end::Post-->
 </div>
-<!--end::Content-->
 
-<!--begin::Modal - Edit Appointment-->
-<div class="modal fade" id="kt_modal_edit_appointment" tabindex="-1" aria-hidden="true">
-    <!--begin::Modal dialog-->
-    <div class="modal-dialog modal-dialog-centered modal-lg">
-        <!--begin::Modal content-->
-        <div class="modal-content">
-            <!--begin::Modal header-->
-            <div class="modal-header" id="kt_modal_add_user_header">
-                <!--begin::Modal title-->
-                <h2 class="fw-bolder">Edit Appointment</h2>
-                <!--end::Modal title-->
-                <!--begin::Close-->
-                <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
-                    <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
-                    <span class="svg-icon svg-icon-2x">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                            <rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1" transform="rotate(-45 6 17.3137)" fill="black"></rect>
-                            <rect x="7.41422" y="6" width="16" height="2" rx="1" transform="rotate(45 7.41422 6)" fill="black"></rect>
-                        </svg>
-                    </span>
-                    <!--end::Svg Icon-->
-                </div>
-                <!--end::Close-->
-            </div>
-            <!--end::Modal header-->
-            <!--begin::Modal body-->
-            <!--begin::Modal body-->
-            <div class="modal-body scroll-y mx-10 my-7 mb-0 pb-0">
-                <!--begin::Form-->
-                <form id="" class="form" action="#">
-                    <!--begin::Scroll-->
-                    <div class="d-flex flex-column scroll-y me-n7 pe-7" id="" data-kt-scroll="true" data-kt-scroll-activate="{default: false, lg: true}" data-kt-scroll-max-height="auto" data-kt-scroll-dependencies="#kt_modal_add_user_header" data-kt-scroll-wrappers="#kt_modal_add_user_scroll" data-kt-scroll-offset="300px">
-                        <div class="row mb-7">
-                            <div class="col-lg-6">
-                                <label class="required fw-bold fs-6 mb-2">Client</label>
-                                <select name="client" class="form-control form-control-solid mb-3 mb-lg-0">
-                                    <option>-- Select Client --</option>
-                                    <option value="1">Tiger Nixon</option>
-                                    <option value="2">James Greg</option>
-                                </select>
-                            </div>
-                            <div class="col-lg-6">
-                                <label class="required fw-bold fs-6 mb-2">Email Address</label>
-                                <input disabled type="email" min="0" name="email" class="form-control form-control-solid mb-3 mb-lg-0" value="abc@gmail.com" />
-                            </div>
-                        </div>
-                        <div class="row mb-7">
-                            <div class="col-lg-6">
-                                <label class="required fw-bold fs-6 mb-2">Phone Number</label>
-                                <input disabled type="text" min="0" name="phone_number" class="form-control form-control-solid mb-3 mb-lg-0" value="+923343394556" />
-                            </div>
-                            <div class="col-lg-6">
-                                <label class="required fw-bold fs-6 mb-2">Appointment Date</label>
-                                <input class="form-control form-control-solid kt_datepicker_3" name="appointment_date" placeholder="Pick Appointment Date & Time" />
-                            </div>
-                        </div>
-
-                        <div class="separator separator-dashed my-10"></div>
-
-                        <div class="row mb-7">
-                            <div class="col-lg-6">
-                                <label class="required fw-bold fs-6 mb-2">Room</label>
-                                <select name="room" class="form-control form-control-solid mb-3 mb-lg-0">
-                                    <option>-- Select Room --</option>
-                                    <option value="1">Room 1</option>
-                                    <option value="2">Room 2</option>
-                                </select>
-                            </div>
-                            <div class="col-lg-6">
-                                <label class="required fw-bold fs-6 mb-2">Practitionner</label>
-                                <select name="practitionner" class="form-control form-control-solid mb-3 mb-lg-0">
-                                    <option>-- Select Practitionner --</option>
-                                    <option value="1">Tiger Nixon</option>
-                                    <option value="2">James Greg</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="separator separator-dashed my-10"></div>
-
-                        <div class="row mb-7">
-                            <div class="col-lg-6">
-                                <label class="required fw-bold fs-6 mb-2">Machine</label>
-                                <select name="machine" class="form-control form-control-solid mb-3 mb-lg-0">
-                                    <option>-- Select Machine --</option>
-                                    <option value="1">IPL</option>
-                                    <option value="2">MICRO YEUX</option>
-                                </select>
-                            </div>
-                            <div class="col-lg-6">
-                                <label class="required fw-bold fs-6 mb-2">Hand</label>
-                                <select name="hand" class="form-control form-control-solid mb-3 mb-lg-0">
-                                    <option>-- Select Hand --</option>
-                                    <option value="1">01 Epilation</option>
-                                    <option value="2">10 PHOTO</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="row mb-7">
-                            <div class="col-lg-6">
-                                <label class="required fw-bold fs-6 mb-2">Service</label>
-                                <select name="service" class="form-control form-control-solid mb-3 mb-lg-0">
-                                    <option>-- Select Service --</option>
-                                    <option value="1">EPILATION IPL</option>
-                                    <option value="2">EPILATION LASER</option>
-                                </select>
-                            </div>
-                            <div class="col-lg-6">
-                                <label class="required fw-bold fs-6 mb-2">Zone</label>
-                                <select name="zone" class="form-control form-control-solid mb-3 mb-lg-0">
-                                    <option>-- Select Zone --</option>
-                                    <option value="1">Front</option>
-                                    <option value="2">Leg</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="row mb-7">
-                            <div class="col-lg-6">
-                                <label class="required fw-bold fs-6 mb-2">Sessions</label>
-                                <input type="number" min="0" name="sessions" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="Please Enter your Sessions here." />
-                            </div>
-                            <div class="col-lg-6">
-                                <label class="required fw-bold fs-6 mb-2">Settings</label>
-                                <input type="text" min="0" name="settings" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="Please Enter your Settings here." />
-                            </div>
-                        </div>
-                        <div class="row mb-7">
-                            <div class="col-lg-6">
-                                <label class="fw-bold fs-6 mb-2">Session Price</label>
-                                <input type="number" name="session_price" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="Please Enter your Session Price here." />
-                            </div>
-                        </div>
-                        <div class="row mb-7">
-                            <div class="col-lg-6">
-                                <label class="fw-bold fs-6 mb-2">Promotion(%)</label>
-                                <input type="number" name="promotion" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="Please Enter your Promotion(%) here." />
-                            </div>
-                            <div class="col-lg-6">
-                                <label class="fw-bold fs-6 mb-2">Total Service Amount</label>
-                                <div class="input-group mb-5">
-                                    <span class="input-group-text">$</span>
-                                    <input type="text" disabled class="form-control mb-3 mb-lg-0" name="total_service_amount" placeholder="800">
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="separator separator-dashed my-10"></div>
-
-                        <div class="row mb-7">
-                            <div class="col-lg-6">
-                                <label class="required fw-bold fs-6 mb-2">Room Time</label>
-                                <input disabled class="form-control form-control-solid kt_datepicker_8" name="room_time" value="15 min" />
-                            </div>
-                        </div>
-                        <div class="row mb-7">
-                            <div class="col-lg-6">
-                                <label class="required fw-bold fs-6 mb-2">Start Time(Check-In)</label>
-                                <input class="form-control form-control-solid kt_datepicker_3" name="start_time" value="1:05 PM" />
-                            </div>
-                            <div class="col-lg-6">
-                                <label class="required fw-bold fs-6 mb-2">Finish Time (Check-Out)</label>
-                                <input disabled class="form-control form-control-solid kt_datepicker_3" name="finish_time" value="2:05 PM" />
-                            </div>
-                        </div>
-                        <div class="row mb-7">
-                            <div class="col-lg-6">
-                                <label class="required fw-bold fs-6 mb-2">Appointment Status</label>
-                                <select name="appointment_status" class="form-control form-control-solid mb-3 mb-lg-0">
-                                    <option>-- Select Status --</option>
-                                    <option value="1">Taken</option>
-                                    <option value="1">Confirmed</option>
-                                    <option value="1">Check-in</option>
-                                    <option value="1">Cancelled</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="row mb-7">
-                            <div class="col-lg-12">
-                                <label class="required fw-bold fs-6 mb-2">Notes</label>
-                                <textarea name="notes" class="form-control form-control-solid mb-3 mb-lg-0" cols="30" rows="5"></textarea>
-                            </div>
-                        </div>
-                    </div>
-                    <!--end::Scroll-->
-                </form>
-                <!--end::Form-->
-            </div>
-            <!--end::Modal body-->
-            <div class="modal-footer flex-center">
-                <button type="reset" data-bs-dismiss="modal" aria-label="Close" class="btn btn-light me-3">Discard</button>
-                <button type="submit" id="kt_modal_add_customer_submit" class="btn btn-primary">Submit</button>
-            </div>
-            <!--end::Modal body-->
-        </div>
-        <!--end::Modal content-->
-    </div>
-    <!--end::Modal dialog-->
-</div>
-<!--end::Modal - Edit Appointment-->
 
 <!--begin::Modal - Add Remaining Payment-->
 <div class="modal fade" id="kt_modal_add_payment" tabindex="-1" aria-hidden="true">
@@ -545,14 +349,16 @@
             <!--begin::Modal body-->
             <div class="modal-body scroll-y mx-10 my-7 mb-0 pb-0">
                 <!--begin::Form-->
-                <form id="" class="form" action="#">
+                <form id="paymentfrom" class="form" method="POST" action="{{ route('add_payment') }}" enctype="multipart/form-data">
+                    @csrf
                     <!--begin::Scroll-->
+                    <input type="hidden" name="appointment_id" value="{{$appointment[0]->appointment_id}}" />
                     <div class="d-flex flex-column scroll-y me-n7 pe-7" id="" data-kt-scroll="true" data-kt-scroll-activate="{default: false, lg: true}" data-kt-scroll-max-height="auto" data-kt-scroll-dependencies="#kt_modal_add_user_header" data-kt-scroll-wrappers="#kt_modal_add_user_scroll" data-kt-scroll-offset="300px">
                         <div class="row mb-7">
                             <div class="col-lg-6">
                                 <label class="required fw-bold fs-6 mb-2">Payment Method</label>
-                                <select name="payment_method" class="form-control form-control-solid mb-3 mb-lg-0">
-                                    <option>-- Select Payment Method --</option>
+                                <select name="payment_method" id="payment_method" class="form-control form-control-solid mb-3 mb-lg-0" required>
+                                    <option value="">-- Select Payment Method --</option>
                                     <option value="Cash">Cash</option>
                                     <option value="Credit Card">Credit Card</option>
                                     <option value="Cheque">Cheque</option>
@@ -564,27 +370,28 @@
                                 <label class="required fw-bold fs-6 mb-2">Paid</label>
                                 <div class="input-group mb-5">
                                     <span class="input-group-text border-0">$</span>
-                                    <input type="text" class="form-control form-control-solid mb-3 mb-lg-0" name="paid" placeholder="Please Enter your Paid Amount here.">
+                                    <input type="text" class="form-control form-control-solid mb-3 mb-lg-0" id="paid" name="paid" placeholder="Please Enter your Paid Amount here." required />
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <label class="required fw-bold fs-6 mb-2">Un-Paid</label>
                                 <div class="input-group mb-5">
                                     <span class="input-group-text border-0">$</span>
-                                    <input type="text" class="form-control form-control-solid mb-3 mb-lg-0" disabled name="un_paid" placeholder="Please Enter your Un-Paid Amount here.">
+                                    <input type="text" class="form-control form-control-solid mb-3 mb-lg-0" readonly id="unpaid" name="unpaid" value="{{$appointment[0]->unpaid}}" placeholder="Please Enter your Un-Paid Amount here.">
                                 </div>
                             </div>
                         </div>
+                    </div>
+                    <div class="modal-footer flex-center">
+                        <button type="reset" data-bs-dismiss="modal" aria-label="Close" class="btn btn-light me-3">Discard</button>
+                        <button type="button" onclick="submitFromA()" class="btn btn-primary">Submit</button>
                     </div>
                     <!--end::Scroll-->
                 </form>
                 <!--end::Form-->
             </div>
             <!--end::Modal body-->
-            <div class="modal-footer flex-center">
-                <button type="reset" data-bs-dismiss="modal" aria-label="Close" class="btn btn-light me-3">Discard</button>
-                <button type="submit" id="kt_modal_add_customer_submit" class="btn btn-primary">Submit</button>
-            </div>
+
             <!--end::Modal body-->
         </div>
         <!--end::Modal content-->
@@ -592,4 +399,29 @@
     <!--end::Modal dialog-->
 </div>
 <!--end::Modal - Add Remaining Payment-->
+<script>
+    function submitFromA() {
+        var paymentMethod = $("#payment_method").val();
+        if (paymentMethod == '') {
+            alert('Payment method must be selected');
+            return false;
+        }
+        var paid = $("#paid").val();
+        if (paid == '') {
+            alert('Please enter amount');
+            return false;
+        }
+        var unpaid = $("#unpaid").val();
+        if (parseInt(paid) > parseInt(unpaid)) {
+            alert('The amount is greater then unpaid amount');
+            return false;
+        }
+
+        var unpaid = $("#unpaid").val();
+        if (parseInt(paid) <= parseInt(unpaid)) {
+            document.getElementById("paymentfrom").submit();
+        }
+
+    }
+</script>
 @endsection

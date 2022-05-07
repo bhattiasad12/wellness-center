@@ -61,7 +61,7 @@
             </div>
             <div class="col-lg-6">
                 <label class="required fw-bold fs-6 mb-2">Hand</label>
-                <select name="hand_id" id='hand' class="form-control form-control-solid mb-3 mb-lg-0" onchange="getHandServiceSetting(this.value)" required>
+                <select name="hand_id" id='hand' class="form-control form-control-solid mb-3 mb-lg-0" onchange="getHandServiceSetting()" required>
                     <option value="">-- Select Hand --</option>
 
                 </select>
@@ -183,18 +183,30 @@
     // var ia = 0;
 
     function checkAppointment() {
-        // ia++;
+        // ia++;practitionner
+        var practitionner = $('#practitionner').val();
+        if (practitionner == '') {
+            alert("Please select practitionner");
+            getHandServiceSetting();
+            return true;
+        }
         var service = $('#service').val();
         var appointmentStart = $('#appointment_start').val();
         let value = {
             serviceId: service,
             appointmentStart: appointmentStart,
+            practitionnerId: practitionner,
         };
         $.ajax({
             type: 'GET',
             url: "{{ route('check_appointment') }}",
             data: value,
             success: function(result) {
+                if (result.hasAppointment == 'yes') {
+                    alert("There is appointment");
+                    getHandServiceSetting();
+                    return true;
+                }
                 if (result != "") {
                     document.getElementById('zone').value = result.service[0].zone;
                     document.getElementById('sessions').value = result.service[0].session;
@@ -226,10 +238,11 @@
         });
     }
 
-    function getHandServiceSetting(val) {
+    function getHandServiceSetting() {
         var machineId = $('#machine').val();
+        var hand = $('#hand').val();
         let value = {
-            handId: val,
+            handId: hand,
             machineId: machineId,
         };
         $.ajax({

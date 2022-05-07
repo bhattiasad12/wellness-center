@@ -51,7 +51,6 @@ class ClientController extends Controller
             'zipcode' => ['required'],
 
         ]);
-
         if ($request->hasFile('avatar')) {
             $image = $request->file('avatar');
             //  print_r($image);
@@ -107,10 +106,59 @@ class ClientController extends Controller
     {
         $userId = Auth::user()->id;
         $clientId = $client->id;
+        $appointment = DB::select(DB::raw("SELECT 
+        a.`id` AS appointment_id,
+        a.`appointment_start`,
+        c.`first_name` AS client_first_name,
+        c.`last_name` AS client_last_name,
+        c.`phone_number`,
+        m.`name` AS machine_name,
+        s.`service_name`,
+        h.`name` AS hand_name,
+        a.`zone`,
+        a.`session`,
+        a.`session_price`,
+        a.`total_service_amount`,
+        a.`appointment_end`,
+        a.`room_time`, r.`name` AS room_name,
+        p.`first_name` AS pra_first_name,
+        p.`last_name` AS pra_last_name,
+        hs.`setting_name`,a.`status`,
+        a.`note`,a.`created_at`,a.`unpaid`,a.`paid`,a.`promotion`
+      FROM
+        `appointments` a 
+        INNER JOIN `clients` c 
+          ON a.`client_id` = c.`id` 
+        INNER JOIN `machines` m 
+          ON m.`id` = a.`machine_id` 
+        INNER JOIN `services` s 
+          ON s.id = a.`service_id` 
+        INNER JOIN `hands` h 
+          ON h.`id` = a.`hand_id` 
+        INNER JOIN `practitioners` p 
+          ON p.`id` = a.`practitionner_id` 
+        INNER JOIN `hand_settings` hs 
+          ON hs.`id` = a.`setting_id` 
+        INNER JOIN `rooms` r 
+          ON a.`room_id` = r.`id` 
+      WHERE a.`user_id` = '$userId' 
+        AND a.`deleted_at` IS NULL AND a.`client_id`='$clientId' "));
+
+        $paymentHistory = DB::select(DB::raw("SELECT a.id AS appointment_id,s.service_name,a.total_service_amount,a.unpaid,
+        (SELECT 
+            CASE
+                WHEN SUM(ap.paid) IS NULL 
+                THEN 0 
+                ELSE SUM(ap.paid)
+            END 
+        FROM `appointment_payments` ap WHERE ap.appointment_id = a.`id` AND ap.deleted_at IS NULL AND ap.user_id='$userId') AS paid 
+    FROM `appointments` a INNER JOIN `services` s ON a.`service_id`=s.id
+    WHERE a.`client_id`='$clientId' AND a.`user_id`='$userId' AND a.`deleted_at` IS NULL"));
         // DB::enableQueryLog();
         $clientNote = DB::select(DB::raw("SELECT * FROM client_notes WHERE client_id='$clientId' AND user_id='$userId'"));
         $clientDoc = DB::select(DB::raw("SELECT * FROM client_document WHERE client_id='$clientId' AND user_id='$userId'"));
-        return view('client.show',  compact('client', 'clientNote', 'clientDoc'));
+
+        return view('client.show',  compact('client', 'clientNote', 'clientDoc', 'appointment', 'paymentHistory'));
     }
 
     /**
@@ -162,7 +210,7 @@ class ClientController extends Controller
             $hand->last_name = $request->last_name;
             $hand->email = $request->email;
             $hand->phone_number = $request->phone_number;
-            $hand->profile_pic = $request->path;
+            $hand->profile_pic = $path;
             $hand->age = $request->age;
             $hand->source = $request->source;
             $hand->neighborhood = $request->neighborhood;

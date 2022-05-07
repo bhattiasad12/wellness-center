@@ -1,32 +1,25 @@
 <div class="alert alert-danger" style="display:none"></div>
 <form id="createPractionerForm" class="form" method="POST" action="{{ route('practitioner.store') }}">
     @csrf
-    <div class="d-flex flex-column scroll-y me-n7 pe-7" id="" data-kt-scroll="true"
-        data-kt-scroll-activate="{default: false, lg: true}" data-kt-scroll-max-height="auto"
-        data-kt-scroll-dependencies="#kt_modal_add_user_header" data-kt-scroll-wrappers="#kt_modal_add_user_scroll"
-        data-kt-scroll-offset="300px">
+    <div class="d-flex flex-column scroll-y me-n7 pe-7" id="" data-kt-scroll="true" data-kt-scroll-activate="{default: false, lg: true}" data-kt-scroll-max-height="auto" data-kt-scroll-dependencies="#kt_modal_add_user_header" data-kt-scroll-wrappers="#kt_modal_add_user_scroll" data-kt-scroll-offset="300px">
         <div class="row mb-7">
             <div class="col-lg-6">
                 <label class="required fw-bold fs-6 mb-2">Practitioner First Name</label>
-                <input type="text" name="first_name" value="" class="form-control form-control-solid mb-3 mb-lg-0"
-                    placeholder="Please Enter the Practitioner First Name" required />
+                <input type="text" name="first_name" value="" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="Please Enter the Practitioner First Name" required />
             </div>
             <div class="col-lg-6">
                 <label class="required fw-bold fs-6 mb-2">Practitioner Last Name</label>
-                <input type="text" name="last_name" value="" class="form-control form-control-solid mb-3 mb-lg-0"
-                    placeholder="Please Enter the Practitioner Last Name" required />
+                <input type="text" name="last_name" value="" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="Please Enter the Practitioner Last Name" required />
             </div>
         </div>
         <div class="row mb-7">
             <div class="col-lg-6">
                 <label class="required fw-bold fs-6 mb-2">Email</label>
-                <input type="email" name="email" value="" class="form-control form-control-solid mb-3 mb-lg-0"
-                    placeholder="Please Enter the Email" required />
+                <input type="email" name="email" value="" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="Please Enter the Email" required />
             </div>
             <div class="col-lg-6">
                 <label class="required fw-bold fs-6 mb-2">Phone Number</label>
-                <input type="number" name="phone_number" value="" class="form-control form-control-solid mb-3 mb-lg-0"
-                    placeholder="Please Enter the Practitioner Phone Number" required />
+                <input type="number" name="phone_number" value="" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="Please Enter the Practitioner Phone Number" required />
             </div>
         </div>
         <div class="row mb-7" id='details'>
@@ -34,9 +27,8 @@
                 <label class="required fw-bold fs-6 mb-2">Week Day</label>
                 <select name="days[]" class="form-control form-control-solid mb-3 mb-lg-0" required>
                     <option>-- Select Week Day --</option>
-                    @for ($i = 0; $i < count($days); $i++)
-                        <option value=" {{ $days[$i]->id }} "> {{ ucwords($days[$i]->day) }} </option>
-                    @endfor
+                    @for ($i = 0; $i < count($days); $i++) <option value=" {{ $days[$i]->id }} "> {{ ucwords($days[$i]->day) }} </option>
+                        @endfor
                 </select>
             </div>
             <div class="col-lg-3">
