@@ -15,27 +15,18 @@
         }
 
     </style>
-    <!--begin::Content-->
     <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
-        <!--begin::Post-->
         <div class="post d-flex flex-column-fluid" id="kt_post">
-            <!--begin::Container-->
             <div id="kt_content_container" class="container-xxl">
-                <!--begin::Row-->
                 <div class="row gy-5 g-xl-10">
                     <div class="col-xl-12 mb-5 mb-xl-10">
-                        <!--begin::Card-->
                         <div class="card card-docs mb-2">
                             <div class="p-10">
-                                <!--begin::Heading-->
                                 <h1 class="anchor fw-bolder mb-5" id="zero-configuration">
                                     <a href="javascript:;"></a>Practitioners Listing
                                 </h1>
-                                <!--begin::Notice-->
                                 <div class="d-flex align-items-center rounded py-5 px-4 bg-light-info">
-                                    <!--begin::Icon-->
                                     <div class="d-flex h-80px w-80px flex-shrink-0 flex-center position-relative ms-3 me-6">
-                                        <!--begin::Svg Icon | path: icons/duotune/abstract/abs051.svg-->
                                         <span class="svg-icon svg-icon-info position-absolute opacity-10">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="70px" height="70px"
                                                 viewBox="0 0 70 70" fill="none" class="w-80px h-80px">
@@ -44,8 +35,6 @@
                                                     fill="#000000" />
                                             </svg>
                                         </span>
-                                        <!--end::Svg Icon-->
-                                        <!--begin::Svg Icon | path: icons/duotune/art/art006.svg-->
                                         <span class="svg-icon svg-icon-3x svg-icon-info position-absolute">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                                 viewBox="0 0 24 24" fill="none">
@@ -66,24 +55,14 @@
                                                     fill="black" />
                                             </svg>
                                         </span>
-                                        <!--end::Svg Icon-->
                                     </div>
-                                    <!--end::Icon-->
-                                    <!--begin::Description-->
                                     <div class="text-gray-700 fw-bold fs-6 lh-lg">Here we have a list of all of the
                                         Practitioners that we have.</div>
-                                    <!--end::Description-->
                                 </div>
-                                <!--end::Notice-->
-                                <!--end::Heading-->
                             </div>
-                            <!--begin::Card header-->
                             <div class="card-header border-0">
-                                <!--begin::Card title-->
                                 <div class="card-title">
-                                    <!--begin::Search-->
                                     <div class="d-flex align-items-center position-relative my-1">
-                                        <!--begin::Svg Icon | path: icons/duotune/general/gen021.svg-->
                                         <span class="svg-icon svg-icon-1 position-absolute ms-6">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                                 viewBox="0 0 24 24" fill="none">
@@ -94,20 +73,13 @@
                                                     fill="black" />
                                             </svg>
                                         </span>
-                                        <!--end::Svg Icon-->
                                         <input type="text" id="search" data-kt-user-table-filter="search"
                                             class="form-control form-control-solid w-250px ps-14" placeholder="Search" />
                                     </div>
-                                    <!--end::Search-->
                                 </div>
-                                <!--begin::Card title-->
-                                <!--begin::Card toolbar-->
                                 <div class="card-toolbar">
-                                    <!--begin::Toolbar-->
                                     <div class="d-flex justify-content-end" data-kt-user-table-toolbar="base">
-                                        <!--begin::Add Practitioner-->
                                         <button type="button" class="btn btn-primary" onclick="addPractitioner()">
-                                            <!--begin::Svg Icon | path: icons/duotune/arrows/arr075.svg-->
                                             <span class="svg-icon svg-icon-2">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                                     viewBox="0 0 24 24" fill="none">
@@ -117,19 +89,12 @@
                                                         fill="black" />
                                                 </svg>
                                             </span>
-                                            <!--end::Svg Icon-->Add Practitioner
                                         </button>
-                                        <!--end::Add Practitioner-->
                                     </div>
-                                    <!--end::Toolbar-->
                                 </div>
-                                <!--end::Card toolbar-->
                             </div>
-                            <!--end::Card header-->
-                            <!--begin::Card Body-->
                             <div class="card-body fs-6 py-lg-5 text-gray-700">
 
-                                <!--begin::Block-->
                                 <div class="py-5">
                                     <table class="kt_datatable_example_1 table table-row-bordered gy-5">
                                         <thead>
@@ -153,7 +118,6 @@
                                                         <button type="button"
                                                             class="btn btn-icon btn-sm btn-color-gray-400 btn-active-icon-primary me-2"
                                                             onclick="editPractitioner('{{ $practitioner[$i]->id }}')">
-                                                            <!--begin::Svg Icon | path: icons/duotune/art/art005.svg-->
                                                             <span class="svg-icon svg-icon-2">
                                                                 <svg xmlns="http://www.w3.org/2000/svg" width="24"
                                                                     height="24" viewBox="0 0 24 24" fill="none">
@@ -165,7 +129,6 @@
                                                                         fill="black"></path>
                                                                 </svg>
                                                             </span>
-                                                            <!--end::Svg Icon-->
                                                         </button>
                                                         <form style="display: inline-block" method="POST"
                                                             action="{{ route('practitioner.destroy', $practitioner[$i]->id) }}">
@@ -175,7 +138,6 @@
                                                                 class="btn btn-icon btn-sm btn-color-gray-400 btn-active-icon-danger me-2"
                                                                 data-bs-toggle="tooltip"
                                                                 data-bs-original-title="Delete Practitioner">
-                                                                <!--begin::Svg Icon | path: icons/duotune/general/gen027.svg-->
                                                                 <span class="svg-icon svg-icon-2">
                                                                     <svg xmlns="http://www.w3.org/2000/svg" width="24"
                                                                         height="24" viewBox="0 0 24 24" fill="none">
@@ -190,7 +152,6 @@
                                                                             fill="black"></path>
                                                                     </svg>
                                                                 </span>
-                                                                <!--end::Svg Icon-->
                                                             </button>
                                                         </form>
                                                     </td>
@@ -201,16 +162,11 @@
                                     </table>
                                 </div>
                             </div>
-                            <!--end::Card Body-->
                         </div>
-                        <!--end::Card-->
                     </div>
                 </div>
-                <!--end::Row-->
             </div>
-            <!--end::Container-->
         </div>
-        <!--end::Post-->
     </div>
 
     <script>
