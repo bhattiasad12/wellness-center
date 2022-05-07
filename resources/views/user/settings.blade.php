@@ -18,6 +18,7 @@
                             <div class="me-7 mb-4">
                                 <div class="symbol symbol-100px symbol-lg-160px symbol-fixed position-relative">
                                     <img src="{{ asset('/profile/' . $profile_picture) }}"
+                                        onerror="this.onerror=null; this.src='/profile/blank.png'"
                                         alt="{{ asset('/profile/blank.png') }}">
                                     <div
                                         class="position-absolute translate-middle bottom-0 start-100 mb-6 bg-success rounded-circle border border-4 border-white h-20px w-20px">

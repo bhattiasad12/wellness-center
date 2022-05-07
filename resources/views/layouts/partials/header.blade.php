@@ -117,7 +117,7 @@
                                         data-kt-menu-placement="bottom-end">
                                         @if (Auth::user()->profile_picture)
                                             <img src="{{ asset('/profile/' . Auth::user()->profile_picture) }}"
-                                                alt="{{ asset('/profile/blank.png') }}">
+                                                onerror="this.onerror=null; this.src='/profile/blank.png'" alt="">
                                         @endif
                                     </div>
                                     <!--begin::User account menu-->
@@ -130,6 +130,7 @@
                                                 <div class="symbol symbol-50px me-5">
                                                     @if (Auth::user()->profile_picture)
                                                         <img src="{{ asset('/profile/' . Auth::user()->profile_picture) }}"
+                                                            onerror="this.onerror=null; this.src='/profile/blank.png'"
                                                             alt="{{ asset('/profile/blank.png') }}">
                                                     @endif
                                                 </div>

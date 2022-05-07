@@ -19,7 +19,6 @@ class PractitionerController extends Controller
     public function index()
     {
         $practitioner = Practitioner::where('user_id', Auth::user()->id)->get();
-
         return view('practitioner.index', compact('practitioner'));
     }
 
@@ -87,7 +86,7 @@ class PractitionerController extends Controller
         $userId = Auth::user()->id;
         $data = DB::select(DB::raw("SELECT * FROM `practitioners` p INNER JOIN `practitioners_time`pt ON p.`id`=pt.`practitioner_id`
         INNER JOIN `practitioners_days`pd ON pd.`id`=pt.`practitioner_day_id` WHERE p.`deleted_at` IS NULL
-        AND p.`id`='$id' AND p.`user_id`='$userId' ORDER BY pd.`day` ASC "));
+        AND p.`id`='$id' AND p.`user_id`='$userId' ORDER BY pd.`id` ASC "));
         return view('practitioner.show', compact('data'));
     }
 
@@ -102,9 +101,9 @@ class PractitionerController extends Controller
         $id = $practitioner->id;
         $days = PractitionerDay::get();
         $userId = Auth::user()->id;
-        $practitioner = DB::select(DB::raw("SELECT *,pt.`id` AS practitioner_id FROM `practitioners` p INNER JOIN `practitioners_time`pt ON p.`id`=pt.`practitioner_id`
+        $practitioner = DB::select(DB::raw("SELECT *,pt.`id` AS practitioner_time_id FROM `practitioners` p INNER JOIN `practitioners_time`pt ON p.`id`=pt.`practitioner_id`
         INNER JOIN `practitioners_days`pd ON pd.`id`=pt.`practitioner_day_id` WHERE p.`deleted_at` IS NULL
-        AND p.`id`='$id' AND p.`user_id`='$userId' ORDER BY pd.`day` ASC "));
+        AND p.`id`='$id' AND p.`user_id`='$userId' ORDER BY pd.`id` ASC "));
 
         return view('practitioner.edit',  compact('days', 'practitioner', 'id'));
     }
@@ -118,6 +117,38 @@ class PractitionerController extends Controller
      */
     public function update(Request $request, Practitioner $practitioner)
     {
+        $request->validate([
+            'first_name' => ['required'],
+            'last_name' => ['required'],
+            'email' => ['required', 'email'],
+            'phone_number' => ['required'],
+            'days.*' => ['required'],
+            'check_in.*' => ['required'],
+            'check_out.*' => ['required'],
+        ]);
+        $data = Practitioner::find($practitioner->id);
+
+        $data->first_name = $request->first_name;
+        $data->last_name = $request->last_name;
+        $data->email = $request->email;
+        $data->phone_number = $request->phone_number;
+        $data->user_id = Auth::user()->id;
+        $data->created_at = date("Y-m-d");
+        $data->created_by = Auth::user()->id;
+
+        $data->save();
+        // DB::enableQueryLog();
+        for ($i = 0; $i < count($request->practitioner_time_id); $i++) {
+
+            $practitionerTime = array();
+            $practitionerTime['practitioner_id'] = $practitioner['id'];
+            $practitionerTime['practitioner_day_id'] = $request->days[$i];
+            $practitionerTime['start_time'] = $request->check_in[$i];
+            $practitionerTime['end_time'] = $request->check_out[$i];
+            DB::table('practitioners_time')->where('id', $request->practitioner_time_id[$i])->update($practitionerTime);
+        }
+        // dd(DB::getQueryLog());
+        return redirect()->back();
     }
 
     /**
