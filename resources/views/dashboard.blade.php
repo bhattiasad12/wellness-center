@@ -31,8 +31,8 @@
                                 </div>
                             </div>
                             <div class="text-center">
-                                <a href="#" class="btn btn-sm btn-primary me-2" data-bs-toggle="tooltip" data-bs-dismiss="click" data-bs-custom-class="tooltip-dark" title="Book an Appointment from the Appointments Page">Book Appointment</a>
-                                <a href="#" class="btn btn-sm btn-light" data-bs-toggle="tooltip" data-bs-dismiss="click" data-bs-custom-class="tooltip-dark" title="Appointments Listing">View Appointments</a>
+                                <a href="{{ route('appointment.index') }}" class="btn btn-sm btn-primary me-2" data-bs-toggle="tooltip" data-bs-dismiss="click" data-bs-custom-class="tooltip-dark" title="Book an Appointment from the Appointments Page">Book Appointment</a>
+                                <a href="{{ route('appointment.index') }}" class="btn btn-sm btn-light" data-bs-toggle="tooltip" data-bs-dismiss="click" data-bs-custom-class="tooltip-dark" title="Appointments Listing">View Appointments</a>
                             </div>
                         </div>
                     </div>
