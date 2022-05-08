@@ -201,7 +201,9 @@ class AppointmentController extends Controller
    */
   public function edit(appointment $appointment)
   {
-    return view('appointment.edit', $appointment);
+    $machine = Machine::where('user_id', Auth::user()->id)->get();
+    $client = Client::where('user_id', Auth::user()->id)->get();
+    return view('appointment.edit', compact('client', 'machine', 'appointment'));
   }
 
   /**
@@ -211,9 +213,56 @@ class AppointmentController extends Controller
    * @param  \App\Models\appointment  $appointment
    * @return \Illuminate\Http\Response
    */
-  public function update(Request $request, appointment $appointment)
+  public function update(Request $request, int $id)
   {
-    //
+    $request->validate([
+      'client_id' => ['required'],
+      'appointment_end' => ['required'],
+      'appointment_start' => ['required'],
+      'room_id' => ['required'],
+      'practitionner_id' => ['required'],
+      'machine_id' => ['required'],
+      'hand_id' => ['required'],
+      'service_id' => ['required'],
+      'zone' => ['required'],
+      'session' => ['required'],
+      'setting_id' => ['required'],
+      'session_price' => ['required'],
+      'promotion' => ['required'],
+      'total_service_amount' => ['required'],
+      'room_time' => ['required'],
+      'check_in' => ['required'],
+      'check_out' => ['required'],
+      'status' => ['required'],
+      'note' => ['required'],
+
+    ]);
+    $appointment = Appointment::find($id);
+
+    $appointment->client_id = $request->client_id;
+    $appointment->appointment_end = $request->appointment_end;
+    $appointment->appointment_start = $request->appointment_start;
+    $appointment->room_id = $request->room_id;
+    $appointment->practitionner_id = $request->practitionner_id;
+    $appointment->machine_id = $request->machine_id;
+    $appointment->hand_id = $request->hand_id;
+    $appointment->service_id = $request->service_id;
+    $appointment->zone = $request->zone;
+    $appointment->session = $request->session;
+    $appointment->session_price = $request->session_price;
+    $appointment->promotion = $request->promotion;
+    $appointment->total_service_amount = $request->total_service_amount;
+    $appointment->unpaid = $request->total_service_amount;
+    $appointment->room_time = $request->room_time;
+    $appointment->check_in = $request->check_in;
+    $appointment->check_out = $request->check_out;
+    $appointment->status = $request->status;
+    $appointment->note = $request->note;
+    $appointment->updated_at =  date("Y-m-d");
+    $appointment->updated_by =  Auth::user()->id;
+
+    $appointment->save();
+    return redirect()->back();
   }
 
   /**
@@ -240,6 +289,7 @@ class AppointmentController extends Controller
   {
     $userId = Auth::user()->id;
     $appointmentStart = $_REQUEST['appointmentStart'];
+    $appointmentId = $_REQUEST['appointmentId'];
 
     $time = date("H:i", strtotime($appointmentStart));
     $appointmentStart = date("Y-m-d H:i", strtotime($appointmentStart));
@@ -247,7 +297,7 @@ class AppointmentController extends Controller
     $appointmentArr = DB::select(DB::raw("SELECT  GROUP_CONCAT(room_id)AS room_id, GROUP_CONCAT(practitionner_id) AS practitionner_id
         FROM appointments WHERE `user_id` = '$userId' AND `deleted_at` IS NULL 
         AND STR_TO_DATE(`appointment_start`, '%Y-%m-%d %H:%i') <= '$appointmentStart' 
-        AND STR_TO_DATE(`appointment_end`, '%Y-%m-%d %H:%i') >= '$appointmentStart'"));
+        AND STR_TO_DATE(`appointment_end`, '%Y-%m-%d %H:%i') >= '$appointmentStart' AND id NOT IN ('$appointmentId') "));
     if ($appointmentArr[0]->room_id == '') {
       $room = Room::where('user_id', $userId)->get();
       $practitioners = DB::select(DB::raw("SELECT p.`id`,p.`first_name` FROM `practitioners` p INNER JOIN `practitioners_time` pt 
@@ -302,6 +352,7 @@ class AppointmentController extends Controller
     $userId = Auth::user()->id;
     $serviceId = $_REQUEST['serviceId'];
     $practitionnerId = $_REQUEST['practitionnerId'];
+    $appointmentId = $_REQUEST['appointmentId'];
     // $appointmentStartTime = date('Y-m-d H:i', strtotime($_REQUEST['appointmentStart']));
     $checkIn = date('H:i', strtotime($_REQUEST['appointmentStart']));
     //$appointmentTime = $_REQUEST['appointmentStart'];
@@ -312,7 +363,7 @@ class AppointmentController extends Controller
     $appointmentArr = DB::select(DB::raw("SELECT * FROM appointments WHERE `user_id` = '$userId' AND `deleted_at` IS NULL 
         AND `practitionner_id` = '$practitionnerId' 
         AND ('$appointmentEndTime' BETWEEN STR_TO_DATE(`appointment_start`, '%Y-%m-%d %H:%i:%s') AND STR_TO_DATE(`appointment_end`,
-        '%Y-%m-%d %H:%i:%s')) "));
+        '%Y-%m-%d %H:%i:%s')) AND id NOT IN ('$appointmentId') "));
     if (empty($appointmentArr)) {
       $data = array(
         'checkIn' => $checkIn,
@@ -360,6 +411,7 @@ class AppointmentController extends Controller
     $appointment->save();
     return redirect()->back();
   }
+
   public function showCalender()
   {
     return view('appointment.calender');

@@ -3,6 +3,7 @@
     <!--begin::Scroll-->
     @csrf
     <input type="hidden" id="appointment_end" name="appointment_end" />
+    <input type="hidden" id="appointment_id" value="" />
     <div class="d-flex flex-column scroll-y me-n7 pe-7" data-kt-scroll="true" data-kt-scroll-activate="{default: false, lg: true}" data-kt-scroll-max-height="auto" data-kt-scroll-dependencies="#kt_modal_add_user_header" data-kt-scroll-wrappers="#kt_modal_add_user_scroll" data-kt-scroll-offset="300px">
         <div class="row mb-7">
             <div class="col-lg-6">
@@ -190,12 +191,14 @@
             getHandServiceSetting();
             return true;
         }
+        var appointmentId = $('#appointment_id').val();
         var service = $('#service').val();
         var appointmentStart = $('#appointment_start').val();
         let value = {
             serviceId: service,
             appointmentStart: appointmentStart,
             practitionnerId: practitionner,
+            appointmentId: appointmentId,
         };
         $.ajax({
             type: 'GET',
@@ -294,8 +297,10 @@
     }
 
     function getRoomPractitioner(val) {
+        var appointmentId = $('#appointment_id').val();
         let value = {
             appointmentStart: val,
+            appointmentId: appointmentId,
         };
         $.ajax({
             type: 'GET',

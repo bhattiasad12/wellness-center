@@ -40,6 +40,9 @@
     </div>
     <!--end::Post-->
 </div>
+<script src="{{ asset('theme/assets/js/scripts.bundle.js') }}"></script>
+<script src="{{ asset('theme/assets/plugins/custom/fullcalendar/fullcalendar.bundle.js') }}"></script>
+<script src="{{ asset('theme/assets/js/custom/documentation/general/fullcalendar/basic.js')}}"></script>
 <script>
     function addAppointment() {
         $.ajax({

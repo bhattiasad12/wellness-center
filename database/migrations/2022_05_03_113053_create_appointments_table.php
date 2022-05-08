@@ -33,7 +33,7 @@ class CreateAppointmentsTable extends Migration
             $table->string('check_out');
             $table->string('paid');
             $table->string('unpaid');
-            $table->enum('status', ['taken', 'comfirmed', 'checkin', 'cancelled']);
+            $table->enum('status', ['taken', 'confirmed', 'checkin', 'cancelled']);
             $table->string('note');
             $table->dateTime('appointment_start');
             $table->dateTime('appointment_end');

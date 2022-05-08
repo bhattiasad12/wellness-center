@@ -32,7 +32,7 @@ var KTGeneralFullCalendarBasicDemos = {
                 events: [
                     {
                         title: "All Day Event",
-                        start: t + "-01",
+                        start: "2022-05-01 01:00",
                         color: "purple",
                         description:
                             "Toto lorem ipsum dolor sit incid idunt ut",
