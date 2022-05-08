@@ -60,7 +60,7 @@
                                 <!--end::User-->
                                 <!--begin::Actions-->
                                 <div class="d-flex my-4">
-                                    <a href="#" class="btn btn-sm btn-circle btn-light-primary me-2" data-bs-toggle="modal" data-bs-target="#kt_modal_edit_appointment">Edit Appointment</a>
+                                    <button type="button" class="btn btn-sm btn-circle btn-light-primary me-2" onclick="editAppointment('{{$appointment[0]->appointment_id}}')">Edit Appointment</button>
                                     @if($appointment[0]->unpaid <= '0' ) <button disabled class="btn btn-sm btn-circle btn-light-warning me-2" data-bs-toggle="modal" data-bs-target="#kt_modal_add_payment">Add Remaining Payment</button>
                                         @else
                                         <a href="#" class="btn btn-sm btn-circle btn-light-warning me-2" data-bs-toggle="modal" data-bs-target="#kt_modal_add_payment">Add Remaining Payment</a>
@@ -400,6 +400,20 @@
 </div>
 <!--end::Modal - Add Remaining Payment-->
 <script>
+    function editAppointment(id) {
+        url = "{{ route('appointment.edit', ':id') }}";
+        url = url.replace(':id', id);
+        $.ajax({
+            type: 'GET',
+            url: url,
+            success: function(result) {
+                $('#myModalLgHeading').html('Edit Appointment');
+                $('#modalBodyLarge').html(result);
+                $('#myModalLg').modal('show');
+            }
+        });
+    }
+
     function submitFromA() {
         var paymentMethod = $("#payment_method").val();
         if (paymentMethod == '') {

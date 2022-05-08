@@ -26,6 +26,7 @@ class AppointmentController extends Controller
   public function index()
   {
     $userId = Auth::user()->id;
+    $year = Date("Y");
     $appointment = DB::select(DB::raw("SELECT 
         a.`id` AS appointment_id,
         a.`appointment_start`,
@@ -62,7 +63,7 @@ class AppointmentController extends Controller
         INNER JOIN `rooms` r 
           ON a.`room_id` = r.`id` 
       WHERE a.`user_id` = '$userId' 
-        AND a.`deleted_at` IS NULL "));
+        AND a.`deleted_at` IS NULL AND YEAR(a.`created_at`)='$year' "));
 
     return view('appointment.index', compact('appointment'));
   }
