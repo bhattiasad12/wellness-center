@@ -417,4 +417,38 @@ class AppointmentController extends Controller
   {
     return view('appointment.calender');
   }
+  public function dashboard()
+  {
+    $month = Date("m");
+    $year = Date("Y");
+    $userId = Auth::user()->id;
+    $appointmentsInfo = DB::select(DB::raw("SELECT COUNT(*) AS total_appointment , 
+    COUNT(CASE WHEN `status`='taken'  THEN 1 END) AS taken,
+    COUNT(CASE WHEN `status`='cancelled'  THEN 1 END) AS cancelled,
+    COUNT(CASE WHEN `status`='checkin'  THEN 1 END) AS checkin,
+    COUNT(CASE WHEN `status`='confirmed'  THEN 1 END) AS confirmed,
+    SUM(CASE WHEN `status`='confirmed'  THEN paid END) AS total_revenue
+    
+    FROM `appointments` WHERE  deleted_at is null AND user_id='$userId' AND MONTH(`appointment_start`)='$month' AND YEAR(`appointment_start`)='$year'"));
+    // graph
+    $revenue  = DB::select(DB::raw("SELECT 
+    DAY(appointment_start) AS appointment_start, SUM(paid) AS paid
+  FROM
+    `appointments` 
+  WHERE `status` = 'confirmed' 
+    AND MONTH(appointment_start) = '$month' 
+    AND YEAR(appointment_start) = '$year' AND user_id='$userId' AND deleted_at is null
+  GROUP BY DAY(appointment_start)"));
+    $days = date('t');
+    $revenu = array();
+    for ($i = 1; $i <= $days; $i++) {
+      $revenu[$i] = 0;
+    }
+    for ($i = 0; $i < count($revenue); $i++) {
+      $revenu[$revenue[$i]->appointment_start] = $revenue[$i]->paid;
+    }
+    $dataGraph = json_encode(array_values($revenu));
+
+    return view('dashboard', compact('appointmentsInfo', 'dataGraph'));
+  }
 }

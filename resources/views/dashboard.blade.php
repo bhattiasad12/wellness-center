@@ -9,8 +9,7 @@
                     <div class="card card-xl-stretch mb-5 mb-xl-8">
                         <div class="card-body d-flex align-items-center pt-3 pb-0">
                             <div class="d-flex flex-column flex-grow-1 py-2 py-lg-13 me-2">
-                                <a href="#" class="fw-bolder text-dark fs-4 mb-2 text-hover-primary">Hi, Mohammad
-                                    Abillouch</a>
+                                <a href="#" class="fw-bolder text-dark fs-4 mb-2 text-hover-primary">Hi, {{ucwords(Auth::user()->first_name)}} {{ucwords(Auth::user()->last_name)}}</a>
                                 <span class="fw-bold text-muted fs-5">Admin</span>
                             </div>
                             <img src=" {{ asset('theme/assets/media/svg/avatars/004-boy-1.svg') }}" alt="" class="align-self-end h-100px">
@@ -50,7 +49,7 @@
                                             <rect x="3" y="13" width="3" height="6" rx="1.5" fill="black"></rect>
                                         </svg>
                                     </span>
-                                    <div class="text-gray-900 fw-bolder fs-2 mb-2 mt-5">12,000</div>
+                                    <div class="text-gray-900 fw-bolder fs-2 mb-2 mt-5">{{$appointmentsInfo[0]->total_appointment}}</div>
                                     <div class="fw-bold text-gray-400">Total Appointments</div>
                                 </div>
                             </div>
@@ -58,7 +57,7 @@
                                 <div class="card-body d-flex justify-content-between flex-column px-0 pb-0">
                                     <div class="mb-4 px-9">
                                         <div class="d-flex align-items-center mb-2">
-                                            <span class="fs-2hx fw-bolder text-gray-800 me-2 lh-1">$259,786</span>
+                                            <span class="fs-2hx fw-bolder text-gray-800 me-2 lh-1">${{$appointmentsInfo[0]->total_revenue}}</span>
                                             <span class="d-flex align-items-end text-gray-400 fs-6 fw-bold">USD</span>
                                         </div>
                                         <span class="fs-6 fw-bold text-gray-400">Total Revenue Generated</span>
@@ -78,7 +77,7 @@
                                 </div>
                                 <div class="d-flex text-center flex-column text-white pt-8">
                                     <span class="fw-bold fs-7">Total Appointments</span>
-                                    <span class="fw-bolder fs-2x pt-1">12,000</span>
+                                    <span class="fw-bolder fs-2x pt-1">{{$appointmentsInfo[0]->total_appointment}}</span>
                                 </div>
                             </div>
                             <div class="bg-body shadow-sm card-rounded mx-9 mb-9 px-6 py-9 position-relative z-index-1" style="margin-top: -100px">
@@ -98,7 +97,7 @@
                                             <a href="#" class="fs-5 text-gray-800 text-hover-primary fw-bolder">Taken</a>
                                         </div>
                                         <div class="d-flex align-items-center">
-                                            <div class="fw-bolder fs-5 text-gray-800 pe-1">100</div>
+                                            <div class="fw-bolder fs-5 text-gray-800 pe-1">{{$appointmentsInfo[0]->taken}}</div>
                                         </div>
                                     </div>
                                 </div>
@@ -120,7 +119,7 @@
                                             <a href="#" class="fs-5 text-gray-800 text-hover-primary fw-bolder">Confirmed</a>
                                         </div>
                                         <div class="d-flex align-items-center">
-                                            <div class="fw-bolder fs-5 text-gray-800 pe-1">400</div>
+                                            <div class="fw-bolder fs-5 text-gray-800 pe-1">{{$appointmentsInfo[0]->confirmed}}</div>
                                         </div>
                                     </div>
                                 </div>
@@ -140,7 +139,7 @@
                                             <a href="#" class="fs-5 text-gray-800 text-hover-primary fw-bolder">Check-In</a>
                                         </div>
                                         <div class="d-flex align-items-center">
-                                            <div class="fw-bolder fs-5 text-gray-800 pe-1">300</div>
+                                            <div class="fw-bolder fs-5 text-gray-800 pe-1">{{$appointmentsInfo[0]->checkin}}</div>
                                         </div>
                                     </div>
                                 </div>
@@ -163,7 +162,7 @@
                                             <a href="#" class="fs-5 text-gray-800 text-hover-primary fw-bolder">Cancelled</a>
                                         </div>
                                         <div class="d-flex align-items-center">
-                                            <div class="fw-bolder fs-5 text-gray-800 pe-1">30</div>
+                                            <div class="fw-bolder fs-5 text-gray-800 pe-1">{{$appointmentsInfo[0]->cancelled}}</div>
                                         </div>
                                     </div>
                                 </div>
@@ -175,4 +174,147 @@
         </div>
     </div>
 </div>
+
+<script src="{{ asset('theme/assets/js/scripts.bundle.js') }}"></script>
+<script>
+    var KTCardWidget9 = {
+        init: function() {
+            !(function() {
+                var e = document.getElementById("kt_card_widget_9_chart");
+                if (e) {
+                    var t = parseInt(KTUtil.css(e, "height")),
+                        a =
+                        (KTUtil.getCssVariableValue("--bs-border-dashed-color"),
+                            KTUtil.getCssVariableValue("--bs-gray-800")),
+                        r = KTUtil.getCssVariableValue("--bs-light-info"),
+                        o = new ApexCharts(e, {
+                            series: [{
+                                name: "Net Profit",
+                                data: <?php echo $dataGraph ?>,
+                            }, ],
+                            chart: {
+                                fontFamily: "inherit",
+                                type: "area",
+                                height: t,
+                                toolbar: {
+                                    show: !1
+                                },
+                            },
+                            legend: {
+                                show: !1
+                            },
+                            dataLabels: {
+                                enabled: !1
+                            },
+                            fill: {
+                                type: "solid",
+                                opacity: 0
+                            },
+                            stroke: {
+                                curve: "smooth",
+                                show: !0,
+                                width: 2,
+                                colors: [a],
+                            },
+                            xaxis: {
+                                axisBorder: {
+                                    show: !1
+                                },
+                                axisTicks: {
+                                    show: !1
+                                },
+                                labels: {
+                                    show: !1
+                                },
+                                crosshairs: {
+                                    position: "front",
+                                    stroke: {
+                                        color: a,
+                                        width: 1,
+                                        dashArray: 3
+                                    },
+                                },
+                                tooltip: {
+                                    enabled: !0,
+                                    formatter: void 0,
+                                    offsetY: 0,
+                                    style: {
+                                        fontSize: "12px"
+                                    },
+                                },
+                            },
+                            yaxis: {
+                                labels: {
+                                    show: !1
+                                }
+                            },
+                            states: {
+                                normal: {
+                                    filter: {
+                                        type: "none",
+                                        value: 0
+                                    }
+                                },
+                                hover: {
+                                    filter: {
+                                        type: "none",
+                                        value: 0
+                                    }
+                                },
+                                active: {
+                                    allowMultipleDataPointsSelection: !1,
+                                    filter: {
+                                        type: "none",
+                                        value: 0
+                                    },
+                                },
+                            },
+                            tooltip: {
+                                style: {
+                                    fontSize: "12px"
+                                },
+                                x: {
+                                    formatter: function(e) {
+                                        return "Sales " + e;
+                                    },
+                                },
+                                y: {
+                                    formatter: function(e) {
+                                        return "$" + e;
+                                    },
+                                },
+                            },
+                            colors: [r],
+                            grid: {
+                                strokeDashArray: 4,
+                                padding: {
+                                    top: 0,
+                                    right: -20,
+                                    bottom: -20,
+                                    left: -20,
+                                },
+                                yaxis: {
+                                    lines: {
+                                        show: !0
+                                    }
+                                },
+                            },
+                            markers: {
+                                strokeColor: a,
+                                strokeWidth: 2
+                            },
+                        });
+                    setTimeout(function() {
+                        o.render();
+                    }, 300);
+                }
+            })();
+        },
+    };
+    "undefined" != typeof module && (module.exports = KTCardWidget9),
+        KTUtil.onDOMContentLoaded(function() {
+            KTCardWidget9.init();
+        });
+</script>
+<script src="{{ asset('theme/assets/js/widgets.bundle.js') }}"></script>
 @endsection

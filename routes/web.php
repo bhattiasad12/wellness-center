@@ -25,13 +25,15 @@ use App\Http\Controllers\ClientNoteController;
 
 require __DIR__ . '/auth.php';
 
-Route::get('/', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
+// Route::get('/', function () {
+//     return view('dashboard');
+// })->middleware(['auth'])->name('dashboard');
 
 
 require __DIR__ . '/auth.php';
 /// appointment Controller
+Route::Get('/', [AppointmentController::class, 'dashboard'])->middleware(['auth'])->name('dashboard');
+
 Route::resource('appointment', AppointmentController::class)->middleware(['auth']);
 Route::Get('client_info', [AppointmentController::class, 'clientInfo'])->name('client_info');
 Route::Get('room_practitioner', [AppointmentController::class, 'getRoomPractitioner'])->name('room_practitioner');
