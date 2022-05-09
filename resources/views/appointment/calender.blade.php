@@ -42,8 +42,53 @@
 </div>
 <script src="{{ asset('theme/assets/js/scripts.bundle.js') }}"></script>
 <script src="{{ asset('theme/assets/plugins/custom/fullcalendar/fullcalendar.bundle.js') }}"></script>
-<script src="{{ asset('theme/assets/js/custom/documentation/general/fullcalendar/basic.js')}}"></script>
+<!-- <script src="{{ asset('theme/assets/js/custom/documentation/general/fullcalendar/basic.js')}}"></script> -->
 <script>
+    var KTGeneralFullCalendarBasicDemos = {
+        init: function() {
+            var e, t, i, n, r, o;
+            (e = moment().startOf("day")),
+            (t = e.format("YYYY-MM")),
+            (i = e.clone().subtract(1, "day").format("YYYY-MM-DD")),
+            (n = e.format("YYYY-MM-DD")),
+            (r = e.clone().add(1, "day").format("YYYY-MM-DD")),
+            (o = document.getElementById("kt_docs_fullcalendar_basic")),
+            new FullCalendar.Calendar(o, {
+                headerToolbar: {
+                    left: "prev,next today",
+                    center: "title",
+                    right: "dayGridMonth,timeGridWeek,timeGridDay,listMonth",
+                },
+                height: 800,
+                contentHeight: 780,
+                aspectRatio: 3,
+                nowIndicator: !0,
+                now: n + "T09:25:00",
+                views: {
+                    dayGridMonth: {
+                        buttonText: "month"
+                    },
+                    timeGridWeek: {
+                        buttonText: "week"
+                    },
+                    timeGridDay: {
+                        buttonText: "day"
+                    },
+                },
+                initialView: "dayGridMonth",
+                initialDate: n,
+                editable: !0,
+                dayMaxEvents: !0,
+                navLinks: !0,
+
+                events: <?php echo $calenderData ?>,
+            }).render();
+        },
+    };
+    KTUtil.onDOMContentLoaded(function() {
+        KTGeneralFullCalendarBasicDemos.init();
+    });
+
     function addAppointment() {
         $.ajax({
             type: 'GET',

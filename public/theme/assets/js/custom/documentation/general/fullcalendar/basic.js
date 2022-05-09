@@ -29,15 +29,17 @@ var KTGeneralFullCalendarBasicDemos = {
                 editable: !0,
                 dayMaxEvents: !0,
                 navLinks: !0,
+
                 events: [
                     {
-                        title: "All Day Event",
+                        title: "All Day Event bhkh jhj hjh jnkjk lnkljlk lkjlkj lkjlk lkjlk lklkjlkjllkjlkj lkjlk",
                         start: "2022-05-01 01:00",
                         color: "purple",
                         description:
                             "Toto lorem ipsum dolor sit incid idunt ut",
                         className: "fc-event-danger fc-event-solid-warning",
                     },
+
                     {
                         title: "Reporting",
                         start: t + "-14T13:30:00",
@@ -125,39 +127,11 @@ var KTGeneralFullCalendarBasicDemos = {
                     {
                         title: "Click for Google",
                         url: "http://google.com/",
-                        start: t + "-28",
+                        start: t + "2022-05-01 01:00",
                         className: "fc-event-solid-info fc-event-light",
                         description: "Lorem ipsum dolor sit amet, labore",
                     },
                 ],
-                eventContent: function (e) {
-                    var t = $(e.el);
-                    e.event.extendedProps &&
-                        e.event.extendedProps.description &&
-                        (t.hasClass("fc-day-grid-event")
-                            ? (t.data(
-                                  "content",
-                                  e.event.extendedProps.description
-                              ),
-                              t.data("placement", "top"),
-                              KTApp.initPopover(t))
-                            : t.hasClass("fc-time-grid-event")
-                            ? t
-                                  .find(".fc-title")
-                                  .append(
-                                      '<div class="fc-description">' +
-                                          e.event.extendedProps.description +
-                                          "</div>"
-                                  )
-                            : 0 !== t.find(".fc-list-item-title").lenght &&
-                              t
-                                  .find(".fc-list-item-title")
-                                  .append(
-                                      '<div class="fc-description">' +
-                                          e.event.extendedProps.description +
-                                          "</div>"
-                                  ));
-                },
             }).render();
     },
 };
