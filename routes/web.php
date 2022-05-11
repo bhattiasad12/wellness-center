@@ -29,8 +29,6 @@ require __DIR__ . '/auth.php';
 //     return view('dashboard');
 // })->middleware(['auth'])->name('dashboard');
 
-
-require __DIR__ . '/auth.php';
 /// appointment Controller
 Route::Get('/', [AppointmentController::class, 'dashboard'])->middleware(['auth'])->name('dashboard');
 

@@ -10,6 +10,7 @@ use Illuminate\Validation\Rules;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\File;
 
 class SettingsController extends Controller
 {
@@ -63,9 +64,13 @@ class SettingsController extends Controller
         ]);
 
         if ($request->hasFile('profile_picture')) {
-            $fileName = $userId . '.jpg';
-            $request->profile_picture->storeAs('profile', $fileName, 'uploads');
-            $user->profile_picture = $fileName;
+            $folderName = $userId;
+            $fileName = time();
+            $previousPic = $user->profile_picture;
+            $previousPicDest = "profile/" . $previousPic;
+            File::delete($previousPicDest);
+            $request->profile_picture->storeAs("profile/$folderName/", $fileName . '.jpg', 'public');
+            $user->profile_picture = $folderName . '/' . $fileName . '.jpg';
         }
 
         $user->first_name = $fullName[0];
