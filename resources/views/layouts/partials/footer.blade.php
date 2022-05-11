@@ -28,7 +28,7 @@
 <script src="{{ asset('theme/assets/plugins/global/myscript.js') }}"></script>
 
 <script src="{{ asset('theme/assets/plugins/global/plugins.bundle.js') }}"></script>
-<script src="{{ asset('theme/assets/js/scripts.bundle.js') }}"></script>
+
 
 <script src="{{ asset('theme/assets/plugins/custom/datatables/datatables.bundle.js') }}"></script>
 <!--begin::Page Custom Javascript(used by this page)-->

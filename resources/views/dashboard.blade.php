@@ -175,7 +175,7 @@
     </div>
 </div>
 
-<script src="{{ asset('theme/assets/js/scripts.bundle.js') }}"></script>
+
 <script>
     var KTCardWidget9 = {
         init: function() {

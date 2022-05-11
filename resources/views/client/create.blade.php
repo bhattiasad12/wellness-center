@@ -1,5 +1,3 @@
-@extends('layouts.partials.footer')
-
 <div class="alert alert-danger" style="display:none"></div>
 <form id="createClientForm" class="form" method="POST" action="{{ route('client.store') }}" enctype="multipart/form-data">
     @csrf
@@ -65,7 +63,7 @@
         <button type="submit" id="" class="btn btn-primary">Submit</button>
     </div>
 </form>
-
+<script src="{{ asset('theme/assets/js/scripts.bundle.js') }}"></script>
 <!-- <script>
     jQuery(document).ready(function() {
         jQuery('#ajaxSubmit').click(function(e) {
