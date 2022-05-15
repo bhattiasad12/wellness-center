@@ -1,6 +1,6 @@
 <div class="alert alert-danger" style="display:none"></div>
 <form id="editPractionerForm" class="form" method="POST" action="{{ route('practitioner.update', $id) }}">
-    @method("PUT")
+    @method('PUT')
     @csrf
     <div class="d-flex flex-column scroll-y me-n7 pe-7" id="" data-kt-scroll="true"
         data-kt-scroll-activate="{default: false, lg: true}" data-kt-scroll-max-height="auto"
@@ -33,6 +33,7 @@
                     placeholder="Please Enter the Practitioner Phone Number" />
             </div>
         </div>
+        @php $count = 0; @endphp
         @foreach ($practitioner as $item)
             <input type="hidden" name="practitioner_time_id[]" value="{{ $item->practitioner_time_id }}">
             <div class="row mb-7" id='details'>
@@ -57,7 +58,20 @@
                     <input class="form-control form-control-solid kt_datepicker_8" name="check_out[]"
                         value="{{ $item->end_time }}" />
                 </div>
+                <div class="col-lg-3 pt-8" style="text-align: center;align-self: center;">
+                    <button type="button" class="btn btn-icon btn-light-facebook me-5" onclick="addMore(this)">
+                        <i class="fas fa-plus fs-4"></i>
+                    </button>
+                    <button type="button" class="btn btn-icon btn-light-google me-5"
+                        @if ($count == 0) {
+                        {{ 'hidden' }}
+                    } @endif
+                        onclick="deleteMore(this)">
+                        <i class="fas fa-minus fs-4"></i>
+                    </button>
+                </div>
             </div>
+            @php $count++ @endphp
         @endforeach
         <div id='more'>
         </div>
@@ -69,27 +83,43 @@
 </form>
 <script>
     var i = 1;
-    $(document).ready(function() {
-        $('select').on('change', function() {
-            //restore previously selected value
-            var prevValue = $(this).data('previous');
-            $('select').not(this).find('option[value="' + prevValue + '"]').show();
-            //hide option selected                
-            var value = $(this).val();
-            //update previously selected data
-            $(this).data('previous', value);
-            $('select').not(this).find('option[value="' + value + '"]').hide();
-        });
-    });
-    $('body').on('focus', ".kt_datepicker_8", function() {
-        $(".kt_datepicker_8").flatpickr({
-            enableTime: true,
-            noCalendar: true,
-            dateFormat: "H:i",
-            time_24hr: true,
 
+    function addMore(obj) {
+
+        if (i == 7) {
+            alert("All days are selected");
+            return true;
+        }
+        i++;
+        $(document).ready(function() {
+            $('select').on('change', function() {
+                //restore previously selected value
+                var prevValue = $(this).data('previous');
+                $('select').not(this).find('option[value="' + prevValue + '"]').show();
+                //hide option selected                
+                var value = $(this).val();
+                //update previously selected data
+                $(this).data('previous', value);
+                $('select').not(this).find('option[value="' + value + '"]').hide();
+            });
         });
-    });
+
+        $('body').on('focus', ".kt_datepicker_8", function() {
+            $(".kt_datepicker_8").flatpickr({
+                enableTime: true,
+                noCalendar: true,
+                dateFormat: "H:i",
+                time_24hr: true,
+
+            });
+        });
+
+        let rowId = obj.parentElement.parentElement.id;
+        rowId = document.getElementById(rowId);
+        let row = rowId.cloneNode(true);
+        row.children[3].children[1].removeAttribute('hidden');
+        document.getElementById('more').appendChild(row);
+    }
 
     function deleteMore(obj) {
         i--;
@@ -98,7 +128,6 @@
         val = row.children[0].children[1].value
         $('select').not(this).find('option[value="' + val + '"]').show();
     }
-
     jQuery(document).ready(function() {
         jQuery('#ajaxSubmit').click(function(e) {
             $("#ajaxSubmit").prop("disabled", true);

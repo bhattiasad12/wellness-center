@@ -103,7 +103,7 @@ class PractitionerController extends Controller
         $userId = Auth::user()->id;
         $practitioner = DB::select(DB::raw("SELECT *,pt.`id` AS practitioner_time_id FROM `practitioners` p INNER JOIN `practitioners_time`pt ON p.`id`=pt.`practitioner_id`
         INNER JOIN `practitioners_days`pd ON pd.`id`=pt.`practitioner_day_id` WHERE p.`deleted_at` IS NULL
-        AND p.`id`='$id' AND p.`user_id`='$userId' ORDER BY pd.`id` ASC "));
+        AND p.`id`='$id' AND p.`user_id`='$userId' AND pt.`deleted_at` IS NULL ORDER BY pd.`id` ASC "));
 
         return view('practitioner.edit',  compact('days', 'practitioner', 'id'));
     }
@@ -117,6 +117,7 @@ class PractitionerController extends Controller
      */
     public function update(Request $request, Practitioner $practitioner)
     {
+        // dd($request);
         $request->validate([
             'first_name' => ['required'],
             'last_name' => ['required'],
@@ -137,15 +138,18 @@ class PractitionerController extends Controller
         $data->created_by = Auth::user()->id;
 
         $data->save();
+
+        DB::table('practitioners_time')->where('practitioner_id', $practitioner['id'])->update(['deleted_at' => now()]);
+
         // DB::enableQueryLog();
-        for ($i = 0; $i < count($request->practitioner_time_id); $i++) {
+        for ($i = 0; $i < count($request->check_in); $i++) {
 
             $practitionerTime = array();
             $practitionerTime['practitioner_id'] = $practitioner['id'];
             $practitionerTime['practitioner_day_id'] = $request->days[$i];
             $practitionerTime['start_time'] = $request->check_in[$i];
             $practitionerTime['end_time'] = $request->check_out[$i];
-            DB::table('practitioners_time')->where('id', $request->practitioner_time_id[$i])->update($practitionerTime);
+            DB::table('practitioners_time')->insert($practitionerTime);
         }
         // dd(DB::getQueryLog());
         return redirect()->back();
