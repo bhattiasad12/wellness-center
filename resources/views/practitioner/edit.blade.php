@@ -113,7 +113,7 @@
 
             });
         });
-
+ 
         let rowId = obj.parentElement.parentElement.id;
         rowId = document.getElementById(rowId);
         let row = rowId.cloneNode(true);
@@ -128,6 +128,13 @@
         val = row.children[0].children[1].value
         $('select').not(this).find('option[value="' + val + '"]').show();
     }
+    $(".kt_datepicker_8").flatpickr({
+        enableTime: true,
+        noCalendar: true,
+        dateFormat: "H:i",
+        time_24hr: true,
+
+    });
     jQuery(document).ready(function() {
         jQuery('#ajaxSubmit').click(function(e) {
             $("#ajaxSubmit").prop("disabled", true);
