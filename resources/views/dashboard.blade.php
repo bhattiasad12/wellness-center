@@ -189,7 +189,7 @@
                         r = KTUtil.getCssVariableValue("--bs-light-info"),
                         o = new ApexCharts(e, {
                             series: [{
-                                name: "Net Profit",
+                                name: "Revenue",
                                 data: <?php echo $dataGraph ?>,
                             }, ],
                             chart: {
@@ -275,7 +275,7 @@
                                 },
                                 x: {
                                     formatter: function(e) {
-                                        return "Sales " + e;
+                                        return "Day " + e;
                                     },
                                 },
                                 y: {

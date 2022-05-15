@@ -5,7 +5,26 @@
 
 <head>
     <base href="">
-    <title>- Wellness Centre</title>
+    @php if (request()->segment(1) == '')
+    $title="Dashboard";
+    if (request()->segment(1) == 'appointment')
+    $title="Appointment";
+    if (request()->segment(1) == 'client')
+    $title="Client";
+    if (request()->segment(1) == 'machine')
+    $title="Machines";
+    if (request()->segment(1) == 'service')
+    $title="Services";
+    if (request()->segment(1) == 'room')
+    $title="Rooms";
+    if (request()->segment(1) == 'practitioner')
+    $title="Practitioners";
+    if (request()->segment(1) == 'appointment_calender')
+    $title="Calender";
+    if (request()->segment(1) == 'settings')
+    $title="Account Setting";
+    @endphp
+    <title>{{$title}} - Wellness Centre</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="shortcut icon" href="{{ asset('theme/assets/media/logos/favicon.png') }}" />
@@ -67,30 +86,7 @@
                                 <div data-kt-swapper="true" class="page-title d-flex align-items-center flex-wrap me-3 mb-5 mb-lg-0">
                                     <!--begin::Page Title-->
                                     <h1 class="d-flex align-items-center text-dark fw-bolder fs-3 my-1">
-                                        @if (request()->segment(1) == '')
-                                        Dashboard
-                                        @endif
-                                        @if (request()->segment(1) == 'appointment')
-                                        Appointment
-                                        @endif
-                                        @if (request()->segment(1) == 'client')
-                                        Client
-                                        @endif
-                                        @if (request()->segment(1) == 'machine')
-                                        Machines
-                                        @endif
-                                        @if (request()->segment(1) == 'service')
-                                        Services
-                                        @endif
-                                        @if (request()->segment(1) == 'room')
-                                        Rooms
-                                        @endif
-                                        @if (request()->segment(1) == 'practitioner')
-                                        Practitioners
-                                        @endif
-                                        @if (request()->segment(1) == 'appointment_calender')
-                                        Calender
-                                        @endif
+                                        {{$title}}
 
                                     </h1>
                                     <!--end::Page Title-->

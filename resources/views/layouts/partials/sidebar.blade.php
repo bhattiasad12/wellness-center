@@ -162,7 +162,7 @@
                     </div>
                 </div>
                 <div class="menu-item">
-                    <a class="menu-link " href="{{ route('settings.create') }}">
+                    <a class="menu-link {{ request()->segment(1) == 'settings' ? 'active' : '' }}" href="{{ route('settings.create') }}">
                         <span class="menu-icon">
                             <!--begin::Svg Icon | path: icons/duotune/general/gen014.svg-->
                             <span class="svg-icon svg-icon-4 me-1">
@@ -173,7 +173,7 @@
                             </span>
                             <!--end::Svg Icon-->
                         </span>
-                        <span class="menu-title">Account Settings</span>
+                        <span class="menu-title ">Account Settings</span>
                     </a>
                 </div>
             </div>
@@ -184,7 +184,10 @@
     <!--end::Aside menu-->
     <!--begin::Footer-->
     <div class="aside-footer flex-column-auto pt-5 pb-7 px-5" id="kt_aside_footer">
-        <a href="#" class="btn btn-custom btn-primary w-100">
+        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+            @csrf
+        </form>
+        <a href="{{ route('logout') }}" class="btn btn-custom btn-primary w-100" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
             <span class="btn-label">Sign Out</span>
             <span class="menu-icon">
                 <span class="mx-2 svg-icon svg-icon-2">

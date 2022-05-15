@@ -26,7 +26,7 @@
                     "size: " + f.size + " bytes\n"
                     //"starts with: " + contents.substr(1, contents.indexOf("\n"))
                 );
-                if (f.size > 5000) {
+                if (f.size > 5242880) {
                     alert('File size Greater then 5MB!');
                     document.getElementById("fileinput").value = '';
                 }
