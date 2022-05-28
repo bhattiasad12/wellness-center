@@ -24,18 +24,16 @@
 <script>
     var hostUrl = "assets/";
 </script>
+
 <script src="{{ asset('theme/assets/plugins/global/plugins.bundle.js') }}"></script>
 <script src="{{ asset('theme/assets/plugins/global/myscript.js') }}"></script>
-
-<script src="{{ asset('theme/assets/plugins/global/plugins.bundle.js') }}"></script>
-
 
 <script src="{{ asset('theme/assets/plugins/custom/datatables/datatables.bundle.js') }}"></script>
 <!--begin::Page Custom Javascript(used by this page)-->
 <!-- <script src="{{ asset('theme/assets/js/custom/calendar.js') }}"></script> -->
 
 
-<!-- <script src="{{ asset('theme/assets/js/custom/signin-methods.js') }}"></script> -->
+<script src="{{ asset('theme/assets/js/custom/signin-methods.js') }}"></script>
 
 <!--end::Page Vendors Javascript-->
 <!--begin::Page Custom Javascript(used by this page)-->

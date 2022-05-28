@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Password;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\File;
+use App\Models\PractitionerDay;
 
 class SettingsController extends Controller
 {
@@ -31,6 +32,7 @@ class SettingsController extends Controller
      */
     public function create()
     {
+        $days = PractitionerDay::get();
         $userId = Auth::user()->id;
         $user = User::find($userId);
         $data['id'] = ucwords($user->id);
@@ -42,7 +44,7 @@ class SettingsController extends Controller
         $data['profile_picture'] = $user->profile_picture;
         $data['user_type'] = $user->user_type;
 
-        return view('user.settings', $data);
+        return view('user.settings', compact('data', 'days'));
     }
 
     /**

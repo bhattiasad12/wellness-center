@@ -1,4 +1,17 @@
 <x-auth-validation-errors class="mb-4" style="color:red" :errors="$errors" />
+<div class="card-toolbar">
+    <div class="d-flex justify-content-end" data-kt-user-table-toolbar="base">
+        <button type="button" class="btn btn-primary" onclick="addClient()">
+            <span class="svg-icon svg-icon-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <rect opacity="0.5" x="11.364" y="20.364" width="16" height="2" rx="1" transform="rotate(-90 11.364 20.364)" fill="black" />
+                    <rect x="4.36396" y="11.364" width="16" height="2" rx="1" fill="black" />
+                </svg>
+            </span>Add Client
+        </button>
+    </div>
+</div>
+
 <form id="" class="form" method="POST" action="{{route('appointment.store')}}">
     <!--begin::Scroll-->
     @csrf
@@ -180,6 +193,21 @@
     </div>
 </form>
 <script>
+    function addClient() {
+        $.ajax({
+            type: 'GET',
+            url: "{{ route('client.create') }}",
+            success: function(result) {
+                $('#myModalLg').modal('toggle');
+                var drawerElement = document.querySelector("#kt_activities");
+                var drawer = KTDrawer.getInstance(drawerElement);
+                $('#right_activities_heading').html('Add Client');
+                $('#right_activities_body').html(result);
+                drawer.toggle();
+                // $('#rightModal').modal('show');
+            }
+        });
+    }
     // check appointment b/w services time and get session and zone 
     // var ia = 0;
 
