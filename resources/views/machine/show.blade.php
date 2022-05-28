@@ -11,7 +11,7 @@
                             <div class="d-flex justify-content-between align-items-start flex-wrap mb-2">
                                 <div class="d-flex flex-column">
                                     <div class="d-flex align-items-center mb-2">
-                                        <a class="text-gray-900 text-hover-primary fs-2 fw-bolder me-1">Machine: <span class="text-primary">IPL</span></a>
+                                        <a class="text-gray-900 text-hover-primary fs-2 fw-bolder me-1">Machine: <span class="text-primary">{{ ucwords($hand[0]->machine_name) }}</span></a>
                                         <a>
                                             <span class="svg-icon svg-icon-1 svg-icon-primary">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
