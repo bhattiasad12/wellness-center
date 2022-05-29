@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Models\Machine;
+use App\Models\ServiceZone;
 use Illuminate\Support\Facades\Log;
 
 class ServiceController extends Controller
@@ -51,20 +52,14 @@ class ServiceController extends Controller
             'machine' => ['required', 'numeric'],
             'hand' => ['required', 'numeric'],
             'service_name' => ['required'],
-            'zone' => ['required'],
             'session' => ['required'],
-            'time_limit' => ['required'],
-            'price' => ['required'],
         ]);
 
         Service::create([
             'machine_id' => $request->machine,
             'hand_id' => $request->hand,
             'service_name' => $request->service_name,
-            'zone' => $request->zone,
             'session' => $request->session,
-            'time_limit' => $request->time_limit,
-            'price' => $request->price,
             'user_id' => Auth::user()->id,
             'created_at' => date("Y-m-d h:i:s"),
             'created_by' => Auth::user()->id,
@@ -85,10 +80,9 @@ class ServiceController extends Controller
     {
         $serviceId = $service->id;
         $userId = Auth::user()->id;
-        $service = DB::select(DB::raw("SELECT s.id AS service_id,s.service_name, m.name AS machine_name,h.name AS hand_name, s.zone,s.session,s.time_limit,s.price FROM `services` s 
-        INNER JOIN `machines` m ON m.id=s.machine_id INNER JOIN `hands` h 
-        ON h.id=s.hand_id WHERE s.user_id='$userId' AND s.deleted_at IS NULL AND s.id='$serviceId'"));
-        return view('service.show', compact('service'));
+        $machine = Machine::where('user_id', Auth::user()->id)->where('id', $service->machine_id)->get();
+        $serviceZone = ServiceZone::where('user_id', Auth::user()->id)->where('service_id', $serviceId)->get();
+        return view('service.show', compact('serviceZone', 'service', 'machine'));
     }
 
     /**
@@ -119,10 +113,7 @@ class ServiceController extends Controller
             'machine' => ['required', 'numeric'],
             'hand' => ['required', 'numeric'],
             'service_name' => ['required'],
-            'zone' => ['required'],
             'session' => ['required'],
-            'time_limit' => ['required'],
-            'price' => ['required'],
         ]);
 
         $service = Service::find($id);
@@ -130,10 +121,7 @@ class ServiceController extends Controller
         $service->machine_id = $request->machine;
         $service->hand_id = $request->hand;
         $service->service_name = $request->service_name;
-        $service->zone = $request->zone;
         $service->session = $request->session;
-        $service->time_limit = $request->time_limit;
-        $service->price = $request->price;
         $service->updated_at =  date("Y-m-d h:i:s");
         $service->updated_by =   Auth::user()->id;
 

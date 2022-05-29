@@ -3,20 +3,14 @@
 <form id="editServiceForm" class="form" method="POST" action="{{ route('service.update', $service->id) }}">
     @csrf
     @method('PUT')
-    <div class="d-flex flex-column scroll-y me-n7 pe-7" id="" data-kt-scroll="true"
-        data-kt-scroll-activate="{default: false, lg: true}" data-kt-scroll-max-height="auto"
-        data-kt-scroll-dependencies="#kt_modal_add_user_header" data-kt-scroll-wrappers="#kt_modal_add_user_scroll"
-        data-kt-scroll-offset="300px">
+    <div class="d-flex flex-column scroll-y me-n7 pe-7" id="" data-kt-scroll="true" data-kt-scroll-activate="{default: false, lg: true}" data-kt-scroll-max-height="auto" data-kt-scroll-dependencies="#kt_modal_add_user_header" data-kt-scroll-wrappers="#kt_modal_add_user_scroll" data-kt-scroll-offset="300px">
         <div class="fv-row mb-7">
             <label for="" class="required fw-bold fs-6 mb-2">Machine</label>
-            <select id="machine" name="machine" class="form-control form-control-solid mb-3 mb-lg-0" required
-                onchange="GetHand(this.value)">
+            <select id="machine" name="machine" class="form-control form-control-solid mb-3 mb-lg-0" required onchange="GetHand(this.value)">
                 <option value="">-- Select Machine --</option>
-                @for ($i = 0; $i < count($machine); $i++)
-                    <option value="{{ $machine[$i]->id }}"
-                        {{ $machine[$i]->id == $service->machine_id ? 'selected' : '' }}>
-                        {{ ucwords($machine[$i]->name) }}</option>
-                @endfor
+                @for ($i = 0; $i < count($machine); $i++) <option value="{{ $machine[$i]->id }}" {{ $machine[$i]->id == $service->machine_id ? 'selected' : '' }}>
+                    {{ ucwords($machine[$i]->name) }}</option>
+                    @endfor
             </select>
         </div>
         <div class="fv-row mb-7">
@@ -28,10 +22,9 @@
         </div>
         <div class="fv-row mb-7">
             <label class="required fw-bold fs-6 mb-2">Service Name</label>
-            <input type="text" min="0" name="service_name" value="{{ $service->service_name }}"
-                class="form-control form-control-solid mb-3 mb-lg-0" value="Service 2" />
+            <input type="text" min="0" name="service_name" value="{{ $service->service_name }}" class="form-control form-control-solid mb-3 mb-lg-0" value="Service 2" />
         </div>
-        <div class="fv-row mb-7">
+        <!-- <div class="fv-row mb-7">
             <label class="required fw-bold fs-6 mb-2">Zone</label>
             <select name="zone" class="form-control form-control-solid mb-3 mb-lg-0" required>
                 <option value="">-- Select Zone --</option>
@@ -41,7 +34,7 @@
                         {{ ucwords($zone[$i]->zone_name) }}</option>
                 @endfor
             </select>
-        </div>
+        </div> -->
         <div class="fv-row mb-7">
             <label class="required fw-bold fs-6 mb-2">Sessions</label>
             <select name="session" class="form-control form-control-solid mb-3 mb-lg-0" id="">
@@ -57,7 +50,7 @@
                 <option value="10" {{ '10' == $service->session ? 'selected' : '' }}>10</option>
             </select>
         </div>
-        <div class="fv-row mb-7">
+        <!-- <div class="fv-row mb-7">
             <label class="required fw-bold fs-6 mb-2">Time Limit (min)</label>
             <input type="number" name="time_limit" value="{{ $service->time_limit }}"
                 class="form-control form-control-solid mb-3 mb-lg-0" value="20" />
@@ -66,7 +59,7 @@
             <label class="required fw-bold fs-6 mb-2">Price ($)</label>
             <input type="number" name="price" value="{{ $service->price }}"
                 class="form-control form-control-solid mb-3 mb-lg-0" value="299" />
-        </div>
+        </div> -->
 
     </div>
     <div class="text-center pt-15">

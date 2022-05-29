@@ -11,7 +11,7 @@ use App\Http\Controllers\HandController;
 use App\Http\Controllers\HandSettingController;
 use App\Http\Controllers\ClientNoteController;
 use App\Http\Controllers\SettingsController;
-
+use App\Http\Controllers\ServiceZoneController;
 
 /*
 |--------------------------------------------------------------------------
@@ -65,8 +65,15 @@ Route::middleware(['auth'])->group(function () {
     Route::Get('getMachineHand', [ServiceController::class, 'getMachineHand'])->name('machine_hand');
 });
 
-
 /// service Controller End
+
+/// service Zone Controller
+Route::middleware(['auth'])->group(function () {
+    Route::resource('service_zone', ServiceZoneController::class);
+});
+
+/// service Zone Controller End
+
 Route::middleware(['auth'])->group(function () {
     Route::resource('room', RoomController::class);
     Route::resource('practitioner', PractitionerController::class);

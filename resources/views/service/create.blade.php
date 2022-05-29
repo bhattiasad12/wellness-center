@@ -1,20 +1,14 @@
 <div class="alert alert-danger" style="display:none"></div>
-<form id="createServiceForm" class="form" method="POST" action="{{ route('service.store') }}"
-    enctype="multipart/form-data">
+<form id="createServiceForm" class="form" method="POST" action="{{ route('service.store') }}" enctype="multipart/form-data">
     @csrf
     <!--begin::Scroll-->
-    <div class="d-flex flex-column scroll-y me-n7 pe-7" id="" data-kt-scroll="true"
-        data-kt-scroll-activate="{default: false, lg: true}" data-kt-scroll-max-height="auto"
-        data-kt-scroll-dependencies="#kt_modal_add_user_header" data-kt-scroll-wrappers="#kt_modal_add_user_scroll"
-        data-kt-scroll-offset="300px">
+    <div class="d-flex flex-column scroll-y me-n7 pe-7" id="" data-kt-scroll="true" data-kt-scroll-activate="{default: false, lg: true}" data-kt-scroll-max-height="auto" data-kt-scroll-dependencies="#kt_modal_add_user_header" data-kt-scroll-wrappers="#kt_modal_add_user_scroll" data-kt-scroll-offset="300px">
         <div class="fv-row mb-7">
             <label for="" class="required fw-bold fs-6 mb-2">Machine</label>
-            <select name="machine" class="form-control form-control-solid mb-3 mb-lg-0" required
-                onchange="GetHand(this.value)">
+            <select name="machine" class="form-control form-control-solid mb-3 mb-lg-0" required onchange="GetHand(this.value)">
                 <option value="">-- Select Machine --</option>
-                @for ($i = 0; $i < count($machine); $i++)
-                    <option value="{{ $machine[$i]->id }}">{{ ucwords($machine[$i]->name) }}</option>
-                @endfor
+                @for ($i = 0; $i < count($machine); $i++) <option value="{{ $machine[$i]->id }}">{{ ucwords($machine[$i]->name) }}</option>
+                    @endfor
             </select>
         </div>
         <div class="fv-row mb-7">
@@ -26,10 +20,9 @@
         </div>
         <div class="fv-row mb-7">
             <label class="required fw-bold fs-6 mb-2">Service Name</label>
-            <input type="text" min="0" name="service_name" class="form-control form-control-solid mb-3 mb-lg-0"
-                placeholder="Service 2" required />
+            <input type="text" min="0" name="service_name" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="Service 2" required />
         </div>
-        <div class="fv-row mb-7">
+        <!-- <div class="fv-row mb-7">
             <label class="required fw-bold fs-6 mb-2">Zone</label>
             <select name="zone" class="form-control form-control-solid mb-3 mb-lg-0" required>
                 <option value="">-- Select Zone --</option>
@@ -37,7 +30,7 @@
                     <option value="{{ $zone[$i]->zone_name }}">{{ ucwords($zone[$i]->zone_name) }}</option>
                 @endfor
             </select>
-        </div>
+        </div> -->
         <div class="fv-row mb-7">
             <label class="required fw-bold fs-6 mb-2">Sessions</label>
             <select name="session" class="form-control form-control-solid mb-3 mb-lg-0" required>
@@ -54,16 +47,14 @@
                 <option value="10">10</option>
             </select>
         </div>
-        <div class="fv-row mb-7">
+        <!-- <div class="fv-row mb-7">
             <label class="required fw-bold fs-6 mb-2">Time Limit (min)</label>
-            <input type="number" name="time_limit" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="20"
-                required />
+            <input type="number" name="time_limit" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="20" required />
         </div>
         <div class="fv-row mb-7">
             <label class="required fw-bold fs-6 mb-2">Price ($)</label>
-            <input type="number" name="price" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="299"
-                required />
-        </div>
+            <input type="number" name="price" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="299" required />
+        </div> -->
 
     </div>
     <!--end::Scroll-->
