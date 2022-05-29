@@ -3,7 +3,6 @@
 @section('content')
 
 <x-auth-validation-errors class="mb-4" :errors="$errors" />
-
 <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
     <div class="post d-flex flex-column-fluid" id="kt_post">
         <div id="kt_content_container" class="container-xxl">
@@ -134,11 +133,12 @@
                     <div class="card-body border-top p-9">
                         <div class="d-flex flex-wrap align-items-center">
                             <div id="" class="flex-row-fluid d-show">
-                                <form id="createPractionerForm" class="form" method="POST" action="{{ route('practitioner.store') }}">
+                                <form id="createPractionerForm" class="form" method="POST" action="{{ route('center_timimg') }}">
                                     @csrf
                                     <div class="d-flex flex-column scroll-y me-n7 pe-7" id="" data-kt-scroll="true" data-kt-scroll-activate="{default: false, lg: true}" data-kt-scroll-max-height="auto" data-kt-scroll-dependencies="#kt_modal_add_user_header" data-kt-scroll-wrappers="#kt_modal_add_user_scroll" data-kt-scroll-offset="300px">
                                         <div class="row mb-7" id='details'>
                                             <div class="col-lg-3">
+                                                <input type="hidden" name='record_id[]' value="0" />
                                                 <label class="required fw-bold fs-6 mb-2">Week Day</label>
                                                 <select name="days[]" class="form-control form-control-solid mb-3 mb-lg-0" required>
                                                     <option>-- Select Week Day --</option>

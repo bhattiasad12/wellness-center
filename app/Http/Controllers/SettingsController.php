@@ -12,6 +12,9 @@ use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\File;
 use App\Models\PractitionerDay;
+use App\Models\CenterTiming;
+
+
 
 class SettingsController extends Controller
 {
@@ -32,6 +35,8 @@ class SettingsController extends Controller
      */
     public function create()
     {
+        $centerTiming = new CenterTiming();
+        $centerTimings =  $centerTiming->day();
         $days = PractitionerDay::get();
         $userId = Auth::user()->id;
         $user = User::find($userId);
@@ -44,7 +49,7 @@ class SettingsController extends Controller
         $data['profile_picture'] = $user->profile_picture;
         $data['user_type'] = $user->user_type;
 
-        return view('user.settings', compact('data', 'days'));
+        return view('user.settings', compact('data', 'days', 'centerTimings'));
     }
 
     /**
@@ -169,5 +174,29 @@ class SettingsController extends Controller
     public function destroy($id)
     {
         //
+    }
+    public function centreTiming(Request $request)
+    {
+        $request->validate([
+            'practitioner_day_id.*' => ['required', 'unique:center_timing'],
+            'check_in.*' => ['required'],
+            'check_out.*' => ['required'],
+
+        ]);
+        for ($i = 0; $i < count($request->record_id); $i++) {
+            if ($request->record_id[$i] == '0') {
+                $data = CenterTiming::create([
+                    'practitioner_day_id' => $request->days[$i],
+                    'start_time' => $request->check_in[$i],
+                    'end_time' => $request->check_out[$i],
+                    'user_id' => Auth::user()->id,
+                    'created_at' => date("Y-m-d"),
+                    'created_by' => Auth::user()->id,
+                ]);
+            } else {
+            }
+        }
+        return redirect()->back();
+        // dd($request);
     }
 }

@@ -76,4 +76,5 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('settings', SettingsController::class);
     Route::post('/settings/{id}/updateEmail', [SettingsController::class, 'updateEmail'])->name('updateEmail');
     Route::post('/settings/{id}/updatePassword', [SettingsController::class, 'updatePassword'])->name('updatePassword');
+    Route::POST('center_timimg', [SettingsController::class, 'centreTiming'])->name('center_timimg');
 });
