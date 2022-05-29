@@ -80,6 +80,7 @@
                                                 <tr class="fw-bold fs-6 text-muted">
                                                     <th class="min-w-30px">ID</th>
                                                     <th>Zone</th>
+                                                    <th>Session</th>
                                                     <th>Time</th>
                                                     <th>Price</th>
                                                     <th>Actions</th>
@@ -89,6 +90,7 @@
                                                 @for ($i = 0; $i< count($serviceZone); $i++) @php $a=$i; $a++; @endphp <tr>
                                                     <td>{{$a}}</td>
                                                     <td>{{ucwords($serviceZone[$i]->zone)}}</td>
+                                                    <td>{{ucwords($serviceZone[$i]->session)}}</td>
                                                     <td>{{$serviceZone[$i]->time_limit}} min</td>
                                                     <td>{{$serviceZone[$i]->price}} $</td>
                                                     <td>

@@ -52,7 +52,6 @@ class ServiceController extends Controller
             'machine' => ['required', 'numeric'],
             'hand' => ['required', 'numeric'],
             'service_name' => ['required'],
-            'session' => ['required'],
         ]);
 
         Service::create([
@@ -113,7 +112,6 @@ class ServiceController extends Controller
             'machine' => ['required', 'numeric'],
             'hand' => ['required', 'numeric'],
             'service_name' => ['required'],
-            'session' => ['required'],
         ]);
 
         $service = Service::find($id);

@@ -113,7 +113,6 @@
                                             <th>Service</th>
                                             <th>Machine</th>
                                             <th>Hand</th>
-                                            <th>Session</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
@@ -123,7 +122,6 @@
                                             <td><a href="{{ route('service.show', $service[$i]->service_id) }}" class="fw-bolder text-gray-800 text-hover-primary mb-1">{{ucwords($service[$i]->service_name)}}</a></td>
                                             <td>{{ucwords($service[$i]->machine_name)}}</td>
                                             <td>{{ucwords($service[$i]->hand_name)}}</td>
-                                            <td>{{$service[$i]->session}}</td>
                                             <td>
                                                 <button type="button" class="btn btn-icon btn-sm btn-color-gray-400 btn-active-icon-primary me-2" onclick="editService('{{$service[$i]->service_id}}')">
                                                     <!--begin::Svg Icon | path: icons/duotune/art/art005.svg-->

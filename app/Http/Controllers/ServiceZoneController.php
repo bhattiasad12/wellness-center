@@ -44,6 +44,7 @@ class ServiceZoneController extends Controller
     {
         $validatedData = $request->validate([
             'zone' => ['required'],
+            'session' => ['required'],
             'time_limit' => ['required', 'numeric'],
             'price' => ['required', 'numeric'],
             'service_id' => ['required', 'numeric'],
@@ -51,6 +52,7 @@ class ServiceZoneController extends Controller
 
         ServiceZone::create([
             'zone' => $request->zone,
+            'session' => $request->session,
             'time_limit' => $request->time_limit,
             'price' => $request->price,
             'service_id' => $request->service_id,
@@ -97,6 +99,7 @@ class ServiceZoneController extends Controller
     {
         $validatedData = $request->validate([
             'zone' => ['required'],
+            'session' => ['required'],
             'time_limit' => ['required', 'numeric'],
             'price' => ['required', 'numeric'],
         ]);
@@ -104,6 +107,7 @@ class ServiceZoneController extends Controller
         $serviceZone = ServiceZone::find($id);
 
         $serviceZone->zone = $request->zone;
+        $serviceZone->session = $request->session;
         $serviceZone->time_limit = $request->time_limit;
         $serviceZone->price = $request->price;
         $serviceZone->updated_at =  date("Y-m-d h:i:s");

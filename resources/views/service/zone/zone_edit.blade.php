@@ -13,6 +13,21 @@
                     @endfor
             </select>
         </div>
+        <div class="fv-row mb-7">
+            <label class="required fw-bold fs-6 mb-2">Sessions</label>
+            <select name="session" class="form-control form-control-solid mb-3 mb-lg-0" id="">
+                <option value="1" {{ '1' == $serviceZone->session ? 'selected' : '' }}>1</option>
+                <option value="2" {{ '2' == $serviceZone->session ? 'selected' : '' }}>2</option>
+                <option value="3" {{ '3' == $serviceZone->session ? 'selected' : '' }}>3</option>
+                <option value="4" {{ '4' == $serviceZone->session ? 'selected' : '' }}>4</option>
+                <option value="5" {{ '5' == $serviceZone->session ? 'selected' : '' }}>5</option>
+                <option value="6" {{ '6' == $serviceZone->session ? 'selected' : '' }}>6</option>
+                <option value="7" {{ '7' == $serviceZone->session ? 'selected' : '' }}>7</option>
+                <option value="8" {{ '8' == $serviceZone->session ? 'selected' : '' }}>8</option>
+                <option value="9" {{ '9' == $serviceZone->session ? 'selected' : '' }}>9</option>
+                <option value="10" {{ '10' == $serviceZone->session ? 'selected' : '' }}>10</option>
+            </select>
+        </div>
 
         <div class="fv-row mb-7">
             <label class="required fw-bold fs-6 mb-2">Time Limit (min)</label>

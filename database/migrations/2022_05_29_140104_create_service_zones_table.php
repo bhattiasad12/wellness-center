@@ -16,6 +16,7 @@ class CreateServiceZonesTable extends Migration
         Schema::create('service_zones', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('service_id');
+            $table->string('session');
             $table->string('time_limit');
             $table->string('price');
             $table->string('zone');

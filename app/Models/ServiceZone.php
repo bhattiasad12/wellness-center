@@ -11,6 +11,7 @@ class ServiceZone extends Model
     use HasFactory, SoftDeletes;
     protected $fillable = [
         'service_id',
+        'session',
         'time_limit',
         'price',
         'zone',

@@ -31,7 +31,7 @@
                 @endfor
             </select>
         </div> -->
-        <div class="fv-row mb-7">
+        <!-- <div class="fv-row mb-7">
             <label class="required fw-bold fs-6 mb-2">Sessions</label>
             <select name="session" class="form-control form-control-solid mb-3 mb-lg-0" required>
                 <option value="">-- Select Sessions --</option>
@@ -46,7 +46,7 @@
                 <option value="9">9</option>
                 <option value="10">10</option>
             </select>
-        </div>
+        </div> -->
         <!-- <div class="fv-row mb-7">
             <label class="required fw-bold fs-6 mb-2">Time Limit (min)</label>
             <input type="number" name="time_limit" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="20" required />
