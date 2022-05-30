@@ -82,7 +82,7 @@
                                             <th class="min-w-80px">Machine</th>
                                             <th class="min-w-80px">Service</th>
                                             <th class="min-w-100px">Hand</th>
-                                            <th class="min-w-80px">Zone</th>
+                                            <!-- <th class="min-w-80px">Zone</th> -->
                                             <th class="min-w-80px">Sessions</th>
                                             <th class="min-w-100px">Session Price</th>
                                             <th class="min-w-150px">Total Service Price</th>
@@ -113,7 +113,7 @@
                                             <td>{{ucwords($appointment[$i]->machine_name)}}</td>
                                             <td>{{ucwords($appointment[$i]->service_name)}}</td>
                                             <td>{{ucwords($appointment[$i]->hand_name)}}</td>
-                                            <td>{{ucwords($appointment[$i]->zone)}}</td>
+                                            <!-- <td>{{ucwords($appointment[$i]->zone)}}</td> -->
                                             <td>{{$appointment[$i]->session}}</td>
                                             <td>{{$appointment[$i]->session_price}}</td>
                                             <td>{{$appointment[$i]->total_service_amount}}</td>

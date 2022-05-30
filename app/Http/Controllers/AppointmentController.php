@@ -9,6 +9,7 @@ use App\Models\Machine;
 use App\Models\Hand;
 use App\Models\Service;
 use App\Models\HandSetting;
+use App\Models\ServiceZone;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -120,7 +121,7 @@ class AppointmentController extends Controller
       'machine_id' => $request->machine_id,
       'hand_id' => $request->hand_id,
       'service_id' => $request->service_id,
-      'zone' => $request->zone,
+      'zone' => implode(',', $request->zone),
       'session' => $request->session,
       'setting_id' => $request->setting_id,
       'session_price' => $request->session_price,
@@ -191,7 +192,13 @@ class AppointmentController extends Controller
         * FROM appointment_payments 
       WHERE `user_id` = '$userId' 
         AND `deleted_at` IS NULL AND appointment_id='$appointmentId'"));
-    return view('appointment.show', compact('appointment', 'paymentHistory'));
+
+    $zones = $appointment[0]->zone;
+    $zone = DB::select(DB::raw("SELECT 
+        GROUP_CONCAT(zone) AS zone FROM service_zones 
+      WHERE `user_id` = '$userId' 
+        AND `deleted_at` IS NULL AND id in ($zones)"));
+    return view('appointment.show', compact('appointment', 'paymentHistory', 'zone'));
   }
 
   /**
@@ -248,7 +255,7 @@ class AppointmentController extends Controller
     $appointment->machine_id = $request->machine_id;
     $appointment->hand_id = $request->hand_id;
     $appointment->service_id = $request->service_id;
-    $appointment->zone = $request->zone;
+    $appointment->zone = implode(',', $request->zone);
     $appointment->session = $request->session;
     $appointment->session_price = $request->session_price;
     $appointment->promotion = $request->promotion;
@@ -348,16 +355,27 @@ class AppointmentController extends Controller
     $dataArr = array('service' => $service, 'handSetting' => $handSetting);
     return  $dataArr;
   }
-  public function checkAppointment()
+  public function getZone()
   {
     $userId = Auth::user()->id;
     $serviceId = $_REQUEST['serviceId'];
+    $serviceZone = ServiceZone::where('user_id', $userId)->where('service_id', $serviceId)->get();
+    return $serviceZone;
+  }
+  public function checkAppointment()
+  {
+    $userId = Auth::user()->id;
+    $zoneId = $_REQUEST['zoneId'];
+    // $zoneId = implode(',', $zoneId);
     $practitionnerId = $_REQUEST['practitionnerId'];
     $appointmentId = $_REQUEST['appointmentId'];
     // $appointmentStartTime = date('Y-m-d H:i', strtotime($_REQUEST['appointmentStart']));
     $checkIn = date('H:i', strtotime($_REQUEST['appointmentStart']));
     //$appointmentTime = $_REQUEST['appointmentStart'];
-    $service = Service::where('user_id', $userId)->where('id', $serviceId)->get();
+    $service = ServiceZone::select(DB::raw("SUM(time_limit) as time_limit"), DB::raw("SUM(price)*`session` as price"), DB::raw("SUM(session) as session"))
+      ->where('user_id', $userId)->wherein('id', $zoneId)->get();
+
+    //  Log::info('Showing the user profile for user: ' . print_r($service, true));
     $minutes = "+" . $service[0]->time_limit . "minutes";
     $appointmentEndTime = date('Y-m-d H:i', strtotime($minutes, strtotime($_REQUEST['appointmentStart'])));
     $checkOut = date('H:i', strtotime($appointmentEndTime));

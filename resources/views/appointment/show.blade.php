@@ -132,7 +132,7 @@
                                     </div>
                                     <div class="col-lg-6">
                                         <label class="fw-bold fs-6 mb-2">Zone</label>
-                                        <p class="text-muted">{{ucwords($appointment[0]->zone)}}</p>
+                                        <p class="text-muted">{{ucwords($zone[0]->zone)}}</p>
                                     </div>
                                 </div>
                                 <div class="row mb-7">

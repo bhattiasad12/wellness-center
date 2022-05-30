@@ -84,20 +84,22 @@
         <div class="row mb-7">
             <div class="col-lg-6">
                 <label class="required fw-bold fs-6 mb-2">Service</label>
-                <select name="service_id" id='service' class="form-control form-control-solid mb-3 mb-lg-0" required onchange="checkAppointment()">
+                <select name="service_id" id='service' class="form-control form-control-solid mb-3 mb-lg-0" required onchange="getZone()">
                     <option value="">-- Select Service --</option>
 
                 </select>
             </div>
             <div class="col-lg-6">
                 <label class="required fw-bold fs-6 mb-2">Zone</label>
-                <input type="text" name="zone" id="zone" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="Please Enter your zone." required />
+                <select name="zone[]" id='zone' class="form-select form-select-solid js-example-basic-single" data-control="select2" data-placeholder="Select an option" data-allow-clear="true" multiple="multiple" required onchange="checkAppointment()">
+                    <option value="">-- Select Zone --</option>
+                </select>
             </div>
         </div>
         <div class="row mb-7">
             <div class="col-lg-6">
                 <label class="required fw-bold fs-6 mb-2">Sessions</label>
-                <input type="number" min="0" name="session" id="sessions" class="form-control form-control-solid mb-3 mb-lg-0" onkeyup="serviceAmount()" placeholder="Please Enter your Sessions here." required />
+                <input type="number" min="0" name="session" id="sessions" class="form-control form-control-solid mb-3 mb-lg-0" onkeyup="serviceAmount()" placeholder="Please Enter your Sessions here." required readonly />
             </div>
             <div class="col-lg-6">
                 <label class="required fw-bold fs-6 mb-2">Settings</label>
@@ -192,7 +194,12 @@
         <button type="submit" id="ajaxSubmit" class="btn btn-primary">Submit</button>
     </div>
 </form>
+
 <script>
+    $(document).ready(function() {
+        $('.js-example-basic-single').select2();
+    });
+
     function addClient() {
         $.ajax({
             type: 'GET',
@@ -210,9 +217,34 @@
     }
     // check appointment b/w services time and get session and zone 
     // var ia = 0;
+    function getZone() {
+        // ia++;practitionner
+
+        var serviceId = $('#service').val();
+        let value = {
+            serviceId: serviceId,
+        };
+        $.ajax({
+            type: 'GET',
+            url: "{{ route('get_zone') }}",
+            data: value,
+            success: function(result) {
+                document.getElementById('zone').innerHTML =
+                    '<option value="">-- Select Zone --</option>';
+                for (var i = 0; i < result.length; i++) {
+                    var opt = document.createElement('option');
+                    opt.value = result[i].id;
+                    opt.innerHTML = result[i].zone;
+                    document.getElementById('zone').appendChild(opt);
+                }
+
+            }
+        });
+    }
 
     function checkAppointment() {
         // ia++;practitionner
+        console.log($('#zone').val())
         var practitionner = $('#practitionner').val();
         if (practitionner == '') {
             alert("Please select practitionner");
@@ -220,10 +252,10 @@
             return true;
         }
         var appointmentId = $('#appointment_id').val();
-        var service = $('#service').val();
+        var zoneId = $('#zone').val();
         var appointmentStart = $('#appointment_start').val();
         let value = {
-            serviceId: service,
+            zoneId: zoneId,
             appointmentStart: appointmentStart,
             practitionnerId: practitionner,
             appointmentId: appointmentId,
@@ -236,23 +268,29 @@
                 if (result.hasAppointment == 'yes') {
                     alert("There is appointment");
                     getHandServiceSetting();
+
                     return true;
                 }
                 if (result != "") {
-                    document.getElementById('zone').value = result.service[0].zone;
+                    //  document.getElementById('zone').value = result.service[0].zone;
                     document.getElementById('sessions').value = result.service[0].session;
-                    document.getElementById('session_price').value = result.service[0].price / result.service[0].session;
+                    document.getElementById('session_price').value = result.service[0].price;
+                    // document.getElementById('total_service_amount').value = result.service[0].price;
                     document.getElementById('total_service_amount').value = result.service[0].price;
+                    //document.getElementById('total_amount').value = result.service[0].price;
                     document.getElementById('total_amount').value = result.service[0].price;
                     document.getElementById('room_time').value = result.service[0].time_limit + "min";
                     document.getElementById('appointment_end').value = result.appointmentEndTime;
                     document.getElementById('check_in').value = result.checkIn;
                     document.getElementById('check_out').value = result.checkOut;
+                    // document.getElementsByClassName('amount_to_show')[0].textContent = '$ ' + result.service[0].price;
+                    //document.getElementsByClassName('amount_to_show')[1].textContent = '$ ' + result.service[0].price;
                     document.getElementsByClassName('amount_to_show')[0].textContent = '$ ' + result.service[0].price;
                     document.getElementsByClassName('amount_to_show')[1].textContent = '$ ' + result.service[0].price;
 
                 } else {
-                    document.getElementById('zone').value = "";
+                    console.log('here');
+                    $("#zone").empty();
                     document.getElementById('sessions').value = "";
                     document.getElementById('session_price').value = "";
                     document.getElementById('total_service_amount').value = "";
@@ -270,6 +308,7 @@
     }
 
     function getHandServiceSetting() {
+        $("#zone").empty();
         var machineId = $('#machine').val();
         var hand = $('#hand').val();
         let value = {

@@ -14,7 +14,7 @@ class AlterServicesTable extends Migration
     public function up()
     {
         Schema::table('services', function (Blueprint $table) {
-            $table->dropColumn(['zone', 'time_limit', 'price']);
+            $table->dropColumn(['zone', 'time_limit', 'price', 'session']);
         });
     }
 
