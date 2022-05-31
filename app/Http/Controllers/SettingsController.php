@@ -13,7 +13,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\File;
 use App\Models\PractitionerDay;
 use App\Models\CenterTiming;
-
+use Illuminate\Support\Facades\DB;
 
 
 class SettingsController extends Controller
@@ -37,7 +37,18 @@ class SettingsController extends Controller
     {
         $centerTiming = new CenterTiming();
         $centerTimings =  $centerTiming->day();
-        $days = PractitionerDay::get();
+        // DB::enableQueryLog();
+        $days =
+            DB::table('practitioners_days')
+            ->leftJoin('center_timings', 'practitioners_days.id', '=', 'center_timings.practitioner_day_id')
+            ->whereNull('practitioners_days.deleted_at')
+            ->groupBy('practitioners_days.id')
+            ->get();
+        // DB::enableQueryLog();
+
+        // dd(DB::getQueryLog());
+
+
         $userId = Auth::user()->id;
         $user = User::find($userId);
         $data['id'] = ucwords($user->id);
@@ -176,27 +187,46 @@ class SettingsController extends Controller
         //
     }
     public function centreTiming(Request $request)
-    {
+    {             
+        //   dd( $request);
+
         $request->validate([
             'practitioner_day_id.*' => ['required', 'unique:center_timing'],
             'check_in.*' => ['required'],
             'check_out.*' => ['required'],
 
         ]);
-        for ($i = 0; $i < count($request->record_id); $i++) {
-            if ($request->record_id[$i] == '0') {
-                $data = CenterTiming::create([
-                    'practitioner_day_id' => $request->days[$i],
-                    'start_time' => $request->check_in[$i],
-                    'end_time' => $request->check_out[$i],
-                    'user_id' => Auth::user()->id,
-                    'created_at' => date("Y-m-d"),
-                    'created_by' => Auth::user()->id,
-                ]);
+        // DB::enableQueryLog();
+        // echo ($request->status);
+
+        CenterTiming::whereNotNull('id')->delete();
+        for ($i = 0; $i < count($request->days); $i++) {
+            if ($request->status[$i] == 'off') {
+
+                DB::table('center_timings')
+                    ->where('practitioner_day_id', $i + 1)
+                    ->update([
+                        'deleted_at' => date("Y-m-d")
+                    ]);
+                    continue;
             } else {
+                // dd($request);
+
+                DB::table('center_timings')
+                    ->where('practitioner_day_id', $i + 1)
+                    ->update([
+                        'start_time' => $request->check_in[$i],
+                        'end_time' => $request->check_out[$i],
+                        'user_id' => Auth::user()->id,
+                        'created_at' => date("Y-m-d"),
+                        'created_by' => Auth::user()->id,
+                        'deleted_at' => null
+                    ]);
+                // }
             }
+            // dd(DB::getQueryLog());
+            // dd($request);
         }
         return redirect()->back();
-        // dd($request);
     }
 }

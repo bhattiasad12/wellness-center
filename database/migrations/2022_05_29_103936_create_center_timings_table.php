@@ -13,7 +13,7 @@ class CreateCenterTimingsTable extends Migration
      */
     public function up()
     {
-        Schema::create('center_timing', function (Blueprint $table) {
+        Schema::create('center_timings', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('user_id')->nullable();
             $table->bigInteger('practitioner_day_id')->nullable();

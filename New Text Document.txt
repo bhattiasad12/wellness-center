@@ -5,3 +5,5 @@ php artisan migrate --path=/database/migrations/2022_04_13_220743_add_profile_pi
 resource controller,model,migration
 
 php artisan make:model Products -mcr
+
+php artisan make:migration add_paid_to_users_table --table=users

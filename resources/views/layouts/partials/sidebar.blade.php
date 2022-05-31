@@ -184,7 +184,7 @@
     <!--end::Aside menu-->
     <!--begin::Footer-->
     <div class="aside-footer flex-column-auto pt-5 pb-7 px-5" id="kt_aside_footer">
-        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+        <form action="{{ route('logout') }}" method="POST" style="display: none;">
             @csrf
         </form>
         <a href="{{ route('logout') }}" class="btn btn-custom btn-primary w-100" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
