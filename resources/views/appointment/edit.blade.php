@@ -1,33 +1,48 @@
 <x-auth-validation-errors class="mb-4" style="color:red" :errors="$errors" />
-<form id="" class="form" method="POST" action="{{route('appointment.update',$appointment->id)}}">
+<div class="alert alert-danger" id="error" style="display: none;">
+    <span>Wellness center is closed on this time or day.</span>
+</div>
+<form id="" class="form" method="POST" action="{{ route('appointment.update', $appointment->id) }}">
     <!--begin::Scroll-->
     @csrf
     @method('PUT')
-    <input type="hidden" id="appointment_end" name="appointment_end" value="{{$appointment->appointment_end}}" />
-    <input type="hidden" id="appointment_id" value="{{$appointment->id}}" />
-    <div class="d-flex flex-column scroll-y me-n7 pe-7" data-kt-scroll="true" data-kt-scroll-activate="{default: false, lg: true}" data-kt-scroll-max-height="auto" data-kt-scroll-dependencies="#kt_modal_add_user_header" data-kt-scroll-wrappers="#kt_modal_add_user_scroll" data-kt-scroll-offset="300px">
+    <input type="hidden" id="appointment_end" name="appointment_end" value="{{ $appointment->appointment_end }}" />
+    <input type="hidden" id="appointment_id" value="{{ $appointment->id }}" />
+    <div class="d-flex flex-column scroll-y me-n7 pe-7" data-kt-scroll="true"
+        data-kt-scroll-activate="{default: false, lg: true}" data-kt-scroll-max-height="auto"
+        data-kt-scroll-dependencies="#kt_modal_add_user_header" data-kt-scroll-wrappers="#kt_modal_add_user_scroll"
+        data-kt-scroll-offset="300px">
         <div class="row mb-7">
             <div class="col-lg-6">
                 <label class="required fw-bold fs-6 mb-2">Client</label>
-                <select name="client_id" id='client_id' class="form-control form-control-solid mb-3 mb-lg-0" onchange="getClientInfo(this.value)" required>
+                <select name="client_id" id='client_id' class="form-control form-control-solid mb-3 mb-lg-0"
+                    onchange="getClientInfo(this.value)" required>
                     <option value="">-- Select Client --</option>
-                    @for($i=0; $i < count($client); $i++) <option value="{{$client[$i]->id}}" {{$appointment->client_id == $client[$i]->id ? 'selected' : ''}}>{{ucwords($client[$i]->first_name)}} {{ucwords($client[$i]->last_name)}}</option>
-                        @endfor
+                    @for ($i = 0; $i < count($client); $i++)
+                        <option value="{{ $client[$i]->id }}"
+                            {{ $appointment->client_id == $client[$i]->id ? 'selected' : '' }}>
+                            {{ ucwords($client[$i]->first_name) }} {{ ucwords($client[$i]->last_name) }}</option>
+                    @endfor
                 </select>
             </div>
             <div class="col-lg-6">
                 <label class="required fw-bold fs-6 mb-2">Email Address</label>
-                <input disabled type="email" id='email' name="email" class="form-control form-control-solid mb-3 mb-lg-0" value="" />
+                <input disabled type="email" id='email' name="email"
+                    class="form-control form-control-solid mb-3 mb-lg-0" value="" />
             </div>
         </div>
         <div class="row mb-7">
             <div class="col-lg-6">
                 <label class="required fw-bold fs-6 mb-2">Phone Number</label>
-                <input disabled type="text" id='phone_number' name="phone_number" class="form-control form-control-solid mb-3 mb-lg-0" value="" />
+                <input disabled type="text" id='phone_number' name="phone_number"
+                    class="form-control form-control-solid mb-3 mb-lg-0" value="" />
             </div>
             <div class="col-lg-6">
                 <label class="required fw-bold fs-6 mb-2">Appointment Date</label>
-                <input class="form-control form-control-solid kt_datepicker_3" value="{{date('Y-m-d H:i',strtotime($appointment->appointment_start))}}" onchange="getRoomPractitioner(this.value)" id="appointment_start" name="appointment_start" placeholder="Pick Appointment Date & Time" required />
+                <input class="form-control form-control-solid kt_datepicker_3"
+                    value="{{ date('Y-m-d H:i', strtotime($appointment->appointment_start)) }}"
+                    onchange="getRoomPractitioner(this.value)" id="appointment_start" name="appointment_start"
+                    placeholder="Pick Appointment Date & Time" required />
             </div>
         </div>
 
@@ -43,7 +58,8 @@
             </div>
             <div class="col-lg-6">
                 <label class="required fw-bold fs-6 mb-2">Practitionner</label>
-                <select name="practitionner_id" id='practitionner' class="form-control form-control-solid mb-3 mb-lg-0" required>
+                <select name="practitionner_id" id='practitionner' class="form-control form-control-solid mb-3 mb-lg-0"
+                    required>
                     <option value="">-- Select Practitionner --</option>
 
                 </select>
@@ -55,15 +71,20 @@
         <div class="row mb-7">
             <div class="col-lg-6">
                 <label class="required fw-bold fs-6 mb-2">Machine</label>
-                <select id="machine" name="machine_id" class="form-control form-control-solid mb-3 mb-lg-0" onchange="getMachineHand(this.value)" required>
+                <select id="machine" name="machine_id" class="form-control form-control-solid mb-3 mb-lg-0"
+                    onchange="getMachineHand(this.value)" required>
                     <option value="">-- Select Machine --</option>
-                    @for($i=0; $i < count($machine); $i++) <option value="{{$machine[$i]->id}}" {{$appointment->machine_id == $machine[$i]->id ? 'selected' : ''}}>{{ucwords($machine[$i]->name)}} </option>
-                        @endfor
+                    @for ($i = 0; $i < count($machine); $i++)
+                        <option value="{{ $machine[$i]->id }}"
+                            {{ $appointment->machine_id == $machine[$i]->id ? 'selected' : '' }}>
+                            {{ ucwords($machine[$i]->name) }} </option>
+                    @endfor
                 </select>
             </div>
             <div class="col-lg-6">
                 <label class="required fw-bold fs-6 mb-2">Hand</label>
-                <select name="hand_id" id='hand' class="form-control form-control-solid mb-3 mb-lg-0" onchange="getHandServiceSetting()" required>
+                <select name="hand_id" id='hand' class="form-control form-control-solid mb-3 mb-lg-0"
+                    onchange="getHandServiceSetting()" required>
                     <option value="">-- Select Hand --</option>
 
                 </select>
@@ -72,14 +93,17 @@
         <div class="row mb-7">
             <div class="col-lg-6">
                 <label class="required fw-bold fs-6 mb-2">Service</label>
-                <select name="service_id" id='service' class="form-control form-control-solid mb-3 mb-lg-0" required onchange="getZone()">
+                <select name="service_id" id='service' class="form-control form-control-solid mb-3 mb-lg-0" required
+                    onchange="getZone()">
                     <option value="">-- Select Service --</option>
 
                 </select>
             </div>
             <div class="col-lg-6">
                 <label class="required fw-bold fs-6 mb-2">Zone</label>
-                <select name="zone[]" id='zone' class="form-select form-select-solid js-example-basic-single" data-control="select2" data-placeholder="Select an option" data-allow-clear="true" multiple="multiple" required onchange="checkAppointment()">
+                <select name="zone[]" id='zone' class="form-select form-select-solid js-example-basic-single"
+                    data-control="select2" data-placeholder="Select an option" data-allow-clear="true"
+                    multiple="multiple" required onchange="checkAppointment()">
                     <option value="">-- Select Zone --</option>
                 </select>
             </div>
@@ -87,7 +111,9 @@
         <div class="row mb-7">
             <div class="col-lg-6">
                 <label class="required fw-bold fs-6 mb-2">Sessions</label>
-                <input type="number" min="0" name="session" id="sessions" class="form-control form-control-solid mb-3 mb-lg-0" onkeyup="serviceAmount()" placeholder="Please Enter your Sessions here." required readonly />
+                <input type="number" min="0" name="session" id="sessions"
+                    class="form-control form-control-solid mb-3 mb-lg-0" onkeyup="serviceAmount()"
+                    placeholder="Please Enter your Sessions here." required readonly />
             </div>
             <div class="col-lg-6">
                 <label class="required fw-bold fs-6 mb-2">Settings</label>
@@ -100,20 +126,25 @@
         <div class="row mb-7">
             <div class="col-lg-6">
                 <label class="fw-bold fs-6 mb-2">Session Price</label>
-                <input readonly type="number" name="session_price" id='session_price' class="form-control form-control-solid mb-3 mb-lg-0" placeholder="Please Enter your Session Price here." required />
+                <input readonly type="number" name="session_price" id='session_price'
+                    class="form-control form-control-solid mb-3 mb-lg-0"
+                    placeholder="Please Enter your Session Price here." required />
             </div>
         </div>
         <div class="row mb-7">
             <div class="col-lg-6">
                 <label class="fw-bold fs-6 mb-2">Promotion(%)</label>
-                <input type="number" id="promotion" name="promotion" value="{{$appointment->promotion}}" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="Please Enter your Promotion(%) here." onkeyup="totalServiceAmount()" />
+                <input type="number" id="promotion" name="promotion" value="{{ $appointment->promotion }}"
+                    class="form-control form-control-solid mb-3 mb-lg-0"
+                    placeholder="Please Enter your Promotion(%) here." onkeyup="totalServiceAmount()" />
             </div>
             <div class="col-lg-6">
                 <label class="fw-bold fs-6 mb-2">Total Service Amount</label>
                 <div class="input-group mb-5">
                     <span class="input-group-text">$</span>
                     <input type="hidden" class="form-control mb-3 mb-lg-0" id='total_amount' />
-                    <input type="text" readonly class="form-control mb-3 mb-lg-0" id='total_service_amount' name="total_service_amount" placeholder="0" required />
+                    <input type="text" readonly class="form-control mb-3 mb-lg-0" id='total_service_amount'
+                        name="total_service_amount" placeholder="0" required />
                 </div>
             </div>
         </div>
@@ -123,7 +154,8 @@
         <div class="row mb-7">
             <div class="col-lg-6">
                 <label class="required fw-bold fs-6 mb-2">Room Time</label>
-                <input readonly class="form-control form-control-solid kt_datepicker_8" id="room_time" name="room_time" value="0 min" />
+                <input readonly class="form-control form-control-solid kt_datepicker_8" id="room_time" name="room_time"
+                    value="0 min" />
             </div>
         </div>
         <div class="row mb-7">
@@ -133,7 +165,8 @@
             </div>
             <div class="col-lg-6">
                 <label class="required fw-bold fs-6 mb-2">Finish Time (Check-Out)</label>
-                <input readonly class="form-control form-control-solid " id="check_out" name="check_out" value="00:00" />
+                <input readonly class="form-control form-control-solid " id="check_out" name="check_out"
+                    value="00:00" />
             </div>
         </div>
         <div class="row mb-7">
@@ -141,17 +174,21 @@
                 <label class="required fw-bold fs-6 mb-2">Appointment Status</label>
                 <select name="status" class="form-control form-control-solid mb-3 mb-lg-0" required>
                     <option value="">-- Select Status --</option>
-                    <option value="taken" {{$appointment->status == 'taken' ? 'selected' : ''}}>Taken</option>
-                    <option value="confirmed" {{$appointment->status == 'confirmed' ? 'selected' : ''}}>Confirmed</option>
-                    <option value="checkin" {{$appointment->status == 'checkin' ? 'selected' : ''}}>Check-in</option>
-                    <option value="cancelled" {{$appointment->status == 'cancelled' ? 'selected' : ''}}>Cancelled</option>
+                    <option value="taken" {{ $appointment->status == 'taken' ? 'selected' : '' }}>Taken</option>
+                    <option value="confirmed" {{ $appointment->status == 'confirmed' ? 'selected' : '' }}>Confirmed
+                    </option>
+                    <option value="checkin" {{ $appointment->status == 'checkin' ? 'selected' : '' }}>Check-in
+                    </option>
+                    <option value="cancelled" {{ $appointment->status == 'cancelled' ? 'selected' : '' }}>Cancelled
+                    </option>
                 </select>
             </div>
         </div>
         <div class="row mb-7">
             <div class="col-lg-12">
                 <label class="required fw-bold fs-6 mb-2">Notes</label>
-                <textarea name="note" class="form-control form-control-solid mb-3 mb-lg-0" cols="30" rows="5" required>{{$appointment->note}}</textarea>
+                <textarea name="note" class="form-control form-control-solid mb-3 mb-lg-0" cols="30" rows="5"
+                    required>{{ $appointment->note }}</textarea>
             </div>
         </div>
         <!-- Pricing Box Start -->
@@ -181,7 +218,7 @@
         <button type="reset" class="btn btn-light me-3" data-bs-dismiss="modal" aria-label="Close">Discard</button>
         <button type="submit" class="btn btn-primary">Update</button>
     </div>
-    <input type="hidden" id='zoneString' value="{{$appointment->zone}}" />
+    <input type="hidden" id='zoneString' value="{{ $appointment->zone }}" />
 </form>
 <script>
     zoneString = $('#zoneString').val();
@@ -239,8 +276,10 @@
                     document.getElementById('check_out').value = result.checkOut;
                     // document.getElementsByClassName('amount_to_show')[0].textContent = '$ ' + result.service[0].price;
                     //document.getElementsByClassName('amount_to_show')[1].textContent = '$ ' + result.service[0].price;
-                    document.getElementsByClassName('amount_to_show')[0].textContent = '$ ' + result.service[0].price;
-                    document.getElementsByClassName('amount_to_show')[1].textContent = '$ ' + result.service[0].price;
+                    document.getElementsByClassName('amount_to_show')[0].textContent = '$ ' + result
+                        .service[0].price;
+                    document.getElementsByClassName('amount_to_show')[1].textContent = '$ ' + result
+                        .service[0].price;
 
                 } else {
                     console.log('here');
@@ -282,7 +321,8 @@
                     var opt = document.createElement('option');
                     opt.value = result.service[i].id;
                     opt.innerHTML = result.service[i].service_name;
-                    if (result.service[i].id == "{{ $appointment->service_id }}") opt.defaultSelected = true;
+                    if (result.service[i].id == "{{ $appointment->service_id }}") opt.defaultSelected =
+                        true;
                     document.getElementById('service').appendChild(opt);
                 }
                 document.getElementById('settings').innerHTML =
@@ -291,7 +331,8 @@
                     var opt = document.createElement('option');
                     opt.value = result.handSetting[i].id;
                     opt.innerHTML = result.handSetting[i].setting_name;
-                    if (result.handSetting[i].id == "{{ $appointment->setting_id }}") opt.defaultSelected = true;
+                    if (result.handSetting[i].id == "{{ $appointment->setting_id }}") opt
+                        .defaultSelected = true;
                     document.getElementById('settings').appendChild(opt);
                 }
                 getZone();
@@ -371,23 +412,32 @@
             url: "{{ route('room_practitioner') }}",
             data: value,
             success: function(result) {
-                document.getElementById('room').innerHTML =
-                    '<option value="">-- Select Room --</option>';
-                for (var i = 0; i < result.room.length; i++) {
-                    var opt = document.createElement('option');
-                    opt.value = result.room[i].id;
-                    opt.innerHTML = result.room[i].name;
-                    if (result.room[i].id == "{{ $appointment->room_id }}") opt.defaultSelected = true;
-                    document.getElementById('room').appendChild(opt);
-                }
-                document.getElementById('practitionner').innerHTML =
-                    '<option value="">-- Select Practitionner --</option>';
-                for (var i = 0; i < result.practitioners.length; i++) {
-                    var opt = document.createElement('option');
-                    opt.value = result.practitioners[i].id;
-                    opt.innerHTML = result.practitioners[i].first_name;
-                    if (result.practitioners[i].id == "{{ $appointment->practitionner_id }}") opt.defaultSelected = true;
-                    document.getElementById('practitionner').appendChild(opt);
+                if (result == 'closed') {
+                    console.log('closed');
+                    document.getElementById('error').style.display = "block";
+                } else {
+                    console.log('open');
+                    document.getElementById('error').style.display = "none";
+                    document.getElementById('room').innerHTML =
+                        '<option value="">-- Select Room --</option>';
+                    for (var i = 0; i < result.room.length; i++) {
+                        var opt = document.createElement('option');
+                        opt.value = result.room[i].id;
+                        opt.innerHTML = result.room[i].name;
+                        if (result.room[i].id == "{{ $appointment->room_id }}") opt.defaultSelected =
+                            true;
+                        document.getElementById('room').appendChild(opt);
+                    }
+                    document.getElementById('practitionner').innerHTML =
+                        '<option value="">-- Select Practitionner --</option>';
+                    for (var i = 0; i < result.practitioners.length; i++) {
+                        var opt = document.createElement('option');
+                        opt.value = result.practitioners[i].id;
+                        opt.innerHTML = result.practitioners[i].first_name;
+                        if (result.practitioners[i].id == "{{ $appointment->practitionner_id }}") opt
+                            .defaultSelected = true;
+                        document.getElementById('practitionner').appendChild(opt);
+                    }
                 }
                 // if (ia > 0) {
 
