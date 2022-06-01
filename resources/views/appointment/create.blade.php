@@ -406,7 +406,6 @@
             url: "{{ route('room_practitioner') }}",
             data: value,
             success: function(result) {
-                debugger;
                 if (result == 'closed') {
                     console.log('closed');
                     document.getElementById('error').style.display = "block";

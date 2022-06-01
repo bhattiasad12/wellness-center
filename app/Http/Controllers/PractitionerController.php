@@ -85,8 +85,8 @@ class PractitionerController extends Controller
     {
         $userId = Auth::user()->id;
         $data = DB::select(DB::raw("SELECT * FROM `practitioners` p INNER JOIN `practitioners_time`pt ON p.`id`=pt.`practitioner_id`
-        INNER JOIN `practitioners_days`pd ON pd.`id`=pt.`practitioner_day_id` WHERE p.`deleted_at` IS NULL
-        AND p.`id`='$id' AND p.`user_id`='$userId' ORDER BY pd.`id` ASC "));
+        INNER JOIN `practitioners_days`pd ON pd.`id`=pt.`practitioner_day_id` WHERE p.`deleted_at` IS NULL AND pd.`deleted_at` IS NULL 
+        AND pt.`deleted_at` IS NULL AND p.`id`='$id' AND p.`user_id`='$userId' ORDER BY pd.`id` ASC "));
         return view('practitioner.show', compact('data'));
     }
 
