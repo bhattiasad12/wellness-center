@@ -65,13 +65,14 @@ class MachineController extends Controller
     {
         $machineId = $id;
         $userId = Auth::user()->id;
+        $machineDetails = Machine::find($id);
         $hand = DB::select(DB::raw("SELECT m.name AS machine_name ,h.name AS hand_name,h.`id` AS hand_id FROM machines m INNER JOIN hands h ON m.id=h.machine_id
         WHERE h.`deleted_at` IS NULL AND h.`machine_id`='$machineId' AND h.`user_id`='$userId' "));
 
         $handSetting = DB::select(DB::raw("SELECT *,h.name AS hand_name,hs.id AS hand_setting_id FROM hands h INNER JOIN hand_settings hs
         ON h.id=hs.hand_id  WHERE h.`deleted_at` IS NULL AND h.`machine_id`='$machineId' AND h.`user_id`='$userId' AND hs.`deleted_at` IS NULL"));
 
-        return view('machine.show', compact('hand', 'machineId', 'handSetting'));
+        return view('machine.show', compact('hand', 'machineId', 'handSetting', 'machineDetails'));
     }
 
     /**
