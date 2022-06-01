@@ -306,12 +306,33 @@ class AppointmentController extends Controller
         FROM appointments WHERE `user_id` = '$userId' AND `deleted_at` IS NULL 
         AND STR_TO_DATE(`appointment_start`, '%Y-%m-%d %H:%i') <= '$appointmentStart' 
         AND STR_TO_DATE(`appointment_end`, '%Y-%m-%d %H:%i') >= '$appointmentStart' AND id NOT IN ('$appointmentId') "));
-    if ($appointmentArr[0]->room_id == '') {
-      $room = Room::where('user_id', $userId)->get();
-      // DB::enableQueryLog();
-      // Log::info('Showing the user profile for user: ' . print_r($appointmentArr, true));
 
-      $practitioners = DB::select(DB::raw("SELECT p.`id`,p.`first_name` FROM `practitioners` p INNER JOIN `practitioners_time` pt 
+    $centerTiming = DB::select(DB::raw("SELECT 
+                                          p.`id`,
+                                          p.`first_name` 
+                                        FROM
+                                          `practitioners` p 
+                                          INNER JOIN `practitioners_time` pt 
+                                            ON p.`id` = pt.`practitioner_id` 
+                                          INNER JOIN `practitioners_days` pd 
+                                            ON pd.`id` = pt.`practitioner_day_id` 
+                                          INNER JOIN `center_timings` ct 
+                                            ON ct.`practitioner_day_id` = pt.`practitioner_day_id` 
+                                        WHERE pd.`day` = '$day' 
+                                          AND p.`deleted_at` IS NULL 
+                                          AND ct.`deleted_at` IS NULL 
+                                          AND STR_TO_DATE(ct.`start_time`, '%H:%i:%s') <= '$time' 
+                                          AND STR_TO_DATE(ct.`end_time`, '%H:%i:%s') >= '$time' "));
+
+    if (empty($centerTiming)) {
+      return 'closed';
+    } 
+      if ($appointmentArr[0]->room_id == '') {
+        $room = Room::where('user_id', $userId)->get();
+        // DB::enableQueryLog();
+        // Log::info('Showing the user profile for user: ' . print_r($appointmentArr, true));
+
+        $practitioners = DB::select(DB::raw("SELECT p.`id`,p.`first_name` FROM `practitioners` p INNER JOIN `practitioners_time` pt 
               ON p.`id` = pt.`practitioner_id` 
             INNER JOIN `practitioners_days` pd 
               ON pd.`id` = pt.`practitioner_day_id`
@@ -324,25 +345,25 @@ class AppointmentController extends Controller
             AND STR_TO_DATE(ct.`start_time`, '%H:%i:%s') <= '$time' 
             AND STR_TO_DATE(ct.`end_time`, '%H:%i:%s') >= '$time' 
             "));
-      // $query = DB::getQueryLog();
-      // Log::info('Showing the user profile for user: ' . print_r($query));
+        // $query = DB::getQueryLog();
+        // Log::info('Showing the user profile for user: ' . print_r($query));
 
-      $dataArr = array('room' => $room, 'practitioners' => $practitioners);
+        $dataArr = array('room' => $room, 'practitioners' => $practitioners);
 
-      return  $dataArr;
-    }
-    if ($appointmentArr[0]->room_id != "") {
-      // Log::info('Showing the user profile for user: ' . print_r($appointmentArr, true));
-      $roomId = $appointmentArr[0]->room_id;
-      $practitionerId = $appointmentArr[0]->practitionner_id;
-      // DB::enableQueryLog();
-      $room = DB::select(DB::raw("SELECT  *  FROM rooms WHERE `user_id` = '$userId' AND `deleted_at` IS NULL 
+        return  $dataArr;
+      }
+      if ($appointmentArr[0]->room_id != "") {
+        // Log::info('Showing the user profile for user: ' . print_r($appointmentArr, true));
+        $roomId = $appointmentArr[0]->room_id;
+        $practitionerId = $appointmentArr[0]->practitionner_id;
+        // DB::enableQueryLog();
+        $room = DB::select(DB::raw("SELECT  *  FROM rooms WHERE `user_id` = '$userId' AND `deleted_at` IS NULL 
             AND `id` NOT IN ($roomId)"));
-      // Log::info('Showing the user profile for user: ' . print_r($room, true));
-      //  $room = Room::where('user_id', $userId)->where('id', 'NOT IN', $appointmentArr[0]->room_id)->get();
-      // dd(DB::getQueryLog());
+        // Log::info('Showing the user profile for user: ' . print_r($room, true));
+        //  $room = Room::where('user_id', $userId)->where('id', 'NOT IN', $appointmentArr[0]->room_id)->get();
+        // dd(DB::getQueryLog());
 
-      $practitioners = DB::select(DB::raw("SELECT p.`id`,p.`first_name` FROM `practitioners` p INNER JOIN `practitioners_time` pt 
+        $practitioners = DB::select(DB::raw("SELECT p.`id`,p.`first_name` FROM `practitioners` p INNER JOIN `practitioners_time` pt 
               ON p.`id` = pt.`practitioner_id` 
             INNER JOIN `practitioners_days` pd 
               ON pd.`id` = pt.`practitioner_day_id`
@@ -354,9 +375,9 @@ class AppointmentController extends Controller
             AND STR_TO_DATE(pt.`end_time`, '%H:%i:%s') >= '$time'
             AND STR_TO_DATE(ct.`start_time`, '%H:%i:%s') <= '$time' 
             AND STR_TO_DATE(ct.`end_time`, '%H:%i:%s') >= '$time'"));
-      $dataArr = array('room' => $room, 'practitioners' => $practitioners);
-      return  $dataArr;
-    }
+        $dataArr = array('room' => $room, 'practitioners' => $practitioners);
+        return  $dataArr;
+      }
   }
   public function getMachineHand()
   {
