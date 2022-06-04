@@ -19,10 +19,12 @@ class CreateAppointmentsTable extends Migration
             $table->bigInteger('client_id');
             $table->bigInteger('room_id');
             $table->bigInteger('practitionner_id');
-            $table->bigInteger('machine_id');
-            $table->bigInteger('hand_id');
+            $table->bigInteger('machine_id')->nullable();
+            $table->bigInteger('hand_id')->nullable();
+            $table->bigInteger('pack_id')->nullable();
             $table->bigInteger('service_id');
-            $table->bigInteger('setting_id');
+            $table->bigInteger('setting_id')->nullable();
+            $table->string('type');
             $table->string('zone');
             $table->string('session');
             $table->string('session_price');

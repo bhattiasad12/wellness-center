@@ -15,6 +15,8 @@
     $title="Machines";
     if (request()->segment(1) == 'service')
     $title="Services";
+    if (request()->segment(1) == 'pack')
+    $title="Pack";
     if (request()->segment(1) == 'room')
     $title="Rooms";
     if (request()->segment(1) == 'practitioner')

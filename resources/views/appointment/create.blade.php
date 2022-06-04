@@ -7,8 +7,7 @@
         <button type="button" class="btn btn-primary" onclick="addClient()">
             <span class="svg-icon svg-icon-2">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                    <rect opacity="0.5" x="11.364" y="20.364" width="16" height="2" rx="1"
-                        transform="rotate(-90 11.364 20.364)" fill="black" />
+                    <rect opacity="0.5" x="11.364" y="20.364" width="16" height="2" rx="1" transform="rotate(-90 11.364 20.364)" fill="black" />
                     <rect x="4.36396" y="11.364" width="16" height="2" rx="1" fill="black" />
                 </svg>
             </span>Add Client
@@ -21,39 +20,30 @@
     @csrf
     <input type="hidden" id="appointment_end" name="appointment_end" />
     <input type="hidden" id="appointment_id" value="" />
-    <div class="d-flex flex-column scroll-y me-n7 pe-7" data-kt-scroll="true"
-        data-kt-scroll-activate="{default: false, lg: true}" data-kt-scroll-max-height="auto"
-        data-kt-scroll-dependencies="#kt_modal_add_user_header" data-kt-scroll-wrappers="#kt_modal_add_user_scroll"
-        data-kt-scroll-offset="300px">
+    <div class="d-flex flex-column scroll-y me-n7 pe-7" data-kt-scroll="true" data-kt-scroll-activate="{default: false, lg: true}" data-kt-scroll-max-height="auto" data-kt-scroll-dependencies="#kt_modal_add_user_header" data-kt-scroll-wrappers="#kt_modal_add_user_scroll" data-kt-scroll-offset="300px">
         <div class="row mb-7">
             <div class="col-lg-6">
                 <label class="required fw-bold fs-6 mb-2">Client</label>
-                <select name="client_id" class="form-control form-control-solid mb-3 mb-lg-0"
-                    onchange="getClientInfo(this.value)" required>
+                <select name="client_id" class="form-control form-control-solid mb-3 mb-lg-0" onchange="getClientInfo(this.value)" required>
                     <option value="">-- Select Client --</option>
-                    @for ($i = 0; $i < count($client); $i++)
-                        <option value="{{ $client[$i]->id }}">{{ ucwords($client[$i]->first_name) }}
-                            {{ ucwords($client[$i]->last_name) }}</option>
-                    @endfor
+                    @for ($i = 0; $i < count($client); $i++) <option value="{{ $client[$i]->id }}">{{ ucwords($client[$i]->first_name) }}
+                        {{ ucwords($client[$i]->last_name) }}</option>
+                        @endfor
                 </select>
             </div>
             <div class="col-lg-6">
                 <label class="required fw-bold fs-6 mb-2">Email Address</label>
-                <input disabled type="email" id='email' name="email"
-                    class="form-control form-control-solid mb-3 mb-lg-0" value="" />
+                <input disabled type="email" id='email' name="email" class="form-control form-control-solid mb-3 mb-lg-0" value="" />
             </div>
         </div>
         <div class="row mb-7">
             <div class="col-lg-6">
                 <label class="required fw-bold fs-6 mb-2">Phone Number</label>
-                <input disabled type="text" id='phone_number' name="phone_number"
-                    class="form-control form-control-solid mb-3 mb-lg-0" value="" />
+                <input disabled type="text" id='phone_number' name="phone_number" class="form-control form-control-solid mb-3 mb-lg-0" value="" />
             </div>
             <div class="col-lg-6">
                 <label class="required fw-bold fs-6 mb-2">Appointment Date</label>
-                <input class="form-control form-control-solid kt_datepicker_3" value="{{ date('Y-m-d H:i') }}"
-                    onchange="getRoomPractitioner(this.value)" id="appointment_start" name="appointment_start"
-                    placeholder="Pick Appointment Date & Time" required />
+                <input class="form-control form-control-solid kt_datepicker_3" value="{{ date('Y-m-d H:i') }}" onchange="getRoomPractitioner(this.value)" id="appointment_start" name="appointment_start" placeholder="Pick Appointment Date & Time" required />
             </div>
         </div>
 
@@ -69,8 +59,7 @@
             </div>
             <div class="col-lg-6">
                 <label class="required fw-bold fs-6 mb-2">Practitionner</label>
-                <select name="practitionner_id" id='practitionner' class="form-control form-control-solid mb-3 mb-lg-0"
-                    required>
+                <select name="practitionner_id" id='practitionner' class="form-control form-control-solid mb-3 mb-lg-0" required>
                     <option value="">-- Select Practitionner --</option>
 
                 </select>
@@ -78,22 +67,39 @@
         </div>
 
         <div class="separator separator-dashed my-10"></div>
-
         <div class="row mb-7">
             <div class="col-lg-6">
+                <label class="required fw-bold fs-6 mb-2">Type</label>
+                <select id="type" name="type" class="form-control form-control-solid mb-3 mb-lg-0" onchange="selectType()" required>
+                    <option value="service">Service</option>
+                    <option value="pack">Pack</option>
+
+                </select>
+            </div>
+        </div>
+        <div class="row mb-7" id='pack' style="display: none;">
+            <div class="col-lg-6">
+                <label class="required fw-bold fs-6 mb-2">Pack</label>
+                <select id="pack_id" name="pack_id" class="form-control form-control-solid mb-3 mb-lg-0" onchange="getHandServiceSetting()">
+                    <option value="">-- Select Pack --</option>
+                    @for ($i = 0; $i < count($pack); $i++) <option value="{{ $pack[$i]->id }}">{{ ucwords($pack[$i]->pack_name) }} </option>
+                        @endfor
+
+                </select>
+            </div>
+        </div>
+        <div class="row mb-7" id='service'>
+            <div class="col-lg-6">
                 <label class="required fw-bold fs-6 mb-2">Machine</label>
-                <select id="machine" name="machine_id" class="form-control form-control-solid mb-3 mb-lg-0"
-                    onchange="getMachineHand(this.value)" required>
+                <select id="machine" name="machine_id" class="form-control form-control-solid mb-3 mb-lg-0" onchange="getMachineHand(this.value)">
                     <option value="">-- Select Machine --</option>
-                    @for ($i = 0; $i < count($machine); $i++)
-                        <option value="{{ $machine[$i]->id }}">{{ ucwords($machine[$i]->name) }} </option>
-                    @endfor
+                    @for ($i = 0; $i < count($machine); $i++) <option value="{{ $machine[$i]->id }}">{{ ucwords($machine[$i]->name) }} </option>
+                        @endfor
                 </select>
             </div>
             <div class="col-lg-6">
                 <label class="required fw-bold fs-6 mb-2">Hand</label>
-                <select name="hand_id" id='hand' class="form-control form-control-solid mb-3 mb-lg-0"
-                    onchange="getHandServiceSetting()" required>
+                <select name="hand_id" id='hand' class="form-control form-control-solid mb-3 mb-lg-0" onchange="getHandServiceSetting()">
                     <option value="">-- Select Hand --</option>
 
                 </select>
@@ -102,17 +108,14 @@
         <div class="row mb-7">
             <div class="col-lg-6">
                 <label class="required fw-bold fs-6 mb-2">Service</label>
-                <select name="service_id" id='service' class="form-control form-control-solid mb-3 mb-lg-0" required
-                    onchange="getZone()">
+                <select name="service_id" id='service_id' class="form-control form-control-solid mb-3 mb-lg-0" required onchange="getZone()">
                     <option value="">-- Select Service --</option>
 
                 </select>
             </div>
             <div class="col-lg-6">
                 <label class="required fw-bold fs-6 mb-2">Zone</label>
-                <select name="zone[]" id='zone' class="form-select form-select-solid js-example-basic-single"
-                    data-control="select2" data-placeholder="Select an option" data-allow-clear="true"
-                    multiple="multiple" required onchange="checkAppointment()">
+                <select name="zone[]" id='zone' class="form-select form-select-solid js-example-basic-single" data-control="select2" data-placeholder="Select an option" data-allow-clear="true" multiple="multiple" required onchange="checkAppointment()">
                     <option value="">-- Select Zone --</option>
                 </select>
             </div>
@@ -120,13 +123,11 @@
         <div class="row mb-7">
             <div class="col-lg-6">
                 <label class="required fw-bold fs-6 mb-2">Sessions</label>
-                <input type="number" min="0" name="session" id="sessions"
-                    class="form-control form-control-solid mb-3 mb-lg-0" onkeyup="serviceAmount()"
-                    placeholder="Please Enter your Sessions here." required readonly />
+                <input type="number" min="0" name="session" id="sessions" class="form-control form-control-solid mb-3 mb-lg-0" onkeyup="serviceAmount()" placeholder="Please Enter your Sessions here." required readonly />
             </div>
-            <div class="col-lg-6">
+            <div class="col-lg-6" id='setting'>
                 <label class="required fw-bold fs-6 mb-2">Settings</label>
-                <select name="setting_id" id='settings' class="form-control form-control-solid mb-3 mb-lg-0" required>
+                <select name="setting_id" id='settings' class="form-control form-control-solid mb-3 mb-lg-0">
                     <option value="">-- Select Settings --</option>
 
                 </select>
@@ -135,25 +136,20 @@
         <div class="row mb-7">
             <div class="col-lg-6">
                 <label class="fw-bold fs-6 mb-2">Session Price</label>
-                <input readonly type="number" name="session_price" id='session_price'
-                    class="form-control form-control-solid mb-3 mb-lg-0"
-                    placeholder="Please Enter your Session Price here." required />
+                <input readonly type="number" name="session_price" id='session_price' class="form-control form-control-solid mb-3 mb-lg-0" placeholder="Please Enter your Session Price here." required />
             </div>
         </div>
         <div class="row mb-7">
             <div class="col-lg-6">
                 <label class="fw-bold fs-6 mb-2">Promotion(%)</label>
-                <input type="number" id="promotion" name="promotion" value="0"
-                    class="form-control form-control-solid mb-3 mb-lg-0"
-                    placeholder="Please Enter your Promotion(%) here." onkeyup="totalServiceAmount()" />
+                <input type="number" id="promotion" name="promotion" value="0" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="Please Enter your Promotion(%) here." onkeyup="totalServiceAmount()" />
             </div>
             <div class="col-lg-6">
                 <label class="fw-bold fs-6 mb-2">Total Service Amount</label>
                 <div class="input-group mb-5">
                     <span class="input-group-text">$</span>
                     <input type="hidden" class="form-control mb-3 mb-lg-0" id='total_amount' />
-                    <input type="text" readonly class="form-control mb-3 mb-lg-0" id='total_service_amount'
-                        name="total_service_amount" placeholder="0" required />
+                    <input type="text" readonly class="form-control mb-3 mb-lg-0" id='total_service_amount' name="total_service_amount" placeholder="0" required />
                 </div>
             </div>
         </div>
@@ -163,8 +159,7 @@
         <div class="row mb-7">
             <div class="col-lg-6">
                 <label class="required fw-bold fs-6 mb-2">Room Time</label>
-                <input readonly class="form-control form-control-solid kt_datepicker_8" id="room_time" name="room_time"
-                    value="0 min" />
+                <input readonly class="form-control form-control-solid kt_datepicker_8" id="room_time" name="room_time" value="0 min" />
             </div>
         </div>
         <div class="row mb-7">
@@ -174,8 +169,7 @@
             </div>
             <div class="col-lg-6">
                 <label class="required fw-bold fs-6 mb-2">Finish Time (Check-Out)</label>
-                <input readonly class="form-control form-control-solid " id="check_out" name="check_out"
-                    value="00:00" />
+                <input readonly class="form-control form-control-solid " id="check_out" name="check_out" value="00:00" />
             </div>
         </div>
         <div class="row mb-7">
@@ -226,6 +220,35 @@
 </form>
 
 <script>
+    function selectType() {
+        type = $('#type').val();
+        if (type == 'service') {
+            $("#pack").hide();
+            $("#service").show();
+            $("#setting").show();
+
+        } else if (type == 'pack') {
+            $("#service").hide();
+            $("#setting").hide();
+            $("#pack").show();
+        }
+        $("#zone").empty();
+        document.getElementById('hand').innerHTML =
+            '<option value="">-- Select Hand --</option>';
+        document.getElementById('settings').innerHTML =
+            '<option value="">-- Select Settings --</option>';
+        document.getElementById('service_id').innerHTML =
+            '<option value="">-- Select Settings --</option>';
+        document.getElementById('sessions').value = '';
+        document.getElementById('session_price').value = '';
+        document.getElementById('total_service_amount').value = '';
+        document.getElementById('promotion').value = '0';
+        document.getElementById('room_time').value = '';
+        document.getElementById('check_out').value = '';
+        document.getElementsByClassName('amount_to_show')[0].textContent = '$ ' + 0;
+        document.getElementsByClassName('amount_to_show')[1].textContent = '$ ' + 0;
+
+    }
     $(document).ready(function() {
         $('.js-example-basic-single').select2();
     });
@@ -250,7 +273,7 @@
     function getZone() {
         // ia++;practitionner
 
-        var serviceId = $('#service').val();
+        var serviceId = $('#service_id').val();
         let value = {
             serviceId: serviceId,
         };
@@ -274,7 +297,8 @@
 
     function checkAppointment() {
         // ia++;practitionner
-        console.log($('#zone').val())
+        // console.log($('#zone').val())
+        types = $('#type').val();
         var practitionner = $('#practitionner').val();
         if (practitionner == '') {
             alert("Please select practitionner");
@@ -303,22 +327,30 @@
                 }
                 if (result != "") {
                     //  document.getElementById('zone').value = result.service[0].zone;
-                    document.getElementById('sessions').value = result.service[0].session;
-                    document.getElementById('session_price').value = result.service[0].price;
-                    // document.getElementById('total_service_amount').value = result.service[0].price;
-                    document.getElementById('total_service_amount').value = result.service[0].price;
-                    //document.getElementById('total_amount').value = result.service[0].price;
-                    document.getElementById('total_amount').value = result.service[0].price;
-                    document.getElementById('room_time').value = result.service[0].time_limit + "min";
-                    document.getElementById('appointment_end').value = result.appointmentEndTime;
-                    document.getElementById('check_in').value = result.checkIn;
-                    document.getElementById('check_out').value = result.checkOut;
-                    // document.getElementsByClassName('amount_to_show')[0].textContent = '$ ' + result.service[0].price;
-                    //document.getElementsByClassName('amount_to_show')[1].textContent = '$ ' + result.service[0].price;
-                    document.getElementsByClassName('amount_to_show')[0].textContent = '$ ' + result
-                        .service[0].price;
-                    document.getElementsByClassName('amount_to_show')[1].textContent = '$ ' + result
-                        .service[0].price;
+                    if (types == "pack") {
+                        document.getElementById('room_time').value = result.service[0].time_limit + "min";
+                        document.getElementById('appointment_end').value = result.appointmentEndTime;
+                        document.getElementById('check_in').value = result.checkIn;
+                        document.getElementById('check_out').value = result.checkOut;
+                    }
+                    if (types == "service") {
+                        document.getElementById('sessions').value = result.service[0].session;
+                        document.getElementById('session_price').value = result.service[0].price;
+                        document.getElementById('total_service_amount').value = result.service[0].price;
+                        document.getElementById('total_amount').value = result.service[0].price;
+                        document.getElementById('room_time').value = result.service[0].time_limit + "min";
+                        document.getElementById('appointment_end').value = result.appointmentEndTime;
+                        document.getElementById('check_in').value = result.checkIn;
+                        document.getElementById('check_out').value = result.checkOut;
+                        // document.getElementsByClassName('amount_to_show')[0].textContent = '$ ' + result.service[0].price;
+                        //document.getElementsByClassName('amount_to_show')[1].textContent = '$ ' + result.service[0].price;
+                        document.getElementsByClassName('amount_to_show')[0].textContent = '$ ' + result
+                            .service[0].price;
+                        document.getElementsByClassName('amount_to_show')[1].textContent = '$ ' + result
+                            .service[0].price;
+
+                    }
+
 
                 } else {
                     console.log('here');
@@ -341,24 +373,28 @@
 
     function getHandServiceSetting() {
         $("#zone").empty();
+        types = $('#type').val();
+        packId = $('#pack_id').val();
         var machineId = $('#machine').val();
         var hand = $('#hand').val();
         let value = {
             handId: hand,
             machineId: machineId,
+            types: types,
+            packId: packId,
         };
         $.ajax({
             type: 'GET',
             url: "{{ route('hand_service_setting') }}",
             data: value,
             success: function(result) {
-                document.getElementById('service').innerHTML =
+                document.getElementById('service_id').innerHTML =
                     '<option value="">-- Select Service --</option>';
                 for (var i = 0; i < result.service.length; i++) {
                     var opt = document.createElement('option');
                     opt.value = result.service[i].id;
                     opt.innerHTML = result.service[i].service_name;
-                    document.getElementById('service').appendChild(opt);
+                    document.getElementById('service_id').appendChild(opt);
                 }
                 document.getElementById('settings').innerHTML =
                     '<option value="">-- Select Settings --</option>';
@@ -367,6 +403,19 @@
                     opt.value = result.handSetting[i].id;
                     opt.innerHTML = result.handSetting[i].setting_name;
                     document.getElementById('settings').appendChild(opt);
+                }
+                if (types == 'pack') {
+                    let totalPrice = result.packData.session * result.packData.pack_price;
+                    document.getElementById('sessions').readOnly = false;
+                    document.getElementById('sessions').value = result.packData.session;
+                    document.getElementById('session_price').value = result.packData.pack_price;
+                    document.getElementById('total_service_amount').value = totalPrice;
+                    document.getElementById('total_amount').value = totalPrice;
+                    document.getElementsByClassName('amount_to_show')[0].textContent = '$ ' + totalPrice;
+                    document.getElementsByClassName('amount_to_show')[1].textContent = '$ ' + totalPrice;
+                } else {
+                    document.getElementById('sessions').readOnly = true;
+
                 }
 
             }

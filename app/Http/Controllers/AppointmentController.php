@@ -10,6 +10,7 @@ use App\Models\Hand;
 use App\Models\Service;
 use App\Models\HandSetting;
 use App\Models\ServiceZone;
+use App\Models\Pack;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -30,13 +31,12 @@ class AppointmentController extends Controller
     $year = Date("Y");
     $appointment = DB::select(DB::raw("SELECT 
         a.`id` AS appointment_id,
+        a.`type`,
         a.`appointment_start`,
         c.`first_name` AS client_first_name,
         c.`last_name` AS client_last_name,
         c.`phone_number`,
-        m.`name` AS machine_name,
         s.`service_name`,
-        h.`name` AS hand_name,
         a.`zone`,
         a.`session`,
         a.`session_price`,
@@ -45,26 +45,62 @@ class AppointmentController extends Controller
         a.`room_time`, r.`name` AS room_name,
         p.`first_name` AS pra_first_name,
         p.`last_name` AS pra_last_name,
-        hs.`setting_name`,a.`status`,
-        a.`note`,a.`created_at`,a.`unpaid`,a.`paid`
+        a.`note`,a.`created_at`,a.`unpaid`,a.`paid`,
+        a.`status`
       FROM
         `appointments` a 
         INNER JOIN `clients` c 
           ON a.`client_id` = c.`id` 
-        INNER JOIN `machines` m 
-          ON m.`id` = a.`machine_id` 
+        
         INNER JOIN `services` s 
           ON s.id = a.`service_id` 
-        INNER JOIN `hands` h 
-          ON h.`id` = a.`hand_id` 
+        
         INNER JOIN `practitioners` p 
           ON p.`id` = a.`practitionner_id` 
-        INNER JOIN `hand_settings` hs 
-          ON hs.`id` = a.`setting_id` 
+        
         INNER JOIN `rooms` r 
           ON a.`room_id` = r.`id` 
       WHERE a.`user_id` = '$userId' 
         AND a.`deleted_at` IS NULL AND YEAR(a.`created_at`)='$year' "));
+
+    // $appointment = DB::select(DB::raw("SELECT 
+    //         a.`id` AS appointment_id,
+    //         a.`type`,
+    //         a.`appointment_start`,
+    //         c.`first_name` AS client_first_name,
+    //         c.`last_name` AS client_last_name,
+    //         c.`phone_number`,
+    //        -- m.`name` AS machine_name,
+    //         s.`service_name`,
+    //        -- h.`name` AS hand_name,
+    //         a.`zone`,
+    //         a.`session`,
+    //         a.`session_price`,
+    //         a.`total_service_amount`,
+    //         a.`appointment_end`,
+    //         a.`room_time`, r.`name` AS room_name,
+    //         p.`first_name` AS pra_first_name,
+    //         p.`last_name` AS pra_last_name,
+    //        -- hs.`setting_name`,a.`status`,
+    //         a.`note`,a.`created_at`,a.`unpaid`,a.`paid`
+    //       FROM
+    //         `appointments` a 
+    //         INNER JOIN `clients` c 
+    //           ON a.`client_id` = c.`id` 
+    //          -- LEFT JOIN `machines` m 
+    //         -- ON m.`id` = a.`machine_id` 
+    //         INNER JOIN `services` s 
+    //           ON s.id = a.`service_id` 
+    //          -- LEFT JOIN `hands` h 
+    //          -- ON h.`id` = a.`hand_id` 
+    //         INNER JOIN `practitioners` p 
+    //           ON p.`id` = a.`practitionner_id` 
+    //          -- LEFT JOIN `hand_settings` hs 
+    //          -- ON hs.`id` = a.`setting_id` 
+    //         INNER JOIN `rooms` r 
+    //           ON a.`room_id` = r.`id` 
+    //       WHERE a.`user_id` = '$userId' 
+    //         AND a.`deleted_at` IS NULL AND YEAR(a.`created_at`)='$year' "));
 
     return view('appointment.index', compact('appointment'));
   }
@@ -78,7 +114,8 @@ class AppointmentController extends Controller
   {
     $machine = Machine::where('user_id', Auth::user()->id)->get();
     $client = Client::where('user_id', Auth::user()->id)->get();
-    return view('appointment.create', compact('client', 'machine'));
+    $pack = Pack::where('user_id', Auth::user()->id)->get();
+    return view('appointment.create', compact('client', 'machine', 'pack'));
   }
 
   /**
@@ -93,14 +130,12 @@ class AppointmentController extends Controller
       'client_id' => ['required'],
       'appointment_end' => ['required'],
       'appointment_start' => ['required'],
+      'type' => ['required'],
       'room_id' => ['required'],
       'practitionner_id' => ['required'],
-      'machine_id' => ['required'],
-      'hand_id' => ['required'],
       'service_id' => ['required'],
       'zone' => ['required'],
       'session' => ['required'],
-      'setting_id' => ['required'],
       'session_price' => ['required'],
       'promotion' => ['required'],
       'total_service_amount' => ['required'],
@@ -114,6 +149,8 @@ class AppointmentController extends Controller
     // DB::enableQueryLog();
     $data = Appointment::create([
       'client_id' => $request->client_id,
+      'type' => $request->type,
+      'pack_id' => $request->pack_id,
       'appointment_end' => $request->appointment_end,
       'appointment_start' => $request->appointment_start,
       'room_id' => $request->room_id,
@@ -152,6 +189,8 @@ class AppointmentController extends Controller
     $appointmentId = $appointment->id;
     $appointment = DB::select(DB::raw("SELECT 
         a.`id` AS appointment_id,
+        a.`type`,
+        pa.`pack_name`,
         a.`appointment_start`,
         c.`first_name` AS client_first_name,
         c.`last_name` AS client_last_name,
@@ -173,18 +212,20 @@ class AppointmentController extends Controller
         `appointments` a 
         INNER JOIN `clients` c 
           ON a.`client_id` = c.`id` 
-        INNER JOIN `machines` m 
+        LEFT JOIN `machines` m 
           ON m.`id` = a.`machine_id` 
         INNER JOIN `services` s 
           ON s.id = a.`service_id` 
-        INNER JOIN `hands` h 
+          LEFT JOIN `hands` h 
           ON h.`id` = a.`hand_id` 
         INNER JOIN `practitioners` p 
           ON p.`id` = a.`practitionner_id` 
-        INNER JOIN `hand_settings` hs 
+          LEFT JOIN `hand_settings` hs 
           ON hs.`id` = a.`setting_id` 
         INNER JOIN `rooms` r 
           ON a.`room_id` = r.`id` 
+          LEFT JOIN `packs` pa 
+          ON pa.`id` = a.`pack_id` 
       WHERE a.`user_id` = '$userId' 
         AND a.`deleted_at` IS NULL AND a.`id`='$appointmentId' "));
 
@@ -211,7 +252,8 @@ class AppointmentController extends Controller
   {
     $machine = Machine::where('user_id', Auth::user()->id)->get();
     $client = Client::where('user_id', Auth::user()->id)->get();
-    return view('appointment.edit', compact('client', 'machine', 'appointment'));
+    $pack = Pack::where('user_id', Auth::user()->id)->get();
+    return view('appointment.edit', compact('client', 'machine', 'appointment', 'pack'));
   }
 
   /**
@@ -227,14 +269,12 @@ class AppointmentController extends Controller
       'client_id' => ['required'],
       'appointment_end' => ['required'],
       'appointment_start' => ['required'],
+      'type' => ['required'],
       'room_id' => ['required'],
       'practitionner_id' => ['required'],
-      'machine_id' => ['required'],
-      'hand_id' => ['required'],
       'service_id' => ['required'],
       'zone' => ['required'],
       'session' => ['required'],
-      'setting_id' => ['required'],
       'session_price' => ['required'],
       'promotion' => ['required'],
       'total_service_amount' => ['required'],
@@ -248,6 +288,8 @@ class AppointmentController extends Controller
     $appointment = Appointment::find($id);
 
     $appointment->client_id = $request->client_id;
+    $appointment->type = $request->type;
+    $appointment->pack_id = $request->pack_id;
     $appointment->appointment_end = $request->appointment_end;
     $appointment->appointment_start = $request->appointment_start;
     $appointment->room_id = $request->room_id;
@@ -391,9 +433,20 @@ class AppointmentController extends Controller
     $userId = Auth::user()->id;
     $machineId = $_REQUEST['machineId'];
     $handId = $_REQUEST['handId'];
-    $service = Service::where('user_id', $userId)->where('machine_id', $machineId)->where('hand_id', $handId)->get();
-    $handSetting = HandSetting::where('user_id', $userId)->where('machine_id', $machineId)->where('hand_id', $handId)->get();
-    $dataArr = array('service' => $service, 'handSetting' => $handSetting);
+    $types = $_REQUEST['types'];
+    $packId = $_REQUEST['packId'];
+
+    if ($types == "service") {
+      $service = Service::where('user_id', $userId)->where('machine_id', $machineId)->where('hand_id', $handId)->get();
+      $handSetting = HandSetting::where('user_id', $userId)->where('machine_id', $machineId)->where('hand_id', $handId)->get();
+      $dataArr = array('service' => $service, 'handSetting' => $handSetting);
+    } elseif ($types == "pack") {
+      $packData = Pack::find($packId);
+      $servicesIdArr = explode(',', $packData->services_id);
+      $service = Service::where('user_id', $userId)->whereIn('id', $servicesIdArr)->get();
+      $dataArr = array('service' => $service, 'handSetting' => '', 'packData' => $packData);
+    }
+
     return  $dataArr;
   }
   public function getZone()
@@ -406,8 +459,10 @@ class AppointmentController extends Controller
   public function checkAppointment()
   {
     $userId = Auth::user()->id;
-    $zoneId = $_REQUEST['zoneId'];
-    // $zoneId = implode(',', $zoneId);
+    $zoneId = array();
+    if (isset($_REQUEST['zoneId'])) {
+      $zoneId = $_REQUEST['zoneId'];
+    }
     $practitionnerId = $_REQUEST['practitionnerId'];
     $appointmentId = $_REQUEST['appointmentId'];
     // $appointmentStartTime = date('Y-m-d H:i', strtotime($_REQUEST['appointmentStart']));
@@ -477,8 +532,8 @@ class AppointmentController extends Controller
     $month = Date("m");
     $year = Date("Y");
     $userId = Auth::user()->id;
-    $calender  = DB::select(DB::raw("SELECT c.first_name, c.last_name ,a.`appointment_start`,r.`color`,a.`note`,r.`name` FROM `appointments` a INNER JOIN `clients` c ON c.id=a.`client_id`
-    INNER JOIN `rooms` r ON r.`id`=a.`room_id` WHERE a.`user_id`='$userId'
+    $calender  = DB::select(DB::raw("SELECT c.first_name, c.last_name ,a.`appointment_start`,r.`color`,a.`note`,m.`name` FROM `appointments` a INNER JOIN `clients` c ON c.id=a.`client_id`
+    INNER JOIN `rooms` r ON r.`id`=a.`room_id` INNER JOIN `machines` m ON m.`id`=a.`machine_id` WHERE a.`user_id`='$userId'
     AND a.`deleted_at` IS NULL AND YEAR(a.`appointment_start`)='$year'"));
 
     $calenderData = array();

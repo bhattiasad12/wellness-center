@@ -114,7 +114,16 @@
                                 </div>
 
                                 <div class="separator separator-dashed my-10"></div>
-
+                                <div class="row mb-7">
+                                    <div class="col-lg-6">
+                                        <label class="fw-bold fs-6 mb-2">Type</label>
+                                        <p class="text-muted">{{ucwords($appointment[0]->type)}}</p>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <label class="fw-bold fs-6 mb-2">Pack Name</label>
+                                        <p class="text-muted">{{ucwords($appointment[0]->pack_name)}}</p>
+                                    </div>
+                                </div>
                                 <div class="row mb-7">
                                     <div class="col-lg-6">
                                         <label class="fw-bold fs-6 mb-2">Machine</label>

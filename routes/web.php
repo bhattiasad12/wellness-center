@@ -12,6 +12,7 @@ use App\Http\Controllers\HandSettingController;
 use App\Http\Controllers\ClientNoteController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\ServiceZoneController;
+use App\Http\Controllers\PackController;
 
 /*
 |--------------------------------------------------------------------------
@@ -59,6 +60,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('hand', HandController::class);
     Route::resource('hand_setting', HandSettingController::class);
 });
+Route::resource('pack', PackController::class);
 
 /// service Controller
 Route::middleware(['auth'])->group(function () {
