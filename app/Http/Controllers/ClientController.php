@@ -129,15 +129,15 @@ class ClientController extends Controller
         `appointments` a 
         INNER JOIN `clients` c 
           ON a.`client_id` = c.`id` 
-        INNER JOIN `machines` m 
+        LEFT JOIN `machines` m 
           ON m.`id` = a.`machine_id` 
         INNER JOIN `services` s 
           ON s.id = a.`service_id` 
-        INNER JOIN `hands` h 
+        LEFT JOIN `hands` h 
           ON h.`id` = a.`hand_id` 
         INNER JOIN `practitioners` p 
           ON p.`id` = a.`practitionner_id` 
-        INNER JOIN `hand_settings` hs 
+        LEFT JOIN `hand_settings` hs 
           ON hs.`id` = a.`setting_id` 
         INNER JOIN `rooms` r 
           ON a.`room_id` = r.`id` 
