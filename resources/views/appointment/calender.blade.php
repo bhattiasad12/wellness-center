@@ -58,6 +58,22 @@
                     center: "title",
                     right: "dayGridMonth,timeGridWeek,timeGridDay,listMonth",
                 },
+                eventClick: function(info) {
+                    var eventObj = info.event;
+                    let url = "{{ route('appointment.show', ':id') }}";
+                    url = url.replace(':id', eventObj.id);
+                    document.location.href = url;
+                    // // window.open("{{route('appointment.index')}}");
+                    // if (eventObj.url) {
+                    //     alert(
+                    //         'Clicked ' + eventObj.title + '.\n'
+                    //     );
+
+                    //     info.jsEvent.preventDefault(); // prevents browser from following link in current tab.
+                    // } else {
+                    //     alert('Clicked ' + eventObj.title);
+                    // }
+                },
                 height: 800,
                 contentHeight: 780,
                 aspectRatio: 3,

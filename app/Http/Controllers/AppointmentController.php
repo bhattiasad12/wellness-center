@@ -532,16 +532,19 @@ class AppointmentController extends Controller
     $month = Date("m");
     $year = Date("Y");
     $userId = Auth::user()->id;
-    $calender  = DB::select(DB::raw("SELECT c.first_name, c.last_name ,a.`appointment_start`,r.`color`,a.`note`,m.`name` FROM `appointments` a INNER JOIN `clients` c ON c.id=a.`client_id`
-    INNER JOIN `rooms` r ON r.`id`=a.`room_id` INNER JOIN `machines` m ON m.`id`=a.`machine_id` WHERE a.`user_id`='$userId'
+    $calender  = DB::select(DB::raw("SELECT a.id AS appid,c.first_name,s.`service_name`,a.`appointment_end`, c.last_name ,a.`appointment_start`,r.`color`,a.`note`,m.`name` FROM `appointments` a INNER JOIN `clients` c ON c.id=a.`client_id`
+    INNER JOIN `rooms` r ON r.`id`=a.`room_id` LEFT JOIN `machines` m ON m.`id`=a.`machine_id` LEFT JOIN `services` s 
+    ON a.`service_id` = s.`id` WHERE a.`user_id`='$userId'
     AND a.`deleted_at` IS NULL AND YEAR(a.`appointment_start`)='$year'"));
 
     $calenderData = array();
     for ($i = 0; $i < count($calender); $i++) {
       $info = array();
-      $fullName = ucwords($calender[$i]->name) . " " . ucwords($calender[$i]->first_name) . " " . ucwords($calender[$i]->last_name);
+      $fullName = ucwords($calender[$i]->name) . " " . ucwords($calender[$i]->service_name) . " " . ucwords($calender[$i]->first_name) . " " . ucwords($calender[$i]->last_name);
+      $info['id'] = $calender[$i]->appid;
       $info['title'] = $fullName;
       $info['start'] = $calender[$i]->appointment_start;
+      $info['end'] = $calender[$i]->appointment_end;
       $info['color'] = $calender[$i]->color;
       $info['description'] = ucfirst($calender[$i]->note);
       array_push($calenderData, $info);
