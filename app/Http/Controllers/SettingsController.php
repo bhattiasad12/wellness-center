@@ -187,7 +187,7 @@ class SettingsController extends Controller
         //
     }
     public function centreTiming(Request $request)
-    {             
+    {
         //   dd( $request);
 
         $request->validate([
@@ -208,7 +208,7 @@ class SettingsController extends Controller
                     ->update([
                         'deleted_at' => date("Y-m-d")
                     ]);
-                    continue;
+                continue;
             } else {
                 // dd($request);
 

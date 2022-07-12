@@ -19,7 +19,7 @@ class CreateClientNotesTable extends Migration
             $table->string('note');
             $table->bigInteger('user_id');
             $table->string('user_name')->nullable();
-            $table->enum('status', ['open', 'completed', 'inprocess'])->default('open');;
+            $table->enum('status', ['open', 'completed', 'inprocess'])->default('open');
             $table->string('created_by')->nullable();
             $table->string('updated_by')->nullable();
             $table->timestamps();

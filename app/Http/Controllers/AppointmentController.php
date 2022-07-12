@@ -188,6 +188,7 @@ class AppointmentController extends Controller
     $userId = Auth::user()->id;
     $appointmentId = $appointment->id;
     $appointment = DB::select(DB::raw("SELECT 
+    pa.`services_id` as s_id,
         a.`id` AS appointment_id,
         a.`type`,
         pa.`pack_name`,
@@ -228,6 +229,17 @@ class AppointmentController extends Controller
           ON pa.`id` = a.`pack_id` 
       WHERE a.`user_id` = '$userId' 
         AND a.`deleted_at` IS NULL AND a.`id`='$appointmentId' "));
+    $sId = $appointment[0]->s_id == null ? '0' : $appointment[0]->s_id;
+    $handMachine = DB::select(DB::raw("SELECT 
+GROUP_CONCAT(DISTINCT(m.`name`)) AS machine_name,
+GROUP_CONCAT(DISTINCT(h.`name`)) AS hand_name
+FROM
+ `services` s 
+ INNER JOIN `machines` m 
+   ON s.`machine_id` = m.`id` 
+   INNER JOIN hands h
+   ON h.`id`= s.`hand_id`
+WHERE s.id IN ($sId)"));
 
     $paymentHistory = DB::select(DB::raw("SELECT 
         * FROM appointment_payments 
@@ -239,7 +251,7 @@ class AppointmentController extends Controller
         GROUP_CONCAT(zone) AS zone FROM service_zones 
       WHERE `user_id` = '$userId' 
         AND `deleted_at` IS NULL AND id in ($zones)"));
-    return view('appointment.show', compact('appointment', 'paymentHistory', 'zone'));
+    return view('appointment.show', compact('appointment', 'paymentHistory', 'zone', 'handMachine'));
   }
 
   /**
