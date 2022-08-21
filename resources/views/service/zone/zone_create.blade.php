@@ -15,7 +15,9 @@
         </div>
         <div class="fv-row mb-7">
             <label class="required fw-bold fs-6 mb-2">Sessions</label>
-            <select name="session" class="form-control form-control-solid mb-3 mb-lg-0" required>
+            <input type="number" name="session" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="20" required />
+
+            <!-- <select name="session" class="form-control form-control-solid mb-3 mb-lg-0" required>
                 <option value="">-- Select Sessions --</option>
                 <option value="1">1</option>
                 <option value="2">2</option>
@@ -27,7 +29,7 @@
                 <option value="8">8</option>
                 <option value="9">9</option>
                 <option value="10">10</option>
-            </select>
+            </select> -->
         </div>
 
         <div class="fv-row mb-7">

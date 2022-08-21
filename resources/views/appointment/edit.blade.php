@@ -115,7 +115,7 @@
                 <input type="number" min="0" name="session" id="sessions" value="{{$appointment->session}}" class="form-control form-control-solid mb-3 mb-lg-0" onkeyup="serviceAmount()" placeholder="Please Enter your Sessions here." required readonly />
             </div>
             <div class="col-lg-6" id='setting'>
-                <label class="required fw-bold fs-6 mb-2">Settings</label>
+                <label class="required fw-bold fs-6 mb-2">Settings / min / max / start</label>
                 <select name="setting_id" id='settings' class="form-control form-control-solid mb-3 mb-lg-0">
                     <option value="">-- Select Settings --</option>
 
@@ -362,7 +362,7 @@
                 for (var i = 0; i < result.handSetting.length; i++) {
                     var opt = document.createElement('option');
                     opt.value = result.handSetting[i].id;
-                    opt.innerHTML = result.handSetting[i].setting_name;
+                    opt.innerHTML = result.handSetting[i].setting_name + " / " + result.handSetting[i].min + " / " + result.handSetting[i].max + " / " + result.handSetting[i].start;
                     if (result.handSetting[i].id == "{{ $appointment->setting_id }}") opt
                         .defaultSelected = true;
                     document.getElementById('settings').appendChild(opt);

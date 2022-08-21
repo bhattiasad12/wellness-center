@@ -126,7 +126,7 @@
                 <input type="number" min="0" name="session" id="sessions" class="form-control form-control-solid mb-3 mb-lg-0" onkeyup="serviceAmount()" placeholder="Please Enter your Sessions here." required readonly />
             </div>
             <div class="col-lg-6" id='setting'>
-                <label class="required fw-bold fs-6 mb-2">Settings</label>
+                <label class="required fw-bold fs-6 mb-2">Settings / min / max / start</label>
                 <select name="setting_id" id='settings' class="form-control form-control-solid mb-3 mb-lg-0">
                     <option value="">-- Select Settings --</option>
 
@@ -388,6 +388,7 @@
             url: "{{ route('hand_service_setting') }}",
             data: value,
             success: function(result) {
+                console.log(result);
                 document.getElementById('service_id').innerHTML =
                     '<option value="">-- Select Service --</option>';
                 for (var i = 0; i < result.service.length; i++) {
@@ -401,7 +402,7 @@
                 for (var i = 0; i < result.handSetting.length; i++) {
                     var opt = document.createElement('option');
                     opt.value = result.handSetting[i].id;
-                    opt.innerHTML = result.handSetting[i].setting_name;
+                    opt.innerHTML = result.handSetting[i].setting_name + " / " + result.handSetting[i].min + " / " + result.handSetting[i].max + " / " + result.handSetting[i].start;
                     document.getElementById('settings').appendChild(opt);
                 }
                 if (types == 'pack') {
