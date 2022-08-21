@@ -7,11 +7,7 @@
 
         <div class="fv-row mb-7">
             <label class="required fw-bold fs-6 mb-2">Zone</label>
-            <select name="zone" class="form-control form-control-solid mb-3 mb-lg-0" required>
-                <option value="">-- Select Zone --</option>
-                @for ($i = 0; $i < count($zone); $i++) <option value="{{ $zone[$i]->zone_name }}">{{ ucwords($zone[$i]->zone_name) }}</option>
-                    @endfor
-            </select>
+            <input type="text" name="zone" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="20" required />
         </div>
         <div class="fv-row mb-7">
             <label class="required fw-bold fs-6 mb-2">Sessions</label>
